@@ -1,0 +1,14 @@
+*.aux
+*.bbl
+*.blg
+*.cb
+*.cb2
+*.log
+*.dvi
+*.out
+*.tcp
+*.ps
+*.pdf
+*.gz
+.DS_Store*
+.Rapp.history*
