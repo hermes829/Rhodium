@@ -1,7 +1,7 @@
 # Clearing workspace
 rm(list=ls())
 
-# SetDisting working directory
+# Setting working directory
 if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
 	pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
@@ -11,3 +11,4 @@ if(Sys.info()["user"]=="janus829")
 library(ggplot2)
 theme_set(theme_bw())
 library(reshape)
+library(foreign)
