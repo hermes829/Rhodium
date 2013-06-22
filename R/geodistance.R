@@ -1,3 +1,12 @@
+#####################################
+# TITLE:    geodistance             #
+# AUTHOR:   Ben Radford             #
+# DATE:     June 22, 2013           #
+# SUMMARY:  Calculates the distance #
+# between two points given latitude #
+# and longitude using the Haversine #
+# formula (assumes spherical earth) #
+#####################################
 geodistance <- function(lat1,lon1,lat2,lon2,r=6371)
 {
   dLat <- deg2rad(lat2-lat1)
