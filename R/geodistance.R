@@ -8,7 +8,9 @@
 # formula (assumes spherical earth) #
 #####################################
 
-require("geosphere")
+if(!"geosphere"%in%rownames(installed.packages()))
+  install.packages("geosphere")
+library("geosphere")
 
 ##############################################################################
 # HAVERSINE FORMULA FOR DISTANCE ON A SPHERE #################################
@@ -119,8 +121,11 @@ minDist <- function(lat1,lon1,country1,lat2,lon2,country2)
 }
 ##############################################################################
 
-locs1 <- googleLookup(c("Durham, NC","London, England"))
-locs1$country <- c("USA","UK")
-locs2 <- googleLookup(c("Raleigh,NC","Durham,NC","Hendersonville,NC","Seattle, WA","Cary, NC","Sheffield, England","Kingson, England","Winston Salem, NC","Paris, France"))
-locs2$country <- c("USA","USA","USA","USA","USA","UK","UK","USA","FRA")
-minDist(locs1$lat,locs1$lon,locs1$country,locs2$lat,locs2$lon,locs2$country)
+cat("geodistance functions loaded...\n")
+cat("Functions:\n")
+cat("\u2022 minDist(lat1,lon1,country1,lat2,lon2,country2)\n")
+cat("\t \u21d2 Returns the minimum distance between point lat1, lon1 and points lat2, lon2 within the same country.\n")
+cat("\u2022 inRadius(lat1,lon1,country1,lat2,lon2,country2,radius=100)\n")
+cat("\t \u21d2 Returns the number of points in lat2, lon2, within radius (km) of lat1, lon1 for each country.\n")
+cat("Notes:\n")
+cat("Functions default to Vincenty distance given WGS84 projection.\n")
