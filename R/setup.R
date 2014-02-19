@@ -4,6 +4,7 @@ rm(list=ls())
 # Setting working directory
 if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
+	pathData='~/Dropbox/Research/Rhodium/Data/';
 	pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
 	pathFunctions="~/Desktop/Prog Notes/R Functions"}
 # Setting working directory
@@ -13,8 +14,15 @@ if(Sys.info()["user"]=="Ben")
  #pathFunctions="~/Desktop/Prog Notes/R Functions"
 }
 
+# Load in panel dataframe
+setwd(paste(pathMain,'/BuildingPanelData/',sep=''))
+load('panel.rda')
+
 # Loading libraries and functions
-library(ggplot2)
+require(ggplot2)
 theme_set(theme_bw())
-library(reshape)
-library(foreign)
+require(reshape)
+require(foreign)
+
+require(WDI)
+require(countrycode)
