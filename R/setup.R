@@ -26,3 +26,7 @@ require(foreign)
 
 require(WDI)
 require(countrycode)
+
+# Helpful functions
+numSM=function(x){as.numeric(as.character(x))}
+charSM=function(x){as.character(x)}
