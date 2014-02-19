@@ -56,16 +56,12 @@ for cty in cities:
 		print cty + " Weird String"
 	except geopy.exc.GeocoderServiceError:
 		print "Need time to rest"
-		time.sleep(30)
-		try:
-			ll=g.geocode(cty, exactly_one=False)[0][1]
-		except geopy.exc.GeocoderServiceError:
-			print "Still resting"
-			time.sleep(60)
-			ll=g.geocode(cty, exactly_one=False)[0][1]
+		time.sleep(300)
+		ll=g.geocode(cty, exactly_one=False)[0][1]
+		print "Resuming work"
 	counter+=1
 	latlong.append(ll)
-	if counter in pVals: print "{0:.0%}".format(float(counter)/len(cities)) + " Complete"
+	if counter in pVals: print "			{0:.0%}".format(float(counter)/len(cities)) + " Complete"
 
 print "		...Locations looked up\n"
 ####################
