@@ -9,8 +9,8 @@ if(Sys.info()["user"]=="janus829")
 	pathFunctions="~/Desktop/Prog Notes/R Functions"}
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
-{pathMain="C:/Users/Ben/Dropbox/Rhodium/R";
- pathGraphics="C:/Users/Ben/Dropbox/Rhodium/Graphics";
+{pathMain="/Users/Ben/Dropbox/Rhodium/R";
+ pathGraphics="/Users/Ben/Dropbox/Rhodium/Graphics";
  #pathFunctions="~/Desktop/Prog Notes/R Functions"
 }
 
