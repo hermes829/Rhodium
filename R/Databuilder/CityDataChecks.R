@@ -213,3 +213,5 @@ for(i in 1:nrow(cityPop))
   cityPop$cleanLat[i] <- latlong[[1]][1]
   cityPop$cleanLong[i] <- latlong[[1]][2]
 }
+cityPop$cleanLat <- as.numeric(cityPop$cleanLat)
+cityPop$cleanLong <- as.numeric(cityPop$cleanLong)
