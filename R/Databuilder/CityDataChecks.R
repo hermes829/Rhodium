@@ -55,6 +55,7 @@ cityPop$cntCty <- gsub("Cartegena","Cartagena",cityPop$cntCty)
 cityPop$cntCty <- gsub("Baranquilla","Barranquilla",cityPop$cntCty)
 cityPop$cntCty <- gsub("Barraquilla","Barranquilla",cityPop$cntCty)
 cityPop$cntCty <- gsub("Barranquila","Barranquilla",cityPop$cntCty)
+cityPop$cntCty <- gsub("Narramqiolla","Barranquilla",cityPop$cntCty)
 cityPop$cntCty <- gsub("Djbouti","Djibouti",cityPop$cntCty)
 cityPop$cntCty <- gsub("NDjamena","Ndjamena",cityPop$cntCty)
 cityPop$cntCty <- gsub("Asseb","Assab",cityPop$cntCty)
@@ -144,7 +145,7 @@ cityPop$cntCty <- gsub(" \\(Northern Ireland\\)","",cityPop$cntCty)
 cityPop$cntCty[cityPop$cntCty == "United Kingdom_Edinburg"] <- "United Kingdom_Edinburgh"
 cityPop$cntCty <- gsub("StPetersburg","St Petersburg",cityPop$cntCty)
 cityPop$cntCty <- gsub("Dehiwela","Dehiwala",cityPop$cntCty)
-
+cityPop$cntCty <- gsub("Gorky","Nizhy Novgorod",cityPop$cntCty)
 cityPop$cntCty <- gsub("Tblisi","Tbilisi",cityPop$cntCty)
 cityPop$cntCty <- gsub("Ecatapec","Ecatepec",cityPop$cntCty)
 cityPop$cntCty <- gsub("Calcutta \\(Calcutta\\)","Calcutta",cityPop$cntCty)
@@ -166,6 +167,7 @@ cityPop$cntCty <- gsub(" \\(Cayman Islands\\)","",cityPop$cntCty)
 cityPop$cntCty <- gsub("Mashed","Mashhad",cityPop$cntCty)
 cityPop$cntCty <- gsub("Leningrad","St Petersburg",cityPop$cntCty)
 cityPop$cntCty <- gsub("Nizhy Novgorod","Nizhny Novgorod",cityPop$cntCty)
+cityPop$cntCty <- gsub("_Heart","_Herat",cityPop$cntCty)
 
 cityPop$cntCty[cityPop$cntCty=="Paraguay_Asunci\U3e37393cn"] <- "Paraguay_Asuncion"
 cityPop$cntCty[cityPop$cntCty=="Panama_Col\U3e37393cn"] <- "Panama_Colon"
@@ -215,3 +217,24 @@ for(i in 1:nrow(cityPop))
 }
 cityPop$cleanLat <- as.numeric(cityPop$cleanLat)
 cityPop$cleanLong <- as.numeric(cityPop$cleanLong)
+
+# Special cases hand-coded
+cityPop[cityPop$cntCty=="Egypt_El Bhalla el Kubra",c("cleanLat","cleanLong")] <- c(30.9670,31.1670)
+cityPop[cityPop$cntCty=="Soviet Union_Kuibyshev",c("cleanLat","cleanLong")] <- c(47.3590349,36.6480764)
+cityPop[cityPop$cntCty=="Soviet Union_Nizhny Novgorod",c("cleanLat","cleanLong")] <- c(56.29274,43.9267452)
+cityPop[cityPop$cntCty=="Soviet Union_Sverdlovsk",c("cleanLat","cleanLong")] <- c(48.0440,39.3850)
+cityPop[cityPop$cntCty=="Czechoslovakia_Ostrova",c("cleanLat","cleanLong")] <- c(49.2040603,16.4293455)
+cityPop[cityPop$cntCty=="Yugoslavia_Split",c("cleanLat","cleanLong")] <- c(43.5148515,16.4490835)
+cityPop[cityPop$cntCty=="Eritrea_the ports of Massawa and Assab",c("cleanLat","cleanLong")] <- c(15.602493,39.4507885)
+cityPop[cityPop$cntCty=="Kuwait_Al-Salimiyah",c("cleanLat","cleanLong")] <- c(21.5495764,39.1912036)
+cityPop[cityPop$cntCty=="Afghanistan_Herat",c("cleanLat","cleanLong")] <- c(34.353456,62.2109842)
+cityPop[cityPop$cntCty=="Yugoslavia_Nis",c("cleanLat","cleanLong")] <- c(43.3161809,21.8933594)
+cityPop[cityPop$cntCty=="Serbia & Montenegro_Nis",c("cleanLat","cleanLong")] <- c(43.3161809,21.8933594)
+cityPop[cityPop$cntCty=="Tonga_Nukualofa",c("cleanLat","cleanLong")] <- c(-21.1419326,-175.1976012)
+cityPop[cityPop$cntCty=="United Kingdom_George Town",c("cleanLat","cleanLong")] <- c(19.2902069,-81.369597)
+cityPop[cityPop$cntCty=="United Kingdom_Stanley",c("cleanLat","cleanLong")] <- c(54.8682008,-1.6901179)
+cityPop[cityPop$cntCty=="Vietnam_Qui Nhon",c("cleanLat","cleanLong")] <- c(13.7848405,109.216263)
+
+unique(cityPop$cntCty[is.na(cityPop$cleanLat)])
+
+save(cityPop, panel, list=c("cityPop","panel"), file=paste0(pathData,"/cityTotPopLatLong.rda"))
