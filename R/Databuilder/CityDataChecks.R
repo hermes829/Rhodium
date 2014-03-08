@@ -26,6 +26,7 @@ cityPop$cntCty <- gsub("Jafna","Jaffna",cityPop$cntCty)
 cityPop$cntCty[grepl("Kotte",cityPop$cntCty)] <- "Sri Lanka_Sri Jayawardenapura Kotte"
 cityPop$cntCty <- gsub("Connakry","Conakry",cityPop$cntCty)
 cityPop$cntCty <- gsub("Bucuramanga","Bucaramanga",cityPop$cntCty)
+cityPop$cname[cityPop$cntCty=="Yugoslavia_Lusaka"] <- "ZAMBIA"
 cityPop$cntCty <- gsub("Yugoslavia_Lusaka","Zambia_Lusaka",cityPop$cntCty)
 warning("Wrong country!")
 cityPop$cntCty <- gsub("Russia_Kazau","Russia_Kazan",cityPop$cntCty)
@@ -151,10 +152,13 @@ cityPop$cntCty <- gsub("Ecatapec","Ecatepec",cityPop$cntCty)
 cityPop$cntCty <- gsub("Calcutta \\(Calcutta\\)","Calcutta",cityPop$cntCty)
 cityPop$cntCty <- gsub("as-Salimiyah","Al-Salimiyah",cityPop$cntCty)
 cityPop$cntCty <- gsub("Yangon \\(Yangon\\)","Yangon",cityPop$cntCty)
+cityPop$cname[cityPop$cntCty=="Peru_Manila"] <- "PHILIPPINES"
 cityPop$cntCty <- gsub("Peru_Manila","Philippines_Manila",cityPop$cntCty) 
 warning("Wrong country!")
+cityPop$cname[cityPop$cntCty=="Peru_Quezon City"] <- "PHILIPPINES"
 cityPop$cntCty <- gsub("Peru_Quezon City","Philippines_Quezon City",cityPop$cntCty)
 warning("Wrong country!")
+cityPop$cname[cityPop$cntCty=="Peru_Cebu"] <- "PHILIPPINES"
 cityPop$cntCty <- gsub("Peru_Cebu","Philippines_Cebu",cityPop$cntCty)
 warning("Wrong country!")
 cityPop$cntCty <- gsub("Saint Petersburg","St Petersburg",cityPop$cntCty)
@@ -168,12 +172,16 @@ cityPop$cntCty <- gsub("Mashed","Mashhad",cityPop$cntCty)
 cityPop$cntCty <- gsub("Leningrad","St Petersburg",cityPop$cntCty)
 cityPop$cntCty <- gsub("Nizhy Novgorod","Nizhny Novgorod",cityPop$cntCty)
 cityPop$cntCty <- gsub("_Heart","_Herat",cityPop$cntCty)
+cityPop$cname[cityPop$cntCty=="Republic of the Congo_Kinshasa"] <- "CONGO, THE DEMOCRATIC REPUBLIC OF"
+cityPop$cntCty <- gsub("Republic of the Congo_Kinshasa","Congo, Democratic Republic of_Kinshasa",cityPop$cntCty) 
+warning("Wrong country!")
 
 cityPop$cntCty[cityPop$cntCty=="Paraguay_Asunci\U3e37393cn"] <- "Paraguay_Asuncion"
 cityPop$cntCty[cityPop$cntCty=="Panama_Col\U3e37393cn"] <- "Panama_Colon"
 cityPop$cntCty[cityPop$cntCty=="Mexico_Nezahualc\U3e37393cyotl"] <- "Mexico_Nezahualcoyotl"
-
-
+cityPop$cntCty[cityPop$cntCty=="Paraguay_Asunci\227n"] <- "Paraguay_Asuncion"
+cityPop$cntCty[cityPop$cntCty=="Mexico_Nezahualc\227yotl"] <- "Mexico_Nezahualcoyotl"
+cityPop$cntCty[cityPop$cntCty=="Panama_Col\227n"] <- "Panama_Colon"
 
 # Unique latitude and longitude identifier
 cityPop$LL <- paste(cityPop$Lat,cityPop$Long,sep="_")
@@ -237,4 +245,33 @@ cityPop[cityPop$cntCty=="Vietnam_Qui Nhon",c("cleanLat","cleanLong")] <- c(13.78
 
 unique(cityPop$cntCty[is.na(cityPop$cleanLat)])
 
-save(cityPop, panel, list=c("cityPop","panel"), file=paste0(pathData,"/cityTotPopLatLong.rda"))
+# Fixing SM's fuckup
+cityPop[which(cityPop$cname %in% 'DJIBOUTI' & cityPop$YearAlmanac %in% 2006),][1,'YearAlmanac']=2005
+cityPop[which(cityPop$cname %in% "COTE D'IVOIRE" & cityPop$YearAlmanac %in% 1992),]=cityPop[which(cityPop$cname %in% "COTE D'IVOIRE" & cityPop$YearAlmanac %in% 1993),]
+cityPop[which(cityPop$cname %in% "COTE D'IVOIRE" & cityPop$YearAlmanac %in% 1993),][1,'YearAlmanac']=1992
+
+# Fixing capitals manually
+cityPop[which(cityPop$cname %in% "COTE D'IVOIRE" & cityPop$cleanCity=='Yamoussoukro'), 'Capital']=1
+cityPop[which(cityPop$cname %in% "COTE D'IVOIRE" & cityPop$cleanCity!='Yamoussoukro'), 'Capital']=0
+
+cityPop[which(cityPop$cleanCity %in% "Santafe de Bogota" ), 'cleanCity'] = 'Bogota'
+
+cityPop[which(cityPop$cname %in% "ISRAEL" & cityPop$cleanCity=='Jerusalem'), 'Capital']=1
+cityPop[which(cityPop$cname %in% "ISRAEL" & cityPop$cleanCity!='Jerusalem'), 'Capital']=0
+
+cityPop[which(cityPop$cname %in% "MEXICO" & cityPop$cleanCity=='Mexico City'), 'Capital']=1
+cityPop[which(cityPop$cname %in% "MEXICO" & cityPop$cleanCity!='Mexico City'), 'Capital']=0
+
+cityPop[which(cityPop$cname %in% "ISRAEL" & cityPop$cleanCity=='Jerusalem'), 'Capital']=1
+cityPop[which(cityPop$cname %in% "ISRAEL" & cityPop$cleanCity!='Jerusalem'), 'Capital']=0
+
+cityPop[which(cityPop$cleanCity %in% "Sri Jayawardenapura Kotte" ), 'cleanCity'] = 'Colombo'
+
+cityPop[which(cityPop$cleanCity %in% "Al-Hudaydahh" ), 'cleanCity'] = 'Al-Hudaydah'
+
+cityPop[which(cityPop$cname %in% "YEMEN" & cityPop$cleanCity!='Sanaa'), 'Capital']=0
+
+cityPop[which(cityPop$cleanCity %in% "Sarajevo (Bosnia)" ), 'cleanCity'] = 'Sarajevo'
+cityPop[which(cityPop$cleanCity %in% "Banja Luka (Bosnia)" ), 'cleanCity'] = 'Banja Luka'
+
+save(cityPop, file=paste0(pathData,"/cityTotPopLatLongv2.rda"))

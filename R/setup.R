@@ -24,6 +24,7 @@ require(ggplot2)
 theme_set(theme_bw())
 require(reshape)
 require(foreign)
+require(doBy)
 
 require(WDI)
 require(countrycode)
