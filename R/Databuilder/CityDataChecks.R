@@ -1,4 +1,5 @@
-source("../setup.R")
+if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 load(paste0(pathData,"/cityTotPopLatLong.rda"))
 
@@ -273,5 +274,17 @@ cityPop[which(cityPop$cname %in% "YEMEN" & cityPop$cleanCity!='Sanaa'), 'Capital
 
 cityPop[which(cityPop$cleanCity %in% "Sarajevo (Bosnia)" ), 'cleanCity'] = 'Sarajevo'
 cityPop[which(cityPop$cleanCity %in% "Banja Luka (Bosnia)" ), 'cleanCity'] = 'Banja Luka'
+
+# Fixing Philippines
+phil2004 <- cityPop[which(cityPop$cname=="PHILIPPINES" & cityPop$YearAlmanac==2004),]
+phil2005 <- phil2004
+phil2005$YearAlmanac <- 2005
+phil2006 <- phil2004
+phil2006$YearAlmanac <- 2006
+phil2007 <- phil2004
+phil2007$YearAlmanac <- 2007
+phil2008 <- phil2004
+phil2008$YearAlmanac <- 2008
+cityPop <- rbind(cityPop,phil2005,phil2006,phil2007,phil2008)
 
 save(cityPop, file=paste0(pathData,"/cityTotPopLatLongv2.rda"))

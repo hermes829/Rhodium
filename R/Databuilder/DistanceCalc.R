@@ -4,6 +4,7 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
+source(paste0(pathMain,"/geodistance.R"))
 
 # Load PRIO data and clean
 # Clean PRIO data
@@ -21,12 +22,38 @@ prioAC$idyear=paste0(prioAC$ID, prioAC$YEAR)
 prioAC=merge(prioAC, prioData[,3:ncol(prioData)], by='idyear', all.x=T, all.y=T)
 prioAC = prioAC[which(prioAC$ID %in% unique(prioData$ID)),]
 prioAC=prioAC[which(prioAC$YEAR %in%  1989:2008),]
-
-prioAC[which(prioAC$ID %in% 6),]
-prioData[which(prioData$ID %in% 6),]
 ##################################################################
 
 ##################################################################
 # Calc distances from conflict sites
+prioAC$cname[prioAC$Location=="Ethiopia"] <- "ETHIOPIA"
+prioAC$cname[prioAC$Location=="Rwanda"] <- "RWANDA"
+prioAC$cname[prioAC$Location=="Sierra Leone"] <- "SIERRA LEONE"
+prioAC$cname[prioAC$Location=="Chad"] <- "CHAD"
+prioAC <- prioAC[!is.na(prioAC$Latitude),]
+prioAC <- prioAC[!prioAC$Latitude<(-360),]
+prioAC$minDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
+prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Radius)
+##################################################################
 
+##################################################################
+# Aggregate to the country-year
+prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","Type","StartDate2","EpEndDate","Region","minDist","inRadius","cname","YEAR")]
+prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
+prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
+prioAC=prioAC[prioAC$Type!=2,]
+
+# Aggregation options
+aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
+
+# Create country year
+yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
+                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean','Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum', 'inRadius.max') ]
+colnames(yData)[2:3] = c('year', 'ccode')
+##################################################################
+
+##################################################################
+# Saving aggregation of conflict data to country-year level
+setwd(pathData)
+save(yData, file='countryYear_ConflictData.rda')
 ##################################################################
