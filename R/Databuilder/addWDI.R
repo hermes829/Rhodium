@@ -27,5 +27,12 @@ wbData$ccode = panel$ccode[match(wbData$cname, panel$cname)]
 wbData = wbData[!is.na(wbData$ccode),]
 
 # Merge into country conflict data
+# Lagging all data
 wbData$cyear = paste0(wbData$ccode, wbData$year)
 yData = merge(yData, wbData[,c(4:9,15,ncol(wbData))], by='cyear', all.x=T, all.y=F)
+wbData$cyear = paste0(wbData$ccode, wbData$year-1)
+yData = merge(yData, wbData[,c(4:9,15,ncol(wbData))], by='cyear', all.x=T, all.y=F, suffixes=c("_l0","_l1"))
+
+# Save this things
+setwd(pathData)
+save(yData, file='combinedData.rda')

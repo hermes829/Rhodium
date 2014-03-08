@@ -25,6 +25,7 @@ theme_set(theme_bw())
 require(reshape)
 require(foreign)
 require(doBy)
+require(lme4)
 
 require(WDI)
 require(countrycode)
