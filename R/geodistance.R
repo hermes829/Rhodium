@@ -44,7 +44,6 @@ vincenty <- function(lat1,lon1,lat2,lon2,unit="km")
   result <- distVincentyEllipsoid(coords1,coords2)
   if(unit=="km")
     result <- result/1000
-  print(result)
   return(result)
 }
 ##############################################################################
@@ -53,13 +52,13 @@ vincenty <- function(lat1,lon1,lat2,lon2,unit="km")
 ##############################################################################
 # FIND THE SUM OF LOCATIONS WITHIN A GIVEN RADIUS OF A POINT #################
 ##############################################################################
-sumInRadius <- function(lat1,lon1,lat2,lon2,radius=100)
+sumInRadius <- function(lat1,lon1,lat2,lon2,radius)
 {
   print(cbind(lat1,lon1,lat2,lon2))
   return(sum(vincenty(lat1,lon1,lat2,lon2)<=radius))
 }
 
-inRadius <- function(lat1,lon1,country1,lat2,lon2,country2,radius=100)
+inRadius <- function(lat1,lon1,country1,year1,lat2,lon2,country2,year2,radius)
 {
   lat1 <- as.matrix(lat1)
   lat2 <- as.matrix(lat2)
@@ -67,8 +66,8 @@ inRadius <- function(lat1,lon1,country1,lat2,lon2,country2,radius=100)
   lon2 <- as.matrix(lon2)
   country1 <- as.character(country1)
   country2 <- as.character(country2)
-  locations1 <- data.frame(lat1=as.numeric(lat1),lon1=as.numeric(lon1),country1=country1,stringsAsFactors=F)
-  locations2 <- data.frame(lat2=as.numeric(lat2),lon2=as.numeric(lon2),country2=country2,stringsAsFactors=F)
+  locations1 <- data.frame(lat1=as.numeric(lat1),lon1=as.numeric(lon1),country1=country1,year1=year1,stringsAsFactors=F)
+  locations2 <- data.frame(lat2=as.numeric(lat2),lon2=as.numeric(lon2),country2=country2,year2=year2,stringsAsFactors=F)
   results <- rep(NA,nrow(locations1))
   if(length(setdiff(unique(country1),unique(country2)))!=0)
     cat(paste("Warning: ",setdiff(unique(country1),unique(country2))," is/are in set 1 but not set 2.\n",sep=""))
@@ -76,10 +75,10 @@ inRadius <- function(lat1,lon1,country1,lat2,lon2,country2,radius=100)
     cat(paste("Warning: ",setdiff(unique(country2),unique(country1))," is/are in set 2 but not set 1.\n",sep=""))
   for(i in 1:nrow(locations1))
   {
-    temp2 <- locations2[locations2$country2==country1[i],]
+    temp2 <- locations2[locations2$country2==country1[i] & locations2$year2==locations1$year1[i],]
     temp2$lat1 <- locations1$lat1[i]
     temp2$lon1 <- locations1$lon1[i]
-    results[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius)
+    results[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius[i])
   }
   return(results)
 }
@@ -91,20 +90,21 @@ inRadius <- function(lat1,lon1,country1,lat2,lon2,country2,radius=100)
 ##############################################################################
 minRadius <- function(lat1,lon1,lat2,lon2)
 {
-  print(cbind(lat1,lon1,lat2,lon2))
-  return(min(vincenty(lat1,lon1,lat2,lon2)))
+#   print(cbind(lat1,lon1,lat2,lon2))
+  dists <- vincenty(lat1,lon1,lat2,lon2)
+  return(min(dists))
 }
 
-minDist <- function(lat1,lon1,country1,lat2,lon2,country2)
+minDist <- function(lat1,lon1,country1,year1,lat2,lon2,country2,year2)
 {
-  lat1 <- as.matrix(lat1)
-  lat2 <- as.matrix(lat2)
-  lon1 <- as.matrix(lon1)
-  lon2 <- as.matrix(lon2)
+#   lat1 <- as.matrix(lat1)
+#   lat2 <- as.matrix(lat2)
+#   lon1 <- as.matrix(lon1)
+#   lon2 <- as.matrix(lon2)
   country1 <- as.character(country1)
   country2 <- as.character(country2)
-  locations1 <- data.frame(lat1=as.numeric(lat1),lon1=as.numeric(lon1),country1=country1,stringsAsFactors=F)
-  locations2 <- data.frame(lat2=as.numeric(lat2),lon2=as.numeric(lon2),country2=country2,stringsAsFactors=F)
+  locations1 <- data.frame(lat1=as.numeric(lat1),lon1=as.numeric(lon1),country1=country1,year1=year1,stringsAsFactors=F)
+  locations2 <- data.frame(lat2=as.numeric(lat2),lon2=as.numeric(lon2),country2=country2,year2=year2,stringsAsFactors=F)
   results <- rep(NA,nrow(locations1))
   if(length(setdiff(unique(country1),unique(country2)))!=0)
     cat(paste("Warning: ",setdiff(unique(country1),unique(country2))," is/are in set 1 but not set 2.\n",sep=""))
@@ -112,7 +112,7 @@ minDist <- function(lat1,lon1,country1,lat2,lon2,country2)
     cat(paste("Warning: ",setdiff(unique(country2),unique(country1))," is/are in set 2 but not set 1.\n",sep=""))
   for(i in 1:nrow(locations1))
   {
-    temp2 <- locations2[locations2$country2==country1[i],]
+    temp2 <- locations2[locations2$country2==locations1$country1[i] & locations2$year2==locations1$year1[i],]
     temp2$lat1 <- locations1$lat1[i]
     temp2$lon1 <- locations1$lon1[i]
     results[i] <- minRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2)

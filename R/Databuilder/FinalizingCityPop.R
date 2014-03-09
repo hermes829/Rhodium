@@ -71,5 +71,5 @@ fYrCty=fYrCty[!is.na(fYrCty$Capital),]
 
 ##################################################################
 # Saving cleaned final city data
-save(cityPop, file=paste0(pathData,"/cityTotPopLatLongvFinal.rda"))
+save(fYrCty, file=paste0(pathData,"/cityTotPopLatLongvFinal.rda"))
 ##################################################################
