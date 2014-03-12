@@ -54,7 +54,6 @@ vincenty <- function(lat1,lon1,lat2,lon2,unit="km")
 ##############################################################################
 sumInRadius <- function(lat1,lon1,lat2,lon2,radius)
 {
-  print(cbind(lat1,lon1,lat2,lon2))
   return(sum(vincenty(lat1,lon1,lat2,lon2)<=radius))
 }
 

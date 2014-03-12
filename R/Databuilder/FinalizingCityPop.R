@@ -56,9 +56,30 @@ for(ii in 1989:2008)
 # Quick fixes
 fYrCty[which(fYrCty$cleanCity=='Lagos' & fYrCty$YearAlmanac %in% 1989:1990), 'Capital']=1
 fYrCty[which(fYrCty$cleanCity=='Lagos' & fYrCty$YearAlmanac %in% 1991:2008), 'Capital']=0
-
+fYrCty[which(fYrCty$cleanCity=='Colombo'), 'Capital']=1
 fYrCty[which(fYrCty$cleanCity=='Yangon' & fYrCty$YearAlmanac %in% 2006:2008), 'Capital']=0
-
+fYrCty[which(fYrCty$cleanCity=='Jakarta'), 'Capital']=1
+fYrCty[which(fYrCty$cleanCity=='Kabul'), 'Capital']=1
+fYrCty[which(fYrCty$cleanCity=='New Delhi'), 'Capital']=1
+fYrCty[which(fYrCty$cleanCity=='Ankara'), 'Capital']=1
+fYrCty[which(fYrCty$cleanCity=='Tbilisi'), 'Capital']=0
+fYrCty[which(fYrCty$cleanCity=='Tbilisi') & fYrCty$cname=='GEORGIA', 'Capital']=1
+tbilisi <- fYrCty[which(fYrCty$cleanCity=='Tbilisi' & fYrCty$YearAlmanac==2000),]
+tbilisi <- rbind(tbilisi,tbilisi,tbilisi,tbilisi)
+tbilisi$YearAlmanac <- 1991:1994
+fYrCty <- rbind(fYrCty,tbilisi)
+baku <- fYrCty[which(fYrCty$cleanCity=='Baku' & fYrCty$YearAlmanac==1997),]
+baku <- rbind(baku, baku, baku, baku)
+baku$YearAlmanac <- 1991:1994
+fYrCty <- rbind(fYrCty,baku)
+sarajevo <- fYrCty[which(fYrCty$cleanCity=='Sarajevo' & fYrCty$YearAlmanac==2000),]
+sarajevo <- rbind(sarajevo, sarajevo, sarajevo, sarajevo)
+sarajevo$YearAlmanac <- 1991:1994
+fYrCty <- rbind(fYrCty,sarajevo)
+zagreb <- fYrCty[which(fYrCty$cleanCity=='Zagreb' & fYrCty$YearAlmanac==2000),]
+zagreb <- rbind(zagreb, zagreb, zagreb, zagreb)
+zagreb$YearAlmanac <- 1991:1994
+fYrCty <- rbind(fYrCty,zagreb)
 # # Check on number of capitals per cntry
 # stat=lapply( unique(fYrCty$cname), function(x) FUN=length(unique(fYrCty[which(fYrCty$cname %in% x & fYrCty$Capital %in% 1), c('cleanCity')])) )
 # statM=cbind(unique(fYrCty$cname), stat); statM[statM[,2]>1,]
