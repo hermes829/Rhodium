@@ -39,7 +39,8 @@ prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioA
 
 ##################################################################
 # Aggregate to the country-year
-prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","Type","StartDate2","EpEndDate","Region","minDist","inRadius","capDist","cname","YEAR")]
+prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
+prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial","Conflict.area","Type","StartDate2","EpEndDate","Region","minDist","inRadius","capDist","cname","YEAR")]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
 prioAC=prioAC[prioAC$Type!=2,]
@@ -49,7 +50,7 @@ aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
 yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
-                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean','Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum', 'inRadius.max', 'capDist.min') ]
+                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean','territorial.max','Conflict.area.mean','Conflict.area.max','Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum', 'inRadius.max', 'capDist.min') ]
 colnames(yData)[2:3] = c('year', 'ccode')
 ##################################################################
 

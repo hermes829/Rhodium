@@ -12,8 +12,21 @@ yData$upperincome[which(yData$income_l0 %in% c('High income: OECD', 'High income
 # SAVE THIS JUST IN CASE EVERYTHING ELSE FALLS APART
 yData$lnminDist.min <- log(yData$minDist.min)
 yData$lnminDist.mean <- log(yData$minDist.mean)
+yData$lncapDist.min <- log(yData$capDist.min)
+yData$lnArea <- log(yData$Conflict.area.mean)
+yData$Int.max <- yData$Int.max-1
+yData$intPerKm <- yData$Int.max/yData$lnArea
 
-model1 <- lmer(BX.KLT.DINV.CD.WD_l0 ~ upperincome + Int.max + lnminDist.min + (1|ccode), data=yData)
+yData <- yData[order(yData$year),]
+
+model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + (1|ccode), data=yData)
 summary(model1)
+plot(resid(model1))
+
+model2 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=yData)
+summary(model2)
+plot(resid(model2))
+# This model shows us that: High intensity conflicts result in higher growth if they are farther from the nearest city.
+
 ##################################################################
 
