@@ -28,7 +28,14 @@ yData <- yData[order(yData$year),]
 ####################################################################################################################
 model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + (1|ccode), data=yData)
 summary(model1)
-plot(resid(model1))
+
+resid <- resid(model1)
+resid <- resid+(model1@frame$lnminDist.min*1.3566)
+par(mar=c(5.1,4.1,2.1,2.1))
+plot(model1@frame$lnminDist.min,resid, las=1, ylab="Model Residuals without Distance Measure", xlab="Distance from Major City")
+abline(h=0,lty=1,lwd=3)
+abline(lm(resid~model1@frame$lnminDist.min),lty=2,col="red",lwd=3)
+# plot(resid(model1))
 
 # model2 <- lmer(NY.GDP.PCAP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=yData)
 # summary(model2)
@@ -47,8 +54,14 @@ plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T))
 
 model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + (1|ccode), data=yData)
 summary(model3)
-plot(resid(model3),col=model3@frame$ccode)
-text(1:length(resid(model3)),resid(model3),model3@frame$ccode,cex=.5)
+
+resid <- resid(model3)
+resid <- resid+(model3@frame$lnminDist.min*1.3566)
+par(mar=c(5.1,4.1,2.1,2.1))
+plot(model3@frame$lnminDist.min,resid, las=1, ylab="Model Residuals without Distance Measure", xlab="Distance from Major City")
+abline(h=0,lty=1,lwd=3)
+abline(lm(resid~model3@frame$lnminDist.min),lty=2,col="red",lwd=3)
+
 # model4 <- lmer(NY.GDP.MKTP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=yData)
 # summary(model4)
 # plot(resid(model4))
