@@ -1,6 +1,8 @@
 if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
+library(shapefiles)
+
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
@@ -35,6 +37,32 @@ prioAC <- prioAC[!prioAC$Latitude<(-360),]
 prioAC$minDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
 prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Radius)
 prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat[fYrCty$Capital==1], fYrCty$cleanLong[fYrCty$Capital==1], fYrCty$cname[fYrCty$Capital==1], fYrCty$YearAlmanac[fYrCty$Capital==1])
+##################################################################
+
+##################################################################
+# Calc distances from natural resources
+# setwd(paste0(pathData,'/Horn - Giant Fields Data'))
+# oil <- read.shapefile("Giant_Fields_Data")
+# oil <- as.data.frame(oil)
+# newoil <- data.frame(stringsAsFactors=F)
+# for(i in 1:nrow(oil))
+# {
+#   row <- data.frame(oil[i,])
+#   dates <- oil$dbf.dbf.DISC_YR[i]:2014
+#   newrows <- row[rep(1,length(dates)),]
+#   newrows$dbf.dbf.DISC_YR <- dates
+#   newoil <- rbind(newoil,newrows)
+#   cat("\r",i)
+# }
+# newoil <- newoil[,c("dbf.dbf.LAT_DD","dbf.dbf.LON_DD","dbf.dbf.FIELD_TYPE","dbf.dbf.SIZE_CLASS","dbf.dbf.COUNTRY","dbf.dbf.DISC_YR")]
+# names(newoil) <- c("lat","long","type","size","country","year")
+# newoil <- newoil[newoil$year%in%1988:2009,]
+# newoil$country <- as.character(newoil$country)
+# newoil$country[newoil$country=="Sierre Leone"] <- "Sierra Leone"
+# newoil$country[which(newoil$country=="UAE")] <- "United Arab Emirates"
+# newoil$country <- countrycode(newoil$country,"country.name","country.name")
+# prioAC$oilRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, newoil$lat, newoil$long, newoil$country, newoil$year, prioAC$Radius)
+
 ##################################################################
 
 ##################################################################
