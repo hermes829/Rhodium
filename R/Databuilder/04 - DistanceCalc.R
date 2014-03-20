@@ -27,6 +27,12 @@ prioAC=prioAC[which(prioAC$YEAR %in%  1989:2008),]
 ##################################################################
 
 ##################################################################
+# calc duration
+prioAC$startYr1=numSM(substr(charSM(prioAC$Startdate),1,4))
+prioAC$startYr2=numSM(substr(charSM(prioAC$StartDate2),1,4))
+##################################################################
+
+##################################################################
 # Calc distances from conflict sites
 prioAC$cname[prioAC$Location=="Ethiopia"] <- "ETHIOPIA"
 prioAC$cname[prioAC$Location=="Rwanda"] <- "RWANDA"
@@ -68,7 +74,9 @@ prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioA
 ##################################################################
 # Aggregate to the country-year
 prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
-prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial","Conflict.area","Type","StartDate2","EpEndDate","Region","minDist","inRadius","capDist","cname","YEAR")]
+prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial","Conflict.area",
+	"Type","Region","minDist","inRadius","capDist",
+	"cname","YEAR", 'startYr1', 'startYr2')]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
 prioAC=prioAC[prioAC$Type!=2,]
@@ -78,8 +86,19 @@ aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
 yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
-                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean','territorial.max','Conflict.area.mean','Conflict.area.max','Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum', 'inRadius.max', 'capDist.min') ]
+                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean',
+                    'territorial.max','Conflict.area.mean','Conflict.area.max',
+                    'Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum',
+                    'inRadius.max', 'capDist.min',
+                    'startYr1.min','startYr1.max',
+                    'startYr2.min', 'startYr2.max') ]
 colnames(yData)[2:3] = c('year', 'ccode')
+
+# Add duration variables
+yData$durSt1max=yData$year - yData$startYr1.max
+yData$durSt1min=yData$year - yData$startYr1.min
+yData$durSt2max=yData$year - yData$startYr2.max
+yData$durSt2min=yData$year - yData$startYr2.min
 ##################################################################
 
 ##################################################################
