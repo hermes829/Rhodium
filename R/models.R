@@ -4,6 +4,7 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load conflict country year data
 setwd(pathData)
 load('combinedData.rda')
+library(plm)
 
 yData$upperincome=0
 yData$upperincome[which(yData$income_l0 %in% c('High income: OECD', 'High income: nonOECD'  ) )] = 1
@@ -26,8 +27,10 @@ yData <- yData[order(yData$year),]
 
 ## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
 ####################################################################################################################
-model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + (1|ccode), data=yData)
+model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + (1|ccode) + (1|year), data=yData)
 summary(model1)
+model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + as.factor(ccode), data=yData)
+summary(model1FE)
 
 resid <- resid(model1)
 resid <- resid+(model1@frame$lnminDist.min*1.3566)
@@ -47,13 +50,17 @@ abline(lm(resid~model1@frame$lnminDist.min),lty=1,col="red",lwd=3)
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ####################################################################################################################
 plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T))
-
+names(yData)
 # yData$GDP_transform_l0 <- sqrt(abs(yData$NY.GDP.MKTP.KD.ZG_l0))
 # yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
 # plot(density(yData$GDP_transform_l0,na.rm=T))
 
-model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + (1|ccode), data=yData)
+model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + (1|ccode) + (1|year), data=yData)
 summary(model3)
+
+model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 +as.factor(ccode), data=yData)
+summary(model3FE)
+
 
 resid <- resid(model3)
 resid <- resid+(model3@frame$lnminDist.min*1.3566)
