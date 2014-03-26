@@ -20,6 +20,7 @@ yData$Int.max <- yData$Int.max-1
 yData$intPerKm <- yData$Int.max/yData$lnArea
 yData$USA <- yData$ccode==2
 yData$coldwar <- yData$year<1991
+yData$BX.KLT.DINV.CD.WD <- 
 
 yData <- yData[order(yData$year),]
 ####################################################################################################################
