@@ -28,9 +28,9 @@ yData <- yData[order(yData$year),]
 
 ## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
 ####################################################################################################################
-model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + (1|ccode) + (1|year), data=yData)
+model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
 summary(model1)
-model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + as.factor(ccode), data=yData)
+model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + as.factor(ccode), data=yData)
 summary(model1FE)
 
 resid <- resid(model1)
@@ -56,10 +56,10 @@ names(yData)
 # yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
 # plot(density(yData$GDP_transform_l0,na.rm=T))
 
-model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + (1|ccode) + (1|year), data=yData)
+model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
 summary(model3)
 
-model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 +as.factor(ccode), data=yData)
+model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + as.factor(ccode), data=yData)
 summary(model3FE)
 
 
