@@ -27,6 +27,8 @@ yData <- yData[order(yData$year),]
 
 ## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
 ####################################################################################################################
+plot(density(yData$NY.GDP.PCAP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth per Capita (Annual %)", main="")
+
 model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
 summary(model1)
 model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + as.factor(ccode), data=yData)
@@ -49,7 +51,7 @@ abline(lm(resid~model1@frame$lnminDist.min),lty=1,col="red",lwd=3)
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ####################################################################################################################
-plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T))
+plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth (Annual %)", main="")
 names(yData)
 # yData$GDP_transform_l0 <- sqrt(abs(yData$NY.GDP.MKTP.KD.ZG_l0))
 # yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
