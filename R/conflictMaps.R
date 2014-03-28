@@ -94,6 +94,6 @@ temp = ggplot(ggmapData, aes(map_id = id))
 temp = temp + geom_map(map=ggmap, fill='white', linetype=1, colour='black') + expand_limits(x = ggmap$long, y = ggmap$lat) 
 temp = temp + geom_point(aes(x=fYrCty$cleanLong[fYrCty$cname==cname], y=fYrCty$cleanLat[fYrCty$cname==cname]))
 temp = temp + geom_point(aes(x=newprio$Longitude, y=newprio$Latitude, color=newprio$Year))
-temp = temp + scale_colour_gradient()
+temp = temp + scale_colour_gradient('')
 temp = temp + theme(legend.position='top', legend.key.width=unit(4,"line"))
 temp
