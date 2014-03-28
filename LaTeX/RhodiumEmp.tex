@@ -42,7 +42,7 @@ Last, we include a number of additional control measures. First, we control for 
 To estimate the model we use random effects clustered on countries and years. Results using a fixed effects estimation approach are similar. The model we estimate is shown below:
 
 \begin{align*}
-	\Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
+	\% \Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
 	& \;+\; \beta_{2}(Conflict \; Intensity_{t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{t}) \\
 	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{t}) \;+\; \beta_{5}(Conflict \; Type_{t}) \\
 	& \;+\; \beta_{6}(Conflict \; Duration_{t}) \;+\; \beta_{7}(Inflation_{t-1}) \\
@@ -63,9 +63,7 @@ Most importantly, we find strong support for our key hypothesis relating the pro
 \end{figure}
 \FloatBarrier
 
-To assess the substantive effect of the minimum conflict distance variable we conduct a number of simulations. 
-
-Although the effect of ratified and signed BITs on FDI inflows is significant, their substantive meaning is questionable when taking into account the uncertainty of the coefficient estimates and the model itself. To do so I examine the difference in the level of FDI inflows a country can expect if they have signed no BITs compared to a country that has signed 105 BITs, the maximum number of signed BITs in \citeauthor{allee2011contingent}'s sample. I then repeat this procedure for the number of BITs a country has ratified. The first step in doing so is to construct a set of scenarios where the only value varying is that of the independent variable whose substantive effect is to be measured. I set up two scenarios, one where the number of BITs a country has signed is set to its minimum in the dataset and another where it is set to its maximum -- all other variables were set to their median value. Next, I conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, I calculate the predicted value of FDI inflows based on the conditions set by the two scenarios. To account for uncertainty in the model itself, I resample from a univariate normal to generate a distribution of predicted values for both scenarios. The result of this analysis is visualized in figure \ref{fig:BITsims}. The same analysis for the number of BITs a country has ratified is shown in figure \ref{fig:Dispsims}.
+To assess the substantive effect of the minimum conflict distance variable we conduct a number of simulations. We set up scenarios where we hold all variables to their median except for the logged, minimum conflict distance, which we range from its minimum to maximum value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, we calculate the predicted value of GDP growth based on the conditions set by the scenarios. We plot the results of this analyis in figure \ref{fig:simsPlot}.  
 
 \begin{figure}[ht]
 	\centering
@@ -74,3 +72,5 @@ Although the effect of ratified and signed BITs on FDI inflows is significant, t
 	\label{fig:simsPlot}
 \end{figure}
 \FloatBarrier
+
+Here we can clearly see that conflicts located farther away from major cities have almost no adverse impact on economic growth. On average, countries for which conflicts are farther away see almost no declines in economic growth and, in fact, are likely to still see positive growth. Where we see more variation, however, is on the effect of conflicts near to major cities. Although on average our model estimates that these more proximate conflicts are associated with negative levels of economic growth our estimate of this effect is highly uncertain. This just indicates to us that more work needs to be done in parsing out possible variation in economic growth levels for those countries that are experiencing conflicts proximate to their major cities. Nonetheless, overall our results are quite in line with our theoretical expectations.

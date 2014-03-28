@@ -121,13 +121,13 @@ tRange=seq(quantile(yData[,toTest])[1],quantile(yData[,toTest])[length(quantile(
 temp = ggsimplot(sims=10000, simData=data, vars=coefs, 
   vi=toTest, vRange=tRange, ostat=median,
   betas=estimates, vcov=varcov, sigma=error, intercept=TRUE,
-  ylabel="GDP Growth$_{t}$", xlabel="Ln(Min. Conflict Dist.)$_{t}$",
+  ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. Conflict Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
   )
 temp
-# setwd(pathTex)
-# tikz(file='mod3SimPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+setwd(pathTex)
+tikz(file='mod3SimPlot.tex', width=6, height=4, standAlone=F)
+temp
+dev.off()
 ####################################################################################################################
