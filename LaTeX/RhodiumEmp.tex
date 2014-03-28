@@ -17,48 +17,60 @@ The key theory that we advance here is that the effects of conflict on economic 
 	\label{fig:CityConfMap}
 \end{figure}
 
-We restrict our sample to only those countries that are listed as having conflicts in the PRIO dataset. Specifically, this means that our analysis focuses on exploring variations in economic growth in countries undergoing conflict by the proximity of those conflicts to major cities. To do this we first calculate the distance between the centroid of each of the conflicts identified in the PRIO armed conflict dataset with the centroids of the city locations. We calculate the 
+We restrict our sample to only those countries that are listed as having conflicts in the PRIO dataset. As a result, our analysis focuses on exploring variations in economic growth in countries undergoing conflict by the proximity of those conflicts to major cities. To determine proximity, we calculate the distance in kilometers between the centroid of each of the conflicts with the centroids of city locations. Thus for each year we determine the distance between every conflict and every major city within the state. For example, in figure \ref{fig:columbiaMap} we show the location of armed conflicts in Colombia, circles filled in shades of red, and the major cities therein, blue diamonds.\footnote{One armed conflict involving rebel actors and the Colombian government occurred outside of Colombia's borders.} For Colombia each of these points represents the same conflict but a different year, with earlier years shaded in light red and later years shaded in dark red. Thus for each year we calculated the distance between the centroid conflict location provided by PRIO and every major city identified in blue.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=.7\textwidth]{colombiaMap-crop}
 	\caption{This map illustrates the geographic distribution of all conflicts, according to the PRIO Conflict Site Dataset, and major cities listed in The World Almanac from 1989 to 2008. Countries for which no armed conflicts are recorded are shaded in grey.}
-	\label{fig:CityConfMap}
+	\label{fig:columbiaMap}
 \end{figure}
 
-A key problem face in conducting this analysis is reconciling the unit of analysis for our independent and dependent variables. Our dependent variable is at the country-year and our independent variables are actaully at the conflict-country-year level. 
+A key problem we face in conducting this analysis is reconciling the unit of analysis for our key independent and dependent variables. Our dependent variable is at the country-year and our key independent variable, distance between conflicts and major cities, are at the conflict-country-year level. To deal with this, we aggregate up to the country-year level by calculating the minimum logged distance any conflict is from a major city. Thus if a country faced, for example, four conflicts in one year, the datapoint that we would aggregate up to the country-year level would be for the conflict that was closest to a major city. This obviously is somewhat problematic as we end up discarding the information from the other conflicts. At the same time, we argue that this choice of aggregation is what conforms closest to our theoretical claims about economic activity only being severely disrupted in cases of conflicts being proximate to major cities. From the PRIO dataset we also bring in additional information about that conflict, specifically: 
 
+\begin{itemize}
+	\item Conflict intensity
+	\item Ln(Conflict Area)
+	\item Civil Conflict Type (e.g., territory or non-territory dispute)
+	\item Conflict Duration (Years)
+\end{itemize}
 
-Key Independent variables: 
+Last, we include a number of additional control measures. First, we control for a country's total, logged land area to differentiate between the proximity effects of conflicts within large and small countries. We also control for a couple of macroeconomic variables that could affect year over year changes in GDP, specifically, lagged inflation and whether or not the state is an upper income country, as defined by the World Bank.
 
-		Note data aggregation choices.  Multiple conflicts in one country?
+\subsection{Estimation Method}
 
-		Note dropping interstate conflict.
+To estimate the model we use random effects clustered on countries and years. Results using a fixed effects estimation approach are similar. The model we estimate is shown below:
 
-	City data: Collection of major population centers by year 
-
-	Variables: Determined distance between conflicts in a year and city centers. then calculcate min distance to determine effect on conflict 
-
-\subsection{Sample and Estimation Method}
-
-Sample: Only country-years undergoing a civil conflict. Coverage restricted to 1989-2008. 
-
-Measured as a random effects model with country effects 
+\begin{align*}
+	\Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
+	& \;+\; \beta_{2}(Conflict \; Intensity_{t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{t}) \\
+	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{t}) \;+\; \beta_{5}(Conflict \; Type_{t}) \\
+	& \;+\; \beta_{6}(Conflict \; Duration_{t}) \;+\; \beta_{7}(Inflation_{t-1}) \\
+	& \;+\; \beta_{8}(Ln(Land \; Area)_{t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
+\end{align*}
 
 \subsection{Results} 
 
-Conflicts occuring more proximate to major cities have stronger adverse effects on economic performance than those farther away. 
+We depict the results of our model in figure \ref{fig:coefPlot}. Most of the findings here are in line with our theoretical expectations. We find that higher levels of conflict intensity are associated with lower levels of GDP growth. The effect of conflict type is positive, indicating that non-territorial disputes are related to lower levels of GDP growth as well. Surprisingly, conflicts that are of a longer duration are, on average, not having a negative effect on GDP growth. 
+
+Most importantly, we find strong support for our key hypothesis relating the proximity of a conflict to lower levels of GDP growth. The fact that the logged, minimum conflict distance variable is positive indicates that conflicts closer to major cities have an adverse effect on economic growth. 
 
 \begin{figure}[ht]
 	\centering
 	\resizebox{.6\textwidth}{!}{\input{mod3CoefPlot.tex}}
 \end{figure}
+	\caption{Here we show the random effect regression results on GDP growth. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
+	\label{fig:coefPlot}
 \FloatBarrier
 
-Use simulations to determine substantive effects - SM
+To assess the substantive effect of the minimum conflict distance variable we conduct a number of simulations. 
+
+Although the effect of ratified and signed BITs on FDI inflows is significant, their substantive meaning is questionable when taking into account the uncertainty of the coefficient estimates and the model itself. To do so I examine the difference in the level of FDI inflows a country can expect if they have signed no BITs compared to a country that has signed 105 BITs, the maximum number of signed BITs in \citeauthor{allee2011contingent}'s sample. I then repeat this procedure for the number of BITs a country has ratified. The first step in doing so is to construct a set of scenarios where the only value varying is that of the independent variable whose substantive effect is to be measured. I set up two scenarios, one where the number of BITs a country has signed is set to its minimum in the dataset and another where it is set to its maximum -- all other variables were set to their median value. Next, I conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, I calculate the predicted value of FDI inflows based on the conditions set by the two scenarios. To account for uncertainty in the model itself, I resample from a univariate normal to generate a distribution of predicted values for both scenarios. The result of this analysis is visualized in figure \ref{fig:BITsims}. The same analysis for the number of BITs a country has ratified is shown in figure \ref{fig:Dispsims}.
 
 \begin{figure}[ht]
 	\centering
 	\resizebox{.8\textwidth}{!}{\input{mod3SimPlot.tex}}
+	\caption{Expected values for GDP growth based on scenarios where all variables are held to their constants but Ln(Min. Conflict Dist.) varies from its minimum to maximum. The 90\% interval of each distribution is shaded in dark grey and the 95\% in a lighter color.}
+	\label{fig:simsPlot}
 \end{figure}
 \FloatBarrier
