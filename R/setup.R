@@ -23,6 +23,7 @@ load('panel.rda')
 require(ggplot2)
 theme_set(theme_bw())
 require(tikzDevice)
+require(RColorBrewer)
 
 require(reshape)
 require(foreign)

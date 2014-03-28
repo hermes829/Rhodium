@@ -86,10 +86,10 @@ setwd(pathMain)
 source('vizResults.R')
 
 coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
-	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0', 'NY.GDP.MKTP.KD.ZG_l1')
+	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
 
 vnames=c('Upper Income', 'Conflict Intensity$_{t}$', 'Ln(Conflict Area)$_{t}$', 'Ln(Min. Conflict Dist.)$_{t}$',
-	'Conflict Type$_{t}$', 'Conflict Duration$_{t}$', 'Inflation$_{t-1}$', 'Country Land Mass')
+	'Conflict Type$_{t}$', 'Conflict Duration$_{t}$', 'Inflation$_{t-1}$', 'Ln(Land Area)')
 
 temp <- ggcoefplot(coefData=summary(model3)@coefs, 
     vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
@@ -97,9 +97,9 @@ temp <- ggcoefplot(coefData=summary(model3)@coefs,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
-# tikz(file='mod3CoefPlot.tex', width=4, height=4, standAlone=F)
-# temp
-# dev.off()
+tikz(file='mod3CoefPlot.tex', width=4, height=4, standAlone=F)
+temp
+dev.off()
 ####################################################################################################################
 
 ####################################################################################################################
