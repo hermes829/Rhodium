@@ -3,11 +3,26 @@
 
 \subsection{Data and Sample}
 
-Dependent variable: World Bank data GDP per capita growth 
+To measure economic performance we use annual percent change in GDP, which we collect from the World Development Indicators at the World Bank. We choose to focus on year over change in GDP because we expect conflicts proximate to major cities
+to lead to reductions in growth not changes in levels.\footnote{Alternative measures of economic performance would have included changes in FDI inflows or changes in GDP per capita, in using either of these measures are results remain relatively the same.} Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
+
+Our key independent variable on the location of conflicts come from the PRIO Conflict Site Dataset. This dataset contains geo-referenced armed conflict events from 1989 to 2008.\footnote{We only include examine the effect of internal armed conflicts.} A downside of this geo-referenced database is that every conflict-year is assigned a circular conflict zone, which leads to the dataset reporting that the conflict is covering more territory than actually affected. Crafting a more specfic approach to the spread of conflict would, however, eliminate important cases from our analysis. In total this dataset provides us with almost 800 geo-referenced conflict-year cases. 
+
+The key theory that we advance here is that the effects of conflict on economic performance are conditional on the proximity of those conflicts to major city centers. Thus a key part of the research here was determining major city centers by year. The only data source we found with enough geographical and temporal coverage on major cities was The World Alamanac. To gather data from these textbooks we hired several undergraduate students to code the major cities by country for each year of the Almanac from 1989 to 2008. Major cities are classified as those that have relatively large shares of a country's population and/or are economic centers. On average, for each country at least three major cities are identified in each year from 1989 to 2008. In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.9/textwidth]{CityConfMap-crop}
+	\caption{This map illustrates the geographic distribution of all conflicts, according to the PRIO Conflict Site Dataset, and major cities listed in The World Almanac from 1989 to 2008. Countries for which no armed conflicts are recorded are shaded in grey.}
+	\label{fig:CityConfMap}
+\end{figure}
+
+We restrict our sample to only those countries that are listed as having conflicts in the PRIO dataset. Specifically, this means that our analysis focuses on exploring variations in economic growth among countries currently engaged in internal armed conflict by the proximity of those conflicts to major cities. To do this we first calculate the distance between the centroid of each of the conflicts identified in the PRIO armed conflict dataset with the centroids of the city locations. Doing this between every city and every conflict 
+
+A key problem face in conducting this analysis is reconciling the unit of analysis for our independent and dependent variables. Our dependent variable is at the country-year and our independent variables are actaully at the conflict-country-year level. 
+
 
 Key Independent variables: 
-
-	Conflict data: comes from PRIO Conflict Location Even Data 
 
 		Note data aggregation choices.  Multiple conflicts in one country?
 
@@ -27,4 +42,16 @@ Measured as a random effects model with country effects
 
 Conflicts occuring more proximate to major cities have stronger adverse effects on economic performance than those farther away. 
 
+\begin{figure}[ht]
+	\centering
+	\resizebox{.6\textwidth}{!}{\input{mod3CoefPlot.tex}}
+\end{figure}
+\FloatBarrier
+
 Use simulations to determine substantive effects - SM
+
+\begin{figure}[ht]
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{mod3SimPlot.tex}}
+\end{figure}
+\FloatBarrier
