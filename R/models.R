@@ -20,7 +20,8 @@ yData$Int.max <- yData$Int.max-1
 yData$intPerKm <- yData$Int.max/yData$lnArea
 yData$USA <- yData$ccode==2
 yData$coldwar <- yData$year<1991
-yData$BX.KLT.DINV.CD.WD <- 
+# yData$BX.KLT.DINV.CD.WD <- 
+yData$lnAG.LND.TOTL.K2_l0 = yData$AG.LND.TOTL.K2_l0
 
 yData <- yData[order(yData$year),]
 ####################################################################################################################
@@ -28,9 +29,9 @@ yData <- yData[order(yData$year),]
 
 ## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
 ####################################################################################################################
-model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
+model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + (1|ccode) + (1|year), data=yData)
 summary(model1)
-model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + as.factor(ccode), data=yData)
+model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
 summary(model1FE)
 
 resid <- resid(model1)
@@ -56,10 +57,10 @@ names(yData)
 # yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
 # plot(density(yData$GDP_transform_l0,na.rm=T))
 
-model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
+model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + (1|ccode) + (1|year), data=yData)
 summary(model3)
 
-model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + as.factor(ccode), data=yData)
+model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
 summary(model3FE)
 
 
@@ -76,3 +77,45 @@ abline(lm(resid~model3@frame$lnminDist.min),lty=1,col="red",lwd=3)
 ####################################################################################################################
 
 
+####################################################################################################################
+# Coefficient Plots
+setwd(pathMain)
+source('vizResults.R')
+
+coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
+	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
+vnames=coefs
+
+temp <- ggcoefplot(coefData=summary(model3)@coefs, 
+    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    specY=TRUE, ggylims=c(-7,5), ggybreaks=seq(-7,5,1),    
+    colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+temp
+####################################################################################################################
+
+####################################################################################################################
+# Simulations
+
+coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
+	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
+data=na.omit(yData[,coefs])
+results=model3
+estimates = results@fixef
+varcov = vcov(results)
+rownames(varcov) = names(estimates); colnames(varcov) = names(estimates)
+RSS = sum(results@resid^2)
+dfResid = nrow(data)-length(results@fixef) - length(results@ranef) + 1
+# error = sqrt(RSS/dfResid) 
+error=0 # Set to zero to get rid of fundamental uncertainty
+toTest = 'lnminDist.min'
+vRange=seq(-1,7,.25)
+
+temp = ggsimplot(sims=10000, simData=data, vars=coefs, 
+  vi=toTest, vRange=-1:7, ostat=median,
+  betas=estimates, vcov=varcov, sigma=error, intercept=TRUE,
+  ylabel="GDP Growth$_{t}$", xlabel="Ln(Min Dist)$_{t}$",
+  specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
+  # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
+  )
+temp
+####################################################################################################################
