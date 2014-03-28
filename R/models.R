@@ -20,8 +20,11 @@ yData$Int.max <- yData$Int.max-1
 yData$intPerKm <- yData$Int.max/yData$lnArea
 yData$USA <- yData$ccode==2
 yData$coldwar <- yData$year<1991
+<<<<<<< HEAD
 # yData$BX.KLT.DINV.CD.WD <- 
 yData$lnAG.LND.TOTL.K2_l0 = yData$AG.LND.TOTL.K2_l0
+=======
+>>>>>>> dc3b0130ebbc5c87314ccb6558121a0ea74f4fd8
 
 yData <- yData[order(yData$year),]
 ####################################################################################################################
@@ -29,7 +32,13 @@ yData <- yData[order(yData$year),]
 
 ## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
 ####################################################################################################################
+<<<<<<< HEAD
 model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + (1|ccode) + (1|year), data=yData)
+=======
+plot(density(yData$NY.GDP.PCAP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth per Capita (Annual %)", main="")
+
+model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + log(AG.LND.TOTL.K2_l0) + (1|ccode) + (1|year), data=yData)
+>>>>>>> dc3b0130ebbc5c87314ccb6558121a0ea74f4fd8
 summary(model1)
 model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
 summary(model1FE)
@@ -51,7 +60,7 @@ abline(lm(resid~model1@frame$lnminDist.min),lty=1,col="red",lwd=3)
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ####################################################################################################################
-plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T))
+plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth (Annual %)", main="")
 names(yData)
 # yData$GDP_transform_l0 <- sqrt(abs(yData$NY.GDP.MKTP.KD.ZG_l0))
 # yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
