@@ -146,13 +146,14 @@ ggsimplot = function(sims=10000, simData, vars, vi, vRange, ostat=median,
         temp = temp + geom_errorbar(aes(x=x, ymax=Hi95, ymin=Lo95), width=.5) 
         temp = temp + geom_point(aes(x=x, y=Fit))
         if(specX){temp = temp + scale_x_discrete(limits=ggxlims, breaks=ggxbreaks)}
-        if(specY){temp = temp + scale_y_continuous(limits=ggylims, breaks=ggybreaks)} }
+        }
     
     if(plotType=='ribbon'){
       ggData$x=vRange
       temp <- ggplot(ggData, aes(x=x, y=Fit, ymin=Lo95, ymax=Hi95))
       temp <- temp + geom_line() + geom_ribbon(alpha=0.3)
       temp <- temp + geom_ribbon(aes(ymin=Lo90, ymax=Hi90), alpha=0.5)
+      if(specX){temp = temp + scale_x_continuous(limits=ggxlims, breaks=ggxbreaks)}
     }
   }
 
@@ -177,9 +178,11 @@ ggsimplot = function(sims=10000, simData, vars, vi, vRange, ostat=median,
       aes(x=x,ymax=y,fill=X2),ymin=0,alpha=0.5)
     temp = temp + geom_ribbon(data=subset(ggDensity,q90),
       aes(x=x,ymax=y,fill=X2),ymin=0,alpha=0.9)
-    temp = temp + theme(legend.position='top')
+    temp = temp + theme(legend.position='none')
+    if(specX){temp = temp + scale_x_continuous(limits=ggxlims, breaks=ggxbreaks)}
   }
   
+  if(specY){temp = temp + scale_y_continuous(limits=ggylims, breaks=ggybreaks)}
   temp = temp + xlab(xlabel) + ylab(ylabel)
   temp = temp + theme(panel.border = element_blank(), 
   axis.line = element_line(), axis.ticks = element_blank(),

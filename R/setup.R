@@ -6,13 +6,13 @@ if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
 	pathData='~/Dropbox/Research/Rhodium/Data/';
 	pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
-	pathFunctions="~/Desktop/Prog Notes/R Functions"}
+	pathTex="~/Desktop/Research/Rhodium/LaTeX"}
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
 {pathMain="/Users/Ben/Github/Rhodium/R";
+pathTex="/Users/Ben/Github/Rhodium/LaTeX";
  pathGraphics="/Users/Ben/Dropbox/Rhodium/Graphics";
  pathData="/Users/Ben/Dropbox/Rhodium/Data"
- #pathFunctions="~/Desktop/Prog Notes/R Functions"
 }
 
 # Load in panel dataframe
@@ -22,11 +22,14 @@ load('panel.rda')
 # Loading libraries and functions
 require(ggplot2)
 theme_set(theme_bw())
+require(tikzDevice)
+
 require(reshape)
 require(foreign)
 require(doBy)
 require(lme4)
 
+require(cshapes)
 require(WDI)
 require(countrycode)
 
