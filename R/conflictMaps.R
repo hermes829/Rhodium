@@ -29,8 +29,8 @@ ggmapData$id = as.numeric(as.character(ggmapData$id))
 
 temp = ggplot(ggmapData, aes(map_id = id))
 temp = temp + geom_map(map=ggmap, fill='white', linetype=1, colour='black') + expand_limits(x = ggmap$long, y = ggmap$lat) 
-temp = temp + geom_point(aes(x=fYrCty$cleanLong[fYrCty$cname==cname], y=fYrCty$cleanLat[fYrCty$cname==cname]), pch=18,size=3,col='blue')
-temp = temp + geom_point(aes(x=newprio$Longitude, y=newprio$Latitude,color=newprio$Year),size=3)
+temp = temp + geom_point(aes(x=fYrCty$cleanLong[fYrCty$cname==cname], y=fYrCty$cleanLat[fYrCty$cname==cname]), pch=18,size=4,col='blue')
+temp = temp + geom_point(aes(x=newprio$Longitude, y=newprio$Latitude,color=newprio$Year),size=4)
 temp = temp + scale_colour_gradient('',
 	low=brewer.pal(9,'Reds')[2],high=brewer.pal(9,'Reds')[9],
 	breaks=newprio$Year[c(1,5,10,15,20)])
@@ -41,7 +41,7 @@ temp = temp + theme(
   panel.grid.major=element_blank(), 
   panel.grid.minor=element_blank(), panel.border=element_blank())
 setwd(pathTex)
-pdf(file='colombiaMap.pdf', width=5, height=7)
+pdf(file='colombiaMap.pdf', width=5, height=6)
 temp
 dev.off()
 ######################################################################

@@ -26,7 +26,7 @@ mapColors=rep('white',length(Wcntries))
 mapColors[which(Wcntries %in% noConfCntries)] = 'grey'
 
 setwd(pathTex)
-pdf(file='CityConfMap.pdf', width=6, height=3)
+pdf(file='CityConfMap.pdf', width=12, height=6)
 plot(worldmap, col=mapColors)
 points(fYrCty$cleanLong, fYrCty$cleanLat, col='blue', pch=18, cex=0.5)
 points(prioData$Longitude,prioData$Latitude, col='red', pch=16,cex=0.5)
