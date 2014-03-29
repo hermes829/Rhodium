@@ -1,7 +1,7 @@
-\section{Empirics}
+\section{Data and Sample}
 \label{empirics}
 
-\subsection{Data and Sample}
+\subsection{Conflict and City Data}
 
 To measure economic performance we use annual percent change in GDP, which we collect from the World Development Indicators at the World Bank. We choose to focus on year over change in GDP because we expect conflicts proximate to major cities to lead to reductions in growth.\footnote{Alternative measures of economic performance would have included changes in FDI inflows or changes in GDP per capita, in using either of these measures are results remain relatively the same.} Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
 
@@ -28,6 +28,8 @@ Our analysis focuses on exploring variations in economic growth in countries und
 	\label{fig:columbiaMap}
 \end{figure}
 
+\subsection{Level of Aggregation}
+
 A key problem we face in conducting this analysis is reconciling the unit of analysis for our key independent and dependent variables. Our dependent variable is at the country-year and our key independent variable, distance between conflicts and major cities, is at the conflict-country-year level. To deal with this, we aggregate up to the country-year level by calculating the minimum logged distance any conflict is from a major city. Thus if a country faced, for example, four conflicts in one year, the datapoint that we would aggregate up to the country-year level would be for the conflict that was closest to a major city. This obviously is somewhat problematic as we end up discarding the information from the other conflicts. At the same time, we argue that this choice of aggregation is what conforms closest to our theoretical claims about economic activity only being severely disrupted in cases of conflicts being proximate to major cities. From the PRIO dataset we also bring in additional information about that conflict, specifically: 
 
 \begin{itemize}
@@ -51,7 +53,7 @@ To estimate the model we use random effects clustered on countries and years. Re
 	& \;+\; \beta_{8}(Ln(Land \; Area)_{t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
 \end{align*}
 
-\subsection{Results} 
+\section{Results} 
 
 We depict the results of our model in figure \ref{fig:coefPlot}. Most of the findings here are in line with our theoretical expectations. We find that higher levels of conflict intensity are associated with lower levels of GDP growth. The effect of conflict type is positive, indicating that non-territorial disputes are related to lower levels of GDP growth as well. Surprisingly, conflicts that are of a longer duration are, on average, not having a negative effect on GDP growth. 
 
