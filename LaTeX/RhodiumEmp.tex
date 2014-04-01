@@ -47,10 +47,10 @@ To estimate the model we use random effects clustered on countries and years. Re
 
 \begin{align*}
 	\% \Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
-	& \;+\; \beta_{2}(Conflict \; Intensity_{t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{t}) \\
-	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{t}) \;+\; \beta_{5}(Conflict \; Type_{t}) \\
-	& \;+\; \beta_{6}(Conflict \; Duration_{t}) \;+\; \beta_{7}(Inflation_{t-1}) \\
-	& \;+\; \beta_{8}(Ln(Land \; Area)_{t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
+	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{i,t}) \\
+	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \;+\; \beta_{5}(Conflict \; Type_{i,t}) \\
+	& \;+\; \beta_{6}(Conflict \; Duration_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
+	& \;+\; \beta_{8}(Ln(Land \; Area)_{i,t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
 \end{align*}
 
 \section{Results} 
