@@ -8,354 +8,128 @@
 \begin{frame}
 \frametitle{Motivating Question}
 
-Why do some states facing internal armed conflict suffer severe economic consequences while others enjoy continued growth?
+\begin{block}{Puzzle}
+High variation in economic performance between countries in the midst of internal armed conflict
+\begin{itemize}
+\item Mexico
+\item India
+\item Nicaragua
+\end{itemize}
+\end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Sanctions and domestic factors}
-Previous literature has suggested sanctions ``work'' by destablizing leaders and other domestic factors:
-\begin{itemize}
-	\item Marinov 2005
-	\item Lektzian and Souva 2003
-\end{itemize}
+\frametitle{Literature Review}
 
-Such work has often utilized a duration modeling approach to capture the time until sanction compliance: 
 \begin{itemize}
-	\item Bolks Al-Sowayel 2000
-	\item McGillivray and Stam 2004
+	\item Civil War $\rightarrow$ Economic Performance
+	\item Economic Performance $\rightarrow$ Civil War
+	\item Disaggregating Civil Wars
 \end{itemize}
-
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Sanctions and Network Dynamics}
-Domestic conditions are important but cross-cutting relationships and network dynamics should play a key role in understanding sanction outcomes as well:
-\begin{itemize}
-	\item Bapat and Morgan 2009
-	\item Cranmer and Heinrich 2013
-\end{itemize}
+\frametitle{Disaggregating Conflict and Growth}
 
-The importance of network dynamics are noted in other IR works:
-\begin{itemize}
-	\item Ward, Siverson, and Xao 2007
-	\item Cranmer and Desmarais 2012
-\end{itemize} 
+\begin{block}{Our argument}
+State economic performance in countries experiencing civil conflict is conditional on the proximity of conflict from major population, economic, and resource centers
+\end{block}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}
+\frametitle{FARC guerillas \& the Colombian government}
+
+\begin{quote}FARC's strategy and [beliefs have] always been to make economic pressure on both, multinational companies and the Colombian government. This has been done by attacking oil and natural gas infrastructure affecting companies such as Pacific Rubiales Energy, Oxy and Ecopetrol. For non-fuel related international companies with subsidiaries in Colombia, such as Goodyear, Nestle, Microsoft, Toyota, among others, FARC’s modus operandi was mainly racketeering, kidnappings and extortion. (Flannery 2012)\end{quote}
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Understanding the Network:}
-\framesubtitle{1984 Sanction Spaghetti Bowl}
+\frametitle{Conflict \& City Data}
+
 \vspace{-0.25cm}
-% \begin{figure}[ht]
-%   \centering
-%   \includegraphics[width=0.74\textwidth]{84net}
-% \end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{CityConfMap-crop}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Aggregating to Country-Year}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.6\textwidth]{colombiaMap-crop}
+\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Estimation Approach}
+
+\begin{align*}
+	\% \Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
+	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{i,t}) \\
+	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \;+\; \beta_{5}(Conflict \; Type_{i,t}) \\
+	& \;+\; \beta_{6}(Conflict \; Duration_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
+	& \;+\; \beta_{8}(Ln(Land \; Area)_{i,t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
+\end{align*}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Untangling Spaghetti:}
-\framesubtitle{South Africa 1984 Sanction Case Network}
+\frametitle{Findings}
 
-\vspace{-.4cm}
-% \begin{figure}[ht]
-% 	\centering
-% 	\includegraphics[width=1.05\textwidth]{saneti}
-% \end{figure}
+\begin{figure}[ht]
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{mod3CoefPlot.tex}}
+\end{figure}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Untangling Spaghetti:}
-\framesubtitle{South Africa 1984 Aggregate Network}
+\frametitle{Substantive Effects}
 
-% \begin{figure}[ht]
-% 	\centering
-% 	\includegraphics[width=0.75\textwidth]{sanet}
-% \end{figure}
+\begin{figure}[ht]
+	\centering
+	\resizebox{.9\textwidth}{!}{\input{mod3SimPlot.tex}}
+\end{figure}
 
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Bridging the Gaps}
-We suggest that present duration approaches fail to incorporate the network pressures instrinstic to international sanction processes
+\frametitle{Conclusions \& Next Steps}
 
+\begin{block}{Conclusions}
 \begin{itemize}
-	\item Target states face sanctioners to whom they have a variety of relationships
-	\item At any given point in time, target states may be faced with a multitude of sanction cases
-	\item We present a duration model that incorporates these network dynamics
-	\item We also explore the role domestic institutions play in conditioning network effects
+	\item Novel approach in the study of civil conflict to distinguish between spatially dissimilar events
+	\item Proximity of conflict to major cities explains disparate economic outcomes
 \end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Network Pressure Hypotheses}
-\framesubtitle{Sanction Case Network}
-
-\begin{block}{Hypothesis 1}
-	Sanction Case Network: The relationship between sender(s) and the target matters for sanction compliance: 
 \end{block}
 
+\begin{block}{Next Steps}
 \begin{itemize}
-	\item Sanctions involving coalitions of sender(s) will be more quickly resolved than sanctions sent by just one state
-	\item Sanction cases where relationships are more proximate will be more quickly resolved
+\item Account for other economically important locations (e.g., oil fields)
+\item Alternative methods to address aggregation problem
+\item More refined analysis within a country using subnational economic data
 \end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Network Pressure Hypotheses}
-\framesubtitle{Aggregate Network}
-
-\begin{block}{Hypothesis 2}
-	Aggregate Network: Targets of sanctions often face a multitude of sanction cases at any given point in time
-\end{block}
-
-\begin{itemize}
-	\item States under the pressure of a multitude of sanctions will more quickly resolve sanction cases than those facing only a few
-\end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Institutions Hypothesis}
-
-\begin{block}{\textbf{Hypothesis 3}}
-	Target states with stronger democratic institutions that are under the pressure of sanctions will more quickly comply than those with less democratic institutions
-\end{block}
-
-\begin{itemize}
-	\item Sanctions are designed to impose costs on key groups within countries
-	\item Affected groups will lobby the government to reach an accommodation with sanctioning states
-	\item The ability to successfully lobby is dependent upon political institutions (Manin, Przeworski and Stokes 1999; Barro 1973; Ferejohn 1986)
-\end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Conceptualizing Networks}
-
-Two types of network effects that we capture:
-
-\begin{itemize}
-	\item Sanction Case Network
-	\begin{itemize}
-		\item Number of senders associated with a sanction case
-		\item Distance: The average distance between sender(s) and the receiver
-		\item Trade: The share of total trade that the sender(s) make up for the receiver		
-		\item Alliances: The proportion of sender(s) that are allied with the receiver
-		\item IGOs: The average number of common IGOs that the sender(s) and receiver belong to
-		\item Religion: Similarity of religious group makeups between sender(s) and the receiver
-	\end{itemize}
-	\item Aggregate Network
-	\begin{itemize}
-		\item Sanctions Received: Total number of sanctions to which the target state is currently exposed
-	\end{itemize}
-\end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Data}
-
-\begin{itemize}
-	\item Threat and Imposition of Sanctions Database (Morgan 2009) provides information on 1,412 sanction case initiations and outcomes from 1945 to 2005 
-		\vspace{0.1cm}
-	\item Our focus is economic sanctions and the period of 1984 to 2005, providing us with 184 sanction cases \\
-		\vspace{0.1cm}
-	\item Our unit of analysis is the sanction case-year, providing us with a total of 1,920 observations
-\end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Dependent Variable}
-\framesubtitle{Sanction Compliance}
-
-\begin{block}{Conceptualization of Dependent Variable}
-	We define compliance as:
-	\begin{itemize}
-		\item Complete/Partial Acquiescence by Target to threat
-		\item Negotiated Settlement
-		\item Total/Partial Acquiescence by the Target State following sanctions imposition
-		\item Negotiated Settlement following sanctions imposition
-	\end{itemize}
 \end{block}
 
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Estimated Duration Model}
-
-% \vspace{-0.5cm}
-\begin{block}{Time-Varying Duration Model}
-	\begin{align*}
-		Compliance_{i,t} =\; & No. \; Senders_{j} + Distance_{j,t} + Trade_{j,t}  + \\
-		 &Ally_{j,t} + IGOs_{j,t} + Religion_{j,t} +\\
- 		 &Sanc. \; Rec'd_{i,t} + \\
-		 &Constraints_{i,t} + GDP \; Capita_{i,t-1} +\\
-		 & Internal \; Conflict_{i,t} +\\
-		 &Constraints_{i,t}*No. \; Senders_{j} + \epsilon_{i,t}
-	\end{align*}
-\end{block}
-
-\begin{itemize}
-	\item $i$ represents the target of the sanction
-	\item $j$ represents the relationship between the set of sender(s) for a particular sanction case and $i$
-	\item $t$ the time period
-\end{itemize}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Results}
-\framesubtitle{Duration Model Summary}
-
-\footnotesize{
-	\begin{table}[ht]
-		\begin{center}
-		\begin{tabular}{lccc}
-		  \hline\hline
-		 &$\hat{\beta}$&$\hat{\sigma}$& Pr($>$$|$z$|$) \\ 
-		  \hline
-		  Case Network Measures \\
-		  \;\;\;   Number of senders & 0.59 & 0.15 & 0.00 \\ 
-		  \;\;\;   Distance & -218.15 & 97.87 & 0.03 \\
-		  \;\;\;   Trade & 0.65 & 0.85 & 0.44 \\ 
-		  \;\;\;   Ally & 1.12 & 0.49 & 0.02 \\ 
-		  \;\;\;   IGOs & -0.03 & 0.01 & 0.04 \\ 
-		  \;\;\;   Religion & -0.90 & 0.40 & 0.02 \\ 
-		  Aggregate Network Measure \\
-		  \;\;\;   Sanc. Recieved & -0.06 & 0.09 & 0.49 \\ 
-		  Controls \\
-		  \;\;\;   Constraints & 0.02 & 0.04 & 0.69 \\ 		  
-		  \;\;\;   GDP per Capita (lagged) & -0.00 & 0.00 & 0.43 \\ 
-		  \;\;\;   Internal Conflict & -0.03 & 0.08 & 0.74 \\ 
-		   \hline
-		   Time at risk = 1,027 &&&\\
-			 Number of cases = 154 &&&\\
-		   Number of compliances = 44 &&&\\
-		  \hline\hline
-		\end{tabular}
-		\end{center}
-	\end{table}
-}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}
-\frametitle{Results:}
-\framesubtitle{Duration Model with Interaction}
-
-\footnotesize{
-	\begin{table}[ht]
-		\begin{center}
-			\begin{tabular}{lccc}
-			\hline\hline
-			&$\hat{\beta}$&$\hat{\sigma}$& Pr($>$$|$z$|$) \\
-			\hline
-			Case Network Measures \\		
-			\;\;\; Number of senders & 1.21 & 0.36 & 0.00 \\ 
-			\;\;\; Senders*Constraints & -1.66 & 0.92 & 0.07 \\ 		
-			\;\;\; Distance & -253.00 & 102.73 & 0.01 \\ 		
-			\;\;\; Trade & 0.50 & 0.84 & 0.55 \\ 
-			\;\;\; Ally & 1.44 & 0.54 & 0.01 \\ 
-			\;\;\; IGOs & -0.02 & 0.01 & 0.12 \\		
-			\;\;\; Religion & -1.33 & 0.45 & 0.00 \\ 
-			Aggregate Network Measures \\		
-			\;\;\; Rec'd Sanctions & -0.13 & 0.10 & 0.20 \\ 
-			Controls \\		
-			\;\;\; Constraints & -0.58 & 1.61 & 0.72 \\ 
-			\;\;\; GDP per Capita (lagged) & -0.00 & 0.00 & 0.38 \\ 
-			\;\;\; Internal Conflcit & 0.03 & 0.09 & 0.71 \\ 
-			\hline
-			Time at risk = 1,027 &&&\\
-			Number of cases = 154 &&&\\
-			Number of compliances = 44 &&&\\
-			\hline\hline
-		\end{tabular}
-		\end{center}
-	\end{table}
-}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Results:}
-\framesubtitle{Survival Probability by Number of Senders in a Sanction Case}
-
-% \vspace{0.7cm}
-% \begin{figure}[ht]
-% 	\centering
-% 	\includegraphics[width=1\textwidth]{nosSurv}
-% \end{figure}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Results:}	
-\framesubtitle{Survival Probability by Other Network Variables Relating to Sanction Case}
-
-% \begin{figure}[ht]
-% 	\centering
-% 	\includegraphics[width=1\textwidth]{oNet}
-% \end{figure}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Next Steps}
-
-\begin{itemize}
-	\item The relationships between sender(s) of a sanction and the target matter, and the specific facets of the relationship that matter extend beyond trade
-	\item So far we have not found that the aggregate network structure faced by a state matters for compliance
-	\begin{itemize}
-		\item There are other conceptualizations of aggregate network pressures that we can pursue
-	\end{itemize}
-	\item We also did not find support for the institutions hypothesis
-	\begin{itemize}
-		\item Greater specification of this hypothesis is likely necessary
-	\end{itemize}
-\end{itemize}
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
