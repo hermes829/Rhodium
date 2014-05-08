@@ -74,10 +74,17 @@ inRadius <- function(lat1,lon1,country1,year1,lat2,lon2,country2,year2,radius)
     cat(paste("Warning: ",setdiff(unique(country2),unique(country1))," is/are in set 2 but not set 1.\n",sep=""))
   for(i in 1:nrow(locations1))
   {
-    temp2 <- locations2[locations2$country2==country1[i] & locations2$year2==locations1$year1[i],]
-    temp2$lat1 <- locations1$lat1[i]
-    temp2$lon1 <- locations1$lon1[i]
-    results[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius[i])
+    temp2 <- locations2[locations2$country2==locations1$country1[i] & locations2$year2==locations1$year1[i],]
+    if(nrow(temp2)>0)
+    {
+      temp2$lat1 <- locations1$lat1[i]
+      temp2$lon1 <- locations1$lon1[i]
+      results[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius[i])
+    }
+    else
+    {
+      results[i] <- NA
+    }
   }
   return(results)
 }
