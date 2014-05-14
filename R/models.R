@@ -16,7 +16,9 @@ yData$lnminDist.min <- log(yData$minDist.min+1)
 yData$lnminDist.mean <- log(yData$minDist.mean)
 yData$lncapDist.min <- log(yData$capDist.min)
 yData$lnArea <- log(yData$Conflict.area.mean)
+yData$lnArea_min <- log(yData$Conflict.area_min)
 yData$Int.max <- yData$Int.max-1
+yData$Int_min <- yData$Int_min-1
 yData$intPerKm <- yData$Int.max/yData$lnArea
 yData$USA <- yData$ccode==2
 yData$coldwar <- yData$year<1991
@@ -62,6 +64,12 @@ model3 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist
 	durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
 	+ (1|ccode) + (1|year), data=yData)
 summary(model3)
+
+
+model4 <- lmer(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int_min + lnArea_min + lnminDist.min + territorial.max + 
+  durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
+  + (1|ccode) + (1|year), data=yData)
+summary(model4)
 
 # model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
 # summary(model3FE)

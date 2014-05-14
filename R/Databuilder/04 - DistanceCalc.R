@@ -120,7 +120,7 @@ for(ii in unique(prioAC$cyear)){
 }
 
 # Subsetting to relevant vars and renaming
-prioMIN=prioMIN[,c('ID','Incomp','territorial','Int','CumInt','Type')]
+prioMIN=prioMIN[,c('ID','Incomp','territorial','Int','CumInt','Type', 'Conflict.area')]
 colnames(prioMIN)=paste0(colnames(prioMIN),'_min')
 
 # Merging into ydata
