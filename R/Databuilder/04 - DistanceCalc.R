@@ -45,33 +45,34 @@ prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, pri
 prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat[fYrCty$Capital==1], fYrCty$cleanLong[fYrCty$Capital==1], fYrCty$cname[fYrCty$Capital==1], fYrCty$YearAlmanac[fYrCty$Capital==1])
 ##################################################################
 
-##################################################################
-# Calc distances from natural resources
-# setwd(paste0(pathData,'/Horn - Giant Fields Data'))
-setwd(pathData)
-oil <- read.shapefile("Horn - Giant Fields Data/Giant_Fields_Data")
-oil <- as.data.frame(oil)
-newoil <- data.frame(stringsAsFactors=F)
-for(i in 1:nrow(oil))
-{
-  row <- data.frame(oil[i,])
-  dates <- oil$dbf.dbf.DISC_YR[i]:2014
-  newrows <- row[rep(1,length(dates)),]
-  newrows$dbf.dbf.DISC_YR <- dates
-  newoil <- rbind(newoil,newrows)
-  cat("\r",i)
-}
-newoil <- newoil[,c("dbf.dbf.LAT_DD","dbf.dbf.LON_DD","dbf.dbf.FIELD_TYPE","dbf.dbf.SIZE_CLASS","dbf.dbf.COUNTRY","dbf.dbf.DISC_YR")]
-names(newoil) <- c("lat","long","type","size","country","year")
-newoil <- newoil[newoil$year%in%1988:2009,]
-newoil$country <- as.character(newoil$country)
-newoil$country[newoil$country=="Sierre Leone"] <- "Sierra Leone"
-newoil$country[which(newoil$country=="UAE")] <- "United Arab Emirates"
-newoil$country <- countrycode(newoil$country,"country.name","country.name")
-prioAC$oilRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, newoil$lat, newoil$long, newoil$country, newoil$year, prioAC$Radius)
-# prioAC$oilRadius[is.na(prioAC$oilRadius)] <- 0
-
-##################################################################
+# ##################################################################
+# # Calc distances from natural resources
+# # setwd(paste0(pathData,'/Horn - Giant Fields Data'))
+# setwd(pathData)
+# oil <- read.shapefile("Horn - Giant Fields Data/Giant_Fields_Data")
+# oil <- as.data.frame(oil)
+# newoil <- data.frame(stringsAsFactors=F)
+# for(i in 1:nrow(oil))
+# {
+#   j=j+1
+#   row <- data.frame(oil[i,])
+#   dates <- oil$dbf.dbf.DISC_YR[i]:2014
+#   newrows <- row[rep(1,length(dates)),]
+#   newrows$dbf.dbf.DISC_YR <- dates
+#   # newoil <- rbind(newoil,newrows)
+#   # cat("\r",i)
+#   if(i%%((nrow(oil)+4)/10)==0){cat(100*i/(nrow(oil)+4),"%  ", sep="")}
+# }
+# newoil <- newoil[,c("dbf.dbf.LAT_DD","dbf.dbf.LON_DD","dbf.dbf.FIELD_TYPE","dbf.dbf.SIZE_CLASS","dbf.dbf.COUNTRY","dbf.dbf.DISC_YR")]
+# names(newoil) <- c("lat","long","type","size","country","year")
+# newoil <- newoil[newoil$year%in%1988:2009,]
+# newoil$country <- as.character(newoil$country)
+# newoil$country[newoil$country=="Sierre Leone"] <- "Sierra Leone"
+# newoil$country[which(newoil$country=="UAE")] <- "United Arab Emirates"
+# newoil$country <- countrycode(newoil$country,"country.name","country.name")
+# prioAC$oilRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, newoil$lat, newoil$long, newoil$country, newoil$year, prioAC$Radius)
+# # prioAC$oilRadius[is.na(prioAC$oilRadius)] <- 0
+# ##################################################################
 
 ##################################################################
 # Aggregate to the country-year
@@ -101,6 +102,29 @@ yData$durSt1max=yData$year - yData$startYr1.max
 yData$durSt1min=yData$year - yData$startYr1.min
 yData$durSt2max=yData$year - yData$startYr2.max
 yData$durSt2min=yData$year - yData$startYr2.min
+
+# Number of conflicts in country-year
+numConf=data.frame(cbind(numSM(names(table(prioAC$cyear))),numSM(table(prioAC$cyear))))
+yData$nconf=numConf$X2[match(yData$cyear, numConf$X1)]
+
+# finding prio characteristics for conflicts that are mindist from major cities
+prioMIN=NULL
+for(ii in unique(prioAC$cyear)){
+  a=prioAC[ which(prioAC$cyear %in% ii), ]
+  
+  if( nrow(a)!=1  ){
+    b=a[ which(a$minDist==min(a$minDist)),  ]
+  } else {  b=a  }
+  
+  prioMIN=rbind(prioMIN,b)
+}
+
+# Subsetting to relevant vars and renaming
+prioMIN=prioMIN[,c('ID','Incomp','territorial','Int','CumInt','Type')]
+colnames(prioMIN)=paste0(colnames(prioMIN),'_min')
+
+# Merging into ydata
+yData=cbind(yData, prioMIN)
 ##################################################################
 
 ##################################################################
