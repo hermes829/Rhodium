@@ -67,24 +67,36 @@ inRadius <- function(lat1,lon1,country1,year1,lat2,lon2,country2,year2,radius)
   country2 <- as.character(country2)
   locations1 <- data.frame(lat1=as.numeric(lat1),lon1=as.numeric(lon1),country1=country1,year1=year1,stringsAsFactors=F)
   locations2 <- data.frame(lat2=as.numeric(lat2),lon2=as.numeric(lon2),country2=country2,year2=year2,stringsAsFactors=F)
-  results <- rep(NA,nrow(locations1))
+  results <- data.frame(value=rep(NA,nrow(locations1)),country1=rep(NA,nrow(locations1)),country2=rep(NA,nrow(locations1)),year=rep(NA,nrow(locations1)),whichone=rep(NA,nrow(locations1)))
   if(length(setdiff(unique(country1),unique(country2)))!=0)
     cat(paste("Warning: ",setdiff(unique(country1),unique(country2))," is/are in set 1 but not set 2.\n",sep=""))
   if(length(setdiff(unique(country2),unique(country1)))!=0)
     cat(paste("Warning: ",setdiff(unique(country2),unique(country1))," is/are in set 2 but not set 1.\n",sep=""))
   for(i in 1:nrow(locations1))
   {
+    c1 <- locations1$country1[i]
+    y <- locations1$year1[i]
     temp2 <- locations2[locations2$country2==locations1$country1[i] & locations2$year2==locations1$year1[i],]
     if(nrow(temp2)>0)
     {
       temp2$lat1 <- locations1$lat1[i]
       temp2$lon1 <- locations1$lon1[i]
-      results[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius[i])
+      results$value[i] <- sumInRadius(temp2$lat1,temp2$lon1,temp2$lat2,temp2$lon2,radius[i])
+      c2 <- unique(temp2$country2)
+      whichone <- 1
+      if(is.na(results$value[i]))
+        whichone <- 3
     }
     else
     {
-      results[i] <- NA
+      results$value[i] <- NA
+      c2 <- NA
+      whichone <- 2
     }
+    results$country1[i] <- c1
+    results$country2[i] <- c2
+    results$year[i] <- y
+    results$whichone[i] <- whichone
   }
   return(results)
 }

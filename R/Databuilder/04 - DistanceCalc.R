@@ -41,7 +41,8 @@ prioAC$cname[prioAC$Location=="Chad"] <- "CHAD"
 prioAC <- prioAC[!is.na(prioAC$Latitude),]
 prioAC <- prioAC[!prioAC$Latitude<(-360),]
 prioAC$minDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
-prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Radius)
+prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Radius)$value
+cityInRadius <- inRadius(fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, prioAC$Radius)
 prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat[fYrCty$Capital==1], fYrCty$cleanLong[fYrCty$Capital==1], fYrCty$cname[fYrCty$Capital==1], fYrCty$YearAlmanac[fYrCty$Capital==1])
 ##################################################################
 
