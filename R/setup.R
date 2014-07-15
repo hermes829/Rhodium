@@ -22,6 +22,7 @@ load('panel.rda')
 # Loading libraries and functions
 require(ggplot2)
 theme_set(theme_bw())
+require(grid)
 require(tikzDevice)
 require(RColorBrewer)
 
@@ -30,6 +31,7 @@ require(foreign)
 require(doBy)
 require(lme4)
 
+require(shapefiles)
 require(cshapes)
 require(WDI)
 require(countrycode)
@@ -37,3 +39,4 @@ require(countrycode)
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}
 charSM=function(x){as.character(x)}
+rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}

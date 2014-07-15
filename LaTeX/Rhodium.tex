@@ -1,4 +1,4 @@
-\documentclass[12pt]{article} 
+\documentclass[12pt,onesided]{amsart} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
@@ -9,11 +9,12 @@
 % load lots o' packages
 
 % layout control
-\usepackage[paper=a4paper,left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}
-\usepackage[onehalfspacing]{setspace}
-\setlength{\parskip}{.5em}
-\usepackage{rotating}
-\usepackage{setspace}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1.25in,bmargin=1.25in,lmargin=1.1in,rmargin=1.1in}
+\usepackage[figuresright]{rotating}
+\newenvironment{amssidewaysfigure}
+  {\begin{sidewaysfigure}\vspace*{.5\textwidth}\begin{minipage}{\textheight}\centering}
+  {\end{minipage}\end{sidewaysfigure}}
 \usepackage{fancyhdr}
 \usepackage{parallel}
 \usepackage{parcolumns}
@@ -70,6 +71,9 @@ digitsep=fullstop
 \usepackage{tikz}
 % \usepackage{pgfplots}
 
+% Spacing
+\usepackage[doublespacing]{setspace}
+
 % define clickable links and their colors
 \hypersetup{
 	unicode=false,          % non-Latin characters in Acrobat's bookmarks
@@ -113,20 +117,28 @@ digitsep=fullstop
 	morekeywords={}
 	}
 
-\usepackage{draftwatermark}
-\SetWatermarkScale{4}
+% \usepackage{draftwatermark}
+% \SetWatermarkScale{4}
 % -------------------------------------------------- %
 
 
 % -------------------- title -------------------- %
 
 \title{Effect of Political Instability on Economic Development}
-\author{	Shahryar Minhas \\
-	\texttt{shahryar.minhas@duke.edu}
-	\and
-	Benjamin Radford \\
-	\texttt{benjamin.radford@duke.edu}}
-\date{\today}
+\date{Draft Copy \today}
+
+\author[Minhas]{Shahryar Minhas}
+\address{Shahryar Minhas: Department of Political Science}
+\curraddr{Duke University, Durham, NC, 27708, USA}
+\email{shahryar.minhas@duke.edu}
+
+\author[Radford]{Benjamin Radford}
+\address{Benjamin Radford: Department of Political Science}
+\curraddr{Duke University, Durham, NC, 27708, USA}
+\email{benjamin.radford@duke.edu}
+
+
+\thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
 
 % \setlength{\headheight}{15pt}
 % \setlength{\headsep}{20pt}
@@ -172,12 +184,10 @@ digitsep=fullstop
 \begin{abstract}
 \singlespacing
 \input{Abstract}
-\begin{center}
-\textbf{Draft prepared for MPSA 2014. Do not cite or distribute without permission.}
-\end{center}
 \end{abstract}
 
 \newpage
+\newpage\setcounter{page}{1} 
 
 %%%%%%%% INTRO %%%%%%%%
 \input{RhodiumIntro}

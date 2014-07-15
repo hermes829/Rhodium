@@ -1,8 +1,6 @@
 if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
-library(shapefiles)
-
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
@@ -21,7 +19,8 @@ prioAC=read.csv('ucdp.prio.armed.conflict.v4.2013.csv')
 
 prioData$idyear=paste0(prioData$ID, prioData$Year)
 prioAC$idyear=paste0(prioAC$ID, prioAC$YEAR)
-prioAC=merge(prioAC, prioData[,3:ncol(prioData)], by='idyear', all.x=T, all.y=T)
+prioAC=merge(prioAC, prioData[,3:ncol(prioData)], 
+  by='idyear', all.x=T, all.y=T)
 prioAC = prioAC[which(prioAC$ID %in% unique(prioData$ID)),]
 prioAC=prioAC[which(prioAC$YEAR %in%  1989:2008),]
 ##################################################################
@@ -40,10 +39,25 @@ prioAC$cname[prioAC$Location=="Sierra Leone"] <- "SIERRA LEONE"
 prioAC$cname[prioAC$Location=="Chad"] <- "CHAD"
 prioAC <- prioAC[!is.na(prioAC$Latitude),]
 prioAC <- prioAC[!prioAC$Latitude<(-360),]
-prioAC$minDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
-prioAC$inRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Radius)$value
-cityInRadius <- inRadius(fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, prioAC$Radius)
-prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, fYrCty$cleanLat[fYrCty$Capital==1], fYrCty$cleanLong[fYrCty$Capital==1], fYrCty$cname[fYrCty$Capital==1], fYrCty$YearAlmanac[fYrCty$Capital==1])
+
+# Calculate min dist of confict sites from cities in country
+prioAC$minDist <- minDist(
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
+  fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
+
+# Calculate number of cities within radius of conflict
+prioAC$inRadius <- inRadius(
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
+  fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, 
+  prioAC$Radius)$value
+
+# Calculate distance from capital
+prioAC$capDist <- minDist(
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
+  fYrCty$cleanLat[fYrCty$Capital==1], 
+  fYrCty$cleanLong[fYrCty$Capital==1], 
+  fYrCty$cname[fYrCty$Capital==1], 
+  fYrCty$YearAlmanac[fYrCty$Capital==1])
 ##################################################################
 
 # ##################################################################
@@ -78,8 +92,8 @@ prioAC$capDist <- minDist(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioA
 ##################################################################
 # Aggregate to the country-year
 prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
-prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial","Conflict.area",
-	"Type","Region","minDist","inRadius","capDist",
+prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial",
+  "Conflict.area","Type","Region","minDist","inRadius","capDist",
 	"cname","YEAR", 'startYr1', 'startYr2')]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
@@ -90,9 +104,12 @@ aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
 yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
-                    'Int.mean', 'Int.max', 'CumInt.mean', 'CumInt.max', 'Type.mean',
-                    'territorial.max','Conflict.area.mean','Conflict.area.max',
-                    'Region.mean', 'minDist.mean', 'minDist.min', 'inRadius.sum',
+                    'Int.mean', 'Int.max', 'CumInt.mean', 
+                    'CumInt.max', 'Type.mean',
+                    'territorial.max','Conflict.area.mean',
+                    'Conflict.area.max',
+                    'Region.mean', 'minDist.mean', 
+                    'minDist.min', 'inRadius.sum',
                     'inRadius.max', 'capDist.min',
                     'startYr1.min','startYr1.max',
                     'startYr2.min', 'startYr2.max') ]
@@ -105,7 +122,9 @@ yData$durSt2max=yData$year - yData$startYr2.max
 yData$durSt2min=yData$year - yData$startYr2.min
 
 # Number of conflicts in country-year
-numConf=data.frame(cbind(numSM(names(table(prioAC$cyear))),numSM(table(prioAC$cyear))))
+numConf=data.frame(cbind(
+  numSM( names(table(prioAC$cyear)) ),
+  numSM( table(prioAC$cyear) ) ) )
 yData$nconf=numConf$X2[match(yData$cyear, numConf$X1)]
 
 # finding prio characteristics for conflicts that are mindist from major cities
@@ -121,7 +140,8 @@ for(ii in unique(prioAC$cyear)){
 }
 
 # Subsetting to relevant vars and renaming
-prioMIN=prioMIN[,c('ID','Incomp','territorial','Int','CumInt','Type', 'Conflict.area')]
+prioMIN=prioMIN[,c('ID','Incomp','territorial','Int',
+  'CumInt','Type', 'Conflict.area')]
 colnames(prioMIN)=paste0(colnames(prioMIN),'_min')
 
 # Merging into ydata

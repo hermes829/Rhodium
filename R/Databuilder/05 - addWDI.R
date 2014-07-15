@@ -25,7 +25,7 @@ wbData=WDI(country='all',
 		"NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG"), 
 	start=1988, end=2010, extra=T)
 
-# Add cnames to this shit
+# Add cnames
 wbData$cname = countrycode(wbData$iso2c, 'iso2c', 'country.name')
 wbData = wbData[!is.na(wbData$cname),]
 wbData$ccode = panel$ccode[match(wbData$cname, panel$cname)]
@@ -40,6 +40,6 @@ yData = merge(yData, wbData[,c(4:11,17,ncol(wbData))], by='cyear', all.x=T, all.
 wbData$cyear = paste0(wbData$ccode, wbData$year+1)
 yData = merge(yData, wbData[,c(4:11,17,ncol(wbData))], by='cyear', all.x=T, all.y=F, suffixes=c("_l1","_p1"))
 
-# Save this things
+# Save
 setwd(pathData)
 save(yData, file='combinedData.rda')
