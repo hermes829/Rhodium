@@ -107,10 +107,11 @@ yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
                     'Int.mean', 'Int.max', 'CumInt.mean', 
                     'CumInt.max', 'Type.mean',
                     'territorial.max','Conflict.area.mean',
-                    'Conflict.area.max',
+                    'Conflict.area.max','Conflict.area.sum',
                     'Region.mean', 'minDist.mean', 
                     'minDist.min', 'inRadius.sum',
                     'inRadius.max', 'capDist.min',
+                    'capDist.mean',
                     'startYr1.min','startYr1.max',
                     'startYr2.min', 'startYr2.max') ]
 colnames(yData)[2:3] = c('year', 'ccode')

@@ -25,7 +25,7 @@ wbVars=c("BX.KLT.DINV.CD.WD","AG.LND.TOTL.K2",
 		"NY.GDP.PCAP.KD", "NY.GDP.PCAP.KD.ZG", 
 		"NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG")
 wbData=WDI(country='all', indicator=wbVars, 
-	start=1989, end=2008, extra=T)
+	start=1988, end=2010, extra=T)
 
 # Add cnames
 wbData$cname = countrycode(wbData$iso2c, 'iso2c', 'country.name')
@@ -89,46 +89,67 @@ cyData=merge(base, polity[,c('polity2','cyear')],
 	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
 cyData=merge(cyData, wbData[,c(wbVars,'cyear')],
 	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
-cyData=merge(cyData, conData[,c(1,4:ncol(conData))],
+
+# Set up inverse distance var in conflict data
+conData$IminDist.mean=1/(conData$minDist.mean)
+conData$IminDist.min=1/(conData$minDist.min)
+conData$IcapDist.mean=1/(conData$capDist.mean)
+conData$IcapDist.min=1/(conData$capDist.min)
+
+# Merge select conflict vars
+conVars=c('nconf', 'Int.mean', 'Int.max', 
+	'Conflict.area.mean', 'Conflict.area.max',
+	'IminDist.mean', 'IminDist.min', 'inRadius.sum', 
+	'IcapDist.min', 'IcapDist.mean','durSt2max')
+cyData=merge(cyData, conData[,c('cyear',conVars)],
 	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
 
-conVars=c('nconf', '')
+# Turn all NAs in merged conflict vars to zero
+for(var in conVars){
+	cyData[,var][is.na(cyData[,var])]=0
+	cyData$nconf[is.na(cyData$nconf)]
+}
 ####################
 
 ####################
 # Imputation
 # Checks for lagdata function
-mdl=monadData
-mdl$cyear=numSM(mdl$cyear)
-lagVars=names(mdl)[5:ncol(monadData)]
-lagVars=lagVars[which(!lagVars %in% c('civwar','polity2'))] # not enough variance in polity and civwar
-sum(apply(mdl[,lagVars],2,class)=='numeric')/ncol(mdl[,lagVars])
+mdl=cyData
+mdl$ccodeYear=numSM(mdl$ccodeYear)
+lagVars=names(mdl)[9:16]
+otherVars=setdiff(colnames(cyData),lagVars)[9:19]
 
 # Set up lags for sbgcop
-mdl=lagDataSM(data=mdl,country_year='cyear',
+mdl=lagDataSM(data=mdl,country_year='ccodeYear',
 	country='ccode',varsTOlag=lagVars,lag=1)
-mdl=lagDataSM(data=mdl,country_year='cyear',
-	country='ccode',varsTOlag=lagVars,lag=2)
-mdl=lagDataSM(data=mdl,country_year='cyear',
-	country='ccode',varsTOlag=lagVars,lag=3)
-mdl=lagDataSM(data=mdl,country_year='cyear',
-	country='ccode',varsTOlag=lagVars,lag=4)
-mdl=lagDataSM(data=mdl,country_year='cyear',
-	country='ccode',varsTOlag=lagVars,lag=5)
-lagVarsAll=as.vector(apply(t(lagVars), 2, 
-	function(x) FUN=paste(paste('lag',1:5,'_',sep=''), x, sep='')))
+mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+	country='ccode',
+	varsTOlag=paste0('lag1_',lagVars),lag=1)
+mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+	country='ccode',
+	varsTOlag=paste0('lag1_lag1_',lagVars),lag=1)
+mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+	country='ccode',
+	varsTOlag=paste0('lag1_lag1_lag1_',lagVars),lag=1)
+mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+	country='ccode',
+	varsTOlag=paste0('lag1_lag1_lag1_lag1_',lagVars),lag=1)
+lagVarsAll=setdiff(colnames(mdl), colnames(cyData))
 
 # Impute missing value
 # This takes time, set it and go for a run
 sbgcopTimeSR = system.time(
-  sbgData = sbgcop.mcmc(mdl[,c('ccode','year',lagVars,lagVarsAll,'civwar','polity2')]
-  , nsamp=6000, seed=123455, verb=TRUE) ) # default odens = nsamp/1000  
+  sbgData <- sbgcop.mcmc(
+  	mdl[,c('ccode','year',lagVars,lagVarsAll)], nsamp=6000,
+  	seed=123455, verb=TRUE) 
+  )
 
 # Clean
 impData=data.frame(
 	cbind(
-		mdl[,c('cyear')],
-		sbgData$Y.pmean[,c(lagVars,'civwar','polity2')]
+		ccodeYear=mdl[,'ccodeYear'],
+		sbgData$Y.pmean[,c('ccode','year',lagVars)],
+		mdl[,otherVars]
 	)
 )
 ####################
@@ -136,5 +157,5 @@ impData=data.frame(
 ####################
 # Save
 setwd(pathData)
-save(yData, file='combinedData.rda')
+save(yData, cyData, impData, file='combinedData.rda')
 ####################

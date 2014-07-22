@@ -16,7 +16,7 @@ pathTex="/Users/Ben/Github/Rhodium/LaTeX";
 }
 
 # Load in panel dataframe
-setwd(pathData)
+setwd(paste(pathMain,'/BuildingPanelData/',sep=''))
 load('panel.rda')
 
 # Loading libraries and functions
