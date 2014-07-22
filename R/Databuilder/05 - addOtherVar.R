@@ -116,8 +116,13 @@ for(var in conVars){
 # Checks for lagdata function
 mdl=cyData
 mdl$ccodeYear=numSM(mdl$ccodeYear)
-lagVars=names(mdl)[9:16]
-otherVars=setdiff(colnames(cyData),lagVars)[9:19]
+lagVars=names(mdl)[10:16]
+noLagVars=c('polity2','nconf')
+notImpVars=setdiff(colnames(cyData),
+	c(lagVars,noLagVars,
+		'ccodeYear','CNTRY_NAME','COWCODE',
+		'GWCODE','year','cname','ccode',
+		'cnameYear' ) )
 
 # Set up lags for sbgcop
 mdl=lagDataSM(data=mdl,country_year='ccodeYear',
@@ -140,16 +145,16 @@ lagVarsAll=setdiff(colnames(mdl), colnames(cyData))
 # This takes time, set it and go for a run
 sbgcopTimeSR = system.time(
   sbgData <- sbgcop.mcmc(
-  	mdl[,c('ccode','year',lagVars,lagVarsAll)], nsamp=6000,
-  	seed=123455, verb=TRUE) 
+  	mdl[,c('ccode','year',lagVars,lagVarsAll,noLagVars)], 
+  	nsamp=6000,seed=123456, verb=TRUE) 
   )
 
 # Clean
 impData=data.frame(
 	cbind(
 		ccodeYear=mdl[,'ccodeYear'],
-		sbgData$Y.pmean[,c('ccode','year',lagVars)],
-		mdl[,otherVars]
+		sbgData$Y.pmean[,c('ccode','year',lagVars,noLagVars)],
+		mdl[,notImpVars]
 	)
 )
 ####################
