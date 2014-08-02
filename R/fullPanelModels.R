@@ -8,23 +8,27 @@ load('combinedData.rda')
 ###################################################################
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 
+# Correcting imp stuff
+impData$ccode=round(impData$ccode,0)
+impData$year=round(impData$year,0)
+
 # Logging conflict distance variables
 impData$lnIminDist.min = log(impData$IminDist.min+1)
 impData$lnIcapDist.min = log(impData$IcapDist.min+1)
-impData$lnIarea.mean = log(1/(impData$Conflict.area.mean+1))
-impData$lnIarea.max = log(1/(impData$Conflict.area.max+1))
+impData$lnIconfArea.mean = log(1/(impData$Conflict.area.mean+1))
+impData$lnIconfArea.max = log(1/(impData$Conflict.area.max+1))
 
 # Binaries
 impData$USA = impData$ccode==2
 impData$coldwar = impData$year<1991
 
 # Log of other variables
-impData$lnAG.LND.TOTL.K2 = log(impData$AG.LND.TOTL.K2)
-impData$lnNY.GDP.MKTP.KD.ZG = log(
+impData$lnLandArea = log(impData$AG.LND.TOTL.K2)
+impData$lnGDPgr = log(
 	impData$NY.GDP.MKTP.KD.ZG +
 	abs(min(impData$NY.GDP.MKTP.KD.ZG)) + 1 )
-impData$lnNY.GDP.PCAP.KD = log(impData$NY.GDP.PCAP.KD)
-impData$lnNY.GDP.DEFL.KD.ZG = log(
+impData$lnGDPcap = log(impData$NY.GDP.PCAP.KD)
+impData$lnInflation = log(
 	impData$NY.GDP.DEFL.KD.ZG + 
 	abs(min(impData$NY.GDP.DEFL.KD.ZG)) + 1 )
 
@@ -39,20 +43,20 @@ impData=lagDataSM(impData,'ccodeYear','ccode',lagVars,lag=1)
 ###################################################################
 # Full model
 cityMod = lmer(
-  lnNY.GDP.MKTP.KD.ZG ~ 
-	lag1_NY.GDP.PCAP.KD + lnAG.LND.TOTL.K2
-	+ lag1_lnNY.GDP.DEFL.KD.ZG
-	+ lag1_Int.mean + lag1_durSt2max + lag1_lnIarea.mean
+  lnGDPgr ~ 
+	lag1_lnGDPcap + lnLandArea
+	+ lag1_lnInflation
+	+ lag1_Int.mean + lag1_lnIconfArea.mean + durSt2max + nconf
 	+ lag1_lnIminDist.min
 	+ (1|ccode), data=impData)
 summary(cityMod)
 rmse(cityMod)
 
 capMod = lmer(
-  lnNY.GDP.MKTP.KD.ZG ~ 
-	lnNY.GDP.PCAP.KD + lnAG.LND.TOTL.K2
-	+ lag1_lnNY.GDP.DEFL.KD.ZG
-	+ lag1_Int.mean + lag1_durSt2max + lag1_lnIarea.mean
+  lnGDPgr ~ 
+	lag1_lnGDPcap + lnLandArea
+	+ lag1_lnInflation
+	+ lag1_Int.mean + lag1_lnIconfArea.mean + durSt2max + nconf
 	+ lag1_lnIcapDist.min
 	+ (1|ccode), data=impData)
 summary(capMod)
@@ -69,49 +73,54 @@ rmse(capMod)
 setwd(pathMain)
 source('vizResults.R')
 
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
-	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
+results=summary(cityMod)$'coefficients'
+coefs=rownames(results)[2:nrow(results)]
+vnames=c('Ln(GDP per capita)$_{t-1}$', 'Ln(Land Area)$_{t}$',
+	'Ln(Inflation)$_{t-1}$', 'Conflict Intensity$_{t-1}$',
+	'Ln(1/Conflict Area)$_{t-1}$','Conflict Duration$_{t}$',
+	'Number of Conflicts$_{t}$', 
+	'Ln(1/Min. City Conflict)$_{t-1}$')
+	# 'Ln(1/Min. Cap. Conflict)$_{t-1}$')
 
-vnames=c('Upper Income', 'Conflict Intensity$_{t}$', 'Ln(Conflict Area)$_{t}$', 'Ln(Min. Conflict Dist.)$_{t}$',
-	'Conflict Type$_{t}$', 'Conflict Duration$_{t}$', 'Inflation$_{t-1}$', 'Ln(Land Area)')
-
-temp = ggcoefplot(coefData=summary(model3)@coefs, 
+temp = ggcoefplot(coefData=results, 
     vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-7,5), ggybreaks=seq(-7,5,2),    
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
-setwd(pathTex)
+# setwd(pathTex)
 # tikz(file='mod3CoefPlot.tex', width=4, height=4, standAlone=F)
-temp
+# temp
 # dev.off()
 ###################################################################
 
 ###################################################################
 # Simulations
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
-	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
-data=na.omit(yData[,coefs])
-results=model3
-estimates = results@fixef
+coefs=rownames(results)[2:nrow(results)]
+data=na.omit(impData[,coefs])
+results=capMod
+
+estimates = results@beta
+names(estimates)=rownames(summary(results)$'coefficients')
 varcov = vcov(results)
-rownames(varcov) = names(estimates); colnames(varcov) = names(estimates)
-RSS = sum(results@resid^2)
-dfResid = nrow(data)-length(results@fixef) - length(results@ranef) + 1
+RSS = sum(residuals(results)^2)
+dfResid = nrow(data) - length(results@beta) - 
+	nrow(coefficients(results)$'ccode') + 1
 # error = sqrt(RSS/dfResid) 
 error=0 # Set to zero to get rid of fundamental uncertainty
-toTest = 'lnminDist.min'
-tRange=seq(quantile(yData[,toTest])[1],quantile(yData[,toTest])[length(quantile(yData[,toTest]))], 0.1)
+toTest = coefs[length(coefs)]
+quants=quantile(data[,toTest], seq(0,1,.1))
+tRange=seq(quants[1],quants[length(quants)], 0.1)
 
 temp = ggsimplot(sims=10000, simData=data, vars=coefs, 
   vi=toTest, vRange=tRange, ostat=median,
   betas=estimates, vcov=varcov, sigma=error, intercept=TRUE,
-  ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. Conflict Dist.)$_{t}$",
-  specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
-  # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
+  ylabel="\\% $\\Delta$ GDP$_{t}$", 
+  xlabel="Ln(1/Min. City Conflict.)$_{t-1}$",
+  # xlabel="Ln(1/Min. Cap. Conflict.)$_{t-1}$",  
+  plotType='ribbon'
   )
 temp
-setwd(pathTex)
+# setwd(pathTex)
 # tikz(file='mod3SimPlot.tex', width=6, height=4, standAlone=F)
-temp
+# temp
 # dev.off()
 ###################################################################
