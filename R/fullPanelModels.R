@@ -25,6 +25,9 @@ impData$coldwar = impData$year<1991
 
 # Log of other variables
 impData$lnAG.LND.TOTL.K2 = log(impData$AG.LND.TOTL.K2)
+impData$lnNY.GDP.MKTP.KD.ZG = log(
+	impData$NY.GDP.MKTP.KD.ZG+
+	abs(min(impData$NY.GDP.MKTP.KD.ZG)) +1 )
 
 # Ordering
 impData = impData[order(impData$year),]
@@ -36,7 +39,7 @@ impData=lagDataSM(impData,'ccodeYear','ccode',lagVars,lag=1)
 
 ###################################################################
 model3 <- lmer(
-  NY.GDP.MKTP.KD.ZG ~ upperincome + lag1_Int.mean + 
+  lnNY.GDP.MKTP.KD.ZG ~ upperincome + lag1_Int.mean + 
   # lag1_lnIarea +
   lag1_lnIminDist.min + 
   # lag1_lnIcapDist.mean +   
