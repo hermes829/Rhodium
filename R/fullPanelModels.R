@@ -65,7 +65,39 @@ rmse(capMod)
 
 ###################################################################
 # Divide into train and test
+train=impData[which(impData$year %in% 1989:2005),]
+test=na.omit(impData[which(impData$year %in% 2006:2008),])
 
+# Run models on training data
+cityModTrain = lmer(
+  lnGDPgr ~ 
+	lag1_lnGDPcap + lnLandArea
+	+ lag1_lnInflation
+	+ lag1_Int.mean + lag1_lnIconfArea.mean + durSt2max + nconf
+	+ lag1_lnIminDist.min
+	+ (1|ccode), data=train)
+summary(cityModTrain)
+rmse(cityModTrain)
+
+capModTrain = lmer(
+  lnGDPgr ~ 
+	lag1_lnGDPcap + lnLandArea
+	+ lag1_lnInflation
+	+ lag1_Int.mean + lag1_lnIconfArea.mean + durSt2max + nconf
+	+ lag1_lnIcapDist.min
+	+ (1|ccode), data=train)
+summary(capModTrain)
+rmse(capModTrain)
+
+# Calculate predicted values for test data
+
+# results=summary(cityModTrain)$'coefficients'
+results=summary(capModTrain)$'coefficients'
+
+tData=cbind('(Intercept)'=1,test[,rownames(results)[2:nrow(results)]])
+tPreds = data.matrix(tData) %*% cbind(results[,1])
+tDiff = sqrt( mean( (test[,'lnGDPgr'] - tPreds)^2 ) )
+tDiff
 ###################################################################
 
 ###################################################################
