@@ -83,18 +83,32 @@ check=names(table(polity$cyear)[table(polity$cyear)>1])
 ####################
 
 ####################
+# Combining datasets
+base=panel[which(panel$year %in% 1989:2008),]
+cyData=merge(base, polity[,c('polity2','cyear')], 
+	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
+cyData=merge(cyData, wbData[,c(wbVars,'cyear')],
+	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
+
+# Set up inverse distance var in conflict data
+conData$IminDist.mean=1/(conData$minDist.mean)
+conData$IminDist.min=1/(conData$minDist.min)
+conData$IcapDist.mean=1/(conData$capDist.mean)
+conData$IcapDist.min=1/(conData$capDist.min)
+
 # Merge select conflict vars
 conVars=c('nconf', 'Int.mean', 'Int.max', 
 	'Conflict.area.mean', 'Conflict.area.max',
-	'minDist.mean', 'minDist.min', 'inRadius.sum', 
-	'capDist.min', 'capDist.mean','durSt2max')
-cyData=conData[,c('cyear',conVars)]
+	'IminDist.mean', 'IminDist.min', 'inRadius.sum', 
+	'IcapDist.min', 'IcapDist.mean','durSt2max')
+cyData=merge(cyData, conData[,c('cyear',conVars)],
+	by.x='ccodeYear', by.y='cyear', all.x=T, all.y=F)
 
-# Combining datasets
-cyData=merge(cyData, polity[,c('polity2','cyear')], 
-	by='cyear', all.x=T, all.y=F)
-cyData=merge(cyData, wbData[,c(wbVars,'cyear')],
-	by='cyear', all.x=T, all.y=F)
+# Turn all NAs in merged conflict vars to zero
+for(var in conVars){
+	cyData[,var][is.na(cyData[,var])]=0
+	cyData$nconf[is.na(cyData$nconf)]
+}
 ####################
 
 ####################
