@@ -85,7 +85,7 @@ check=names(table(polity$cyear)[table(polity$cyear)>1])
 ####################
 # Merge select conflict vars
 conVars=c('nconf', 'Int.mean', 'Int.max', 
-	'Conflict.area.mean', 'Conflict.area.max',
+	'Conflict.area.mean', 'Conflict.area.max', 'Conflict.area.sum',
 	'minDist.mean', 'minDist.min', 'inRadius.sum', 
 	'capDist.min', 'capDist.mean','durSt2max')
 cyData=conData[,c('cyear',conVars)]
