@@ -22,7 +22,7 @@ yData$Int_min <- yData$Int_min-1
 yData$intPerKm <- yData$Int.max/yData$lnArea
 yData$USA <- yData$ccode==2
 yData$coldwar <- yData$year<1991
-# yData$BX.KLT.DINV.CD.WD <- 
+# yData$BX.KLT.DINV.CD.WD <-
 yData$lnAG.LND.TOTL.K2_l0 = yData$AG.LND.TOTL.K2_l0
 
 yData <- yData[order(yData$year),]
@@ -62,29 +62,29 @@ yData <- yData[order(yData$year),]
 
 model3 <- lmer(
   NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea +
-  lnminDist.min + territorial.max + 
+  lnminDist.min + territorial.max +
 	durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
 	+ (1|ccode) + (1|year), data=yData)
 summary(model3)
 
 model4 <- lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int_min + lnArea_min + 
-  lnminDist.min + territorial.max + 
+  NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int_min + lnArea_min +
+  lnminDist.min + territorial.max +
   durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
   + (1|ccode) + (1|year), data=yData)
 summary(model4)
 
 model5 = lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~ 
-  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + 
+  NY.GDP.MKTP.KD.ZG_l0 ~
+  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
   Int_min + lnArea_min + territorial.max + durSt1max +
   lnminDist.min
   + (1|ccode) + (1|year), data=yData)
 summary(model5)
 
 model6 = lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~ 
-  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + 
+  NY.GDP.MKTP.KD.ZG_l0 ~
+  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
   Int.mean + lnArea + territorial.max + durSt1max +
   lnminDist.mean
   + (1|ccode) + (1|year), data=yData)
@@ -121,15 +121,15 @@ rmse(model3); rmse(model4); rmse(model5); rmse(model6)
 setwd(pathMain)
 source('vizResults.R')
 
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
+coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min',
 	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
 
 vnames=c('Upper Income', 'Conflict Intensity$_{t}$', 'Ln(Conflict Area)$_{t}$', 'Ln(Min. Conflict Dist.)$_{t}$',
 	'Conflict Type$_{t}$', 'Conflict Duration$_{t}$', 'Inflation$_{t-1}$', 'Ln(Land Area)')
 
-temp <- ggcoefplot(coefData=summary(model3)@coefs, 
+temp <- ggcoefplot(coefData=summary(model3)@coefs,
     vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-7,5), ggybreaks=seq(-7,5,2),    
+    specY=TRUE, ggylims=c(-7,5), ggybreaks=seq(-7,5,2),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
@@ -140,7 +140,7 @@ temp
 
 ###################################################################
 # Simulations
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min', 
+coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min',
 	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
 data=na.omit(yData[,coefs])
 results=model3
@@ -149,12 +149,12 @@ varcov = vcov(results)
 rownames(varcov) = names(estimates); colnames(varcov) = names(estimates)
 RSS = sum(results@resid^2)
 dfResid = nrow(data)-length(results@fixef) - length(results@ranef) + 1
-# error = sqrt(RSS/dfResid) 
+# error = sqrt(RSS/dfResid)
 error=0 # Set to zero to get rid of fundamental uncertainty
 toTest = 'lnminDist.min'
 tRange=seq(quantile(yData[,toTest])[1],quantile(yData[,toTest])[length(quantile(yData[,toTest]))], 0.1)
 
-temp = ggsimplot(sims=10000, simData=data, vars=coefs, 
+temp = ggsimplot(sims=10000, simData=data, vars=coefs,
   vi=toTest, vRange=tRange, ostat=median,
   betas=estimates, vcov=varcov, sigma=error, intercept=TRUE,
   ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. Conflict Dist.)$_{t}$",
