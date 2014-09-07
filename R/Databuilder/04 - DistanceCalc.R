@@ -13,13 +13,13 @@ prioData=read.csv("ConflictSite 4-2010_v3 Dataset.csv")
 prioData$Conflict.territory=charSM(prioData$Conflict.territory)
 prioData$Conflict.territory[prioData$Conflict.territory=='Yugoslavia']='Serbia'
 prioData$Conflict.territory[prioData$Conflict.territory=='DRC']='Democratic Republic of Congo'
-prioData$cname=countrycode(prioData$Conflict.territory, 'country.name','country.name')
+prioData$cname=toupper(countrycode(prioData$Conflict.territory, 'country.name','country.name'))
 
 prioAC=read.csv('ucdp.prio.armed.conflict.v4.2013.csv')
 
 prioData$idyear=paste0(prioData$ID, prioData$Year)
 prioAC$idyear=paste0(prioAC$ID, prioAC$YEAR)
-prioAC=merge(prioAC, prioData[,3:ncol(prioData)], 
+prioAC=merge(prioAC, prioData[,3:ncol(prioData)],
   by='idyear', all.x=T, all.y=T)
 prioAC = prioAC[which(prioAC$ID %in% unique(prioData$ID)),]
 prioAC=prioAC[which(prioAC$YEAR %in%  1989:2008),]
@@ -42,21 +42,21 @@ prioAC <- prioAC[!prioAC$Latitude<(-360),]
 
 # Calculate min dist of confict sites from cities in country
 prioAC$minDist <- minDist(
-  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
 
 # Calculate number of cities within radius of conflict
 prioAC$inRadius <- inRadius(
-  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
-  fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac, 
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
+  fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac,
   prioAC$Radius)$value
 
 # Calculate distance from capital
 prioAC$capDist <- minDist(
-  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, 
-  fYrCty$cleanLat[fYrCty$Capital==1], 
-  fYrCty$cleanLong[fYrCty$Capital==1], 
-  fYrCty$cname[fYrCty$Capital==1], 
+  prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
+  fYrCty$cleanLat[fYrCty$Capital==1],
+  fYrCty$cleanLong[fYrCty$Capital==1],
+  fYrCty$cname[fYrCty$Capital==1],
   fYrCty$YearAlmanac[fYrCty$Capital==1])
 ##################################################################
 
@@ -104,11 +104,12 @@ aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
 yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
-                    'Int.mean', 'Int.max', 'CumInt.mean', 
+                    'Int.mean', 'Int.max', 'CumInt.mean',
                     'CumInt.max', 'Type.mean',
-                    'territorial.max','Conflict.area.mean',
+                    'territorial.max','territorial.mean',
+                    'Conflict.area.mean',
                     'Conflict.area.max','Conflict.area.sum',
-                    'Region.mean', 'minDist.mean', 
+                    'Region.mean', 'minDist.mean',
                     'minDist.min', 'inRadius.sum',
                     'inRadius.max', 'capDist.min',
                     'capDist.mean',
@@ -132,11 +133,11 @@ yData$nconf=numConf$X2[match(yData$cyear, numConf$X1)]
 prioMIN=NULL
 for(ii in unique(prioAC$cyear)){
   a=prioAC[ which(prioAC$cyear %in% ii), ]
-  
+
   if( nrow(a)!=1  ){
     b=a[ which(a$minDist==min(a$minDist)),  ]
   } else {  b=a  }
-  
+
   prioMIN=rbind(prioMIN,b)
 }
 

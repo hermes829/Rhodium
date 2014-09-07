@@ -7,6 +7,13 @@ if(Sys.info()["user"]=="janus829")
 	pathData='~/Dropbox/Research/Rhodium/Data/';
 	pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
 	pathTex="~/Desktop/Research/Rhodium/LaTeX"}
+
+if(Sys.info()["user"]=="s7m")
+{pathMain="~/Research/Rhodium/R";
+  pathData='~/Dropbox/Research/Rhodium/Data/';
+  pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
+  pathTex="~/Research/Rhodium/LaTeX"}
+
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
 {pathMain="/Users/Ben/Github/Rhodium/R";
@@ -52,9 +59,9 @@ lagDataSM <- function(data, country_year, country, varsTOlag, lag=1)
 {
   data[,country_year] = numSM(data[,country_year])
   data <- data[order(data[,country_year]),]
-  lagData <- apply(data[,varsTOlag], 2, 
+  lagData <- apply(data[,varsTOlag], 2,
     function(x){
-      unlist(by(x, data[,country], function(y) lagTS(y,lag) ) ) 
+      unlist(by(x, data[,country], function(y) lagTS(y,lag) ) )
     } )
   colnames(lagData) <- paste('lag', lag, '_', varsTOlag, sep='')
   cbind(data, lagData)

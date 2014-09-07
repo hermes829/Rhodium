@@ -1,51 +1,57 @@
 ####################
 if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="s7m"){source('/Users/s7m/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
 load('countryYear_ConflictData.rda')
-# keeping original version for country year dataset
-conData=yData 
+
+conVars=c('nconf', 'Int.max',
+	'Conflict.area.sum',
+	'territorial.max', 'territorial.mean',
+	'minDist.min',  'inRadius.sum', 'capDist.min',
+	'durSt1max')
+
+yData=yData[,c('cyear','year','ccode',conVars)]
 ####################
 
 ####################
 # Bring in WB data
-# WDIsearch()
-# [5,] "BX.KLT.DINV.CD.WD"    			 "Foreign direct investment, net inflows (BoP, current US$)" 
-# [12,] "AG.LND.TOTL.K2"    			 "Land area (sq. km)"
-# [76,] "NY.GDP.DEFL.KD.ZG"              "Inflation, GDP deflator (annual %)"
+# [5,] "BX.KLT.DINV.CD.WD"    		"Foreign direct investment, net inflows (BoP, current US$)"
+# [12,] "AG.LND.TOTL.K2"    		"Land area (sq. km)"
+# [76,] "NY.GDP.DEFL.KD.ZG"             "Inflation, GDP deflator (annual %)"
 # [94,] "NY.GDP.PCAP.KD"                 "GDP per capita (constant 2000 US$)"
-# [95,] "NY.GDP.PCAP.KD.ZG"              "GDP per capita growth (annual %)"
-# [86,] "NY.GDP.MKTP.KD"                 "GDP (constant 2000 US$)"  
-# [87,] "NY.GDP.MKTP.KD.ZG"              "GDP growth (annual %)"
-
-wbVars=c("BX.KLT.DINV.CD.WD","AG.LND.TOTL.K2", 
-		"NY.GDP.DEFL.KD.ZG", 
-		"NY.GDP.PCAP.KD", "NY.GDP.PCAP.KD.ZG", 
-		"NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG")
-wbData=WDI(country='all', indicator=wbVars, 
+# [95,] "NY.GDP.PCAP.KD.ZG"             "GDP per capita growth (annual %)"
+# [86,] "NY.GDP.MKTP.KD"                 "GDP (constant 2000 US$)"
+# [87,] "NY.GDP.MKTP.KD.ZG"             "GDP growth (annual %)"
+wbVars=c("BX.KLT.DINV.CD.WD","AG.LND.TOTL.K2", "NY.GDP.DEFL.KD.ZG",
+	"NY.GDP.PCAP.KD", "NY.GDP.PCAP.KD.ZG",
+	"NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG")
+wbData=WDI(country='all', indicator=wbVars,
 	start=1988, end=2010, extra=T)
+names(wbData)[4:10]=c('fdi', 'landArea', 'inflation', 'gdpCap',
+	'gdpCapGr', 'gdp', 'gdpGr')
 
 # Add cnames
-wbData$cname = countrycode(wbData$iso2c, 'iso2c', 'country.name')
+wbData$cname = toupper(countrycode(wbData$iso2c, 'iso2c', 'country.name'))
 wbData = wbData[!is.na(wbData$cname),]
 wbData$ccode = panel$ccode[match(wbData$cname, panel$cname)]
 wbData = wbData[!is.na(wbData$ccode),]
-####################
-
-####################
-# Merge into country conflict data
-# Lagging all data
-wbData$cyear = paste0(wbData$ccode, wbData$year-1)
-yData = merge(yData, wbData[,c(4:11,17,ncol(wbData))], 
-	by='cyear', all.x=T, all.y=F, suffixes=c("_l0",""))
-wbData$cyear = paste0(wbData$ccode, wbData$year+1)
-yData = merge(yData, wbData[,c(4:11,17,ncol(wbData))], 
-	by='cyear', all.x=T, all.y=F, suffixes=c("_l1","_p1"))
 wbData$cyear = paste0(wbData$ccode, wbData$year)
-yData = merge(yData, wbData[,c(4:11,17,ncol(wbData))], 
+
+# Add world gdp growth as a covariate
+gdpGrYr=summaryBy(gdpGr + gdpCapGr ~ year,
+	data=wbData, FUN=mean, na.rm=T)
+wbData = merge(wbData, gdpGrYr, by='year', all.x=T, all.y=F)
+
+# Merging in wbData
+yData = merge(yData, wbData[,c(4:10, 20:22 ) ] ,
 	by='cyear', all.x=T, all.y=F)
+
+# Create conflict area/land area var
+yData$confAreaProp = yData$Conflict.area.sum/yData$landArea
+yData$confAreaPropHi = ifelse(yData$confAreaProp>0.5, 1, 0)
 ####################
 
 ####################
@@ -72,75 +78,57 @@ polity$country=charSM(polity$country)
 polity$country[polity$country=='Congo Brazzaville']='Republic Congo'
 polity$country[polity$country=='Congo Kinshasa']='Democratic Congo'
 polity$country[polity$country=='UAE']='United Arab Emirates'
-polity$cname=countrycode(polity$country,'country.name','country.name')
+polity$cname=toupper(countrycode(polity$country,'country.name','country.name'))
 
 polity$cname[polity$cname=="Czechoslovakia"]='CZECH REPUBLIC'
 polity$cname[polity$cname=="Yugoslavia"]="SERBIA"
 polity$ccode=panel$ccode[match(polity$cname, panel$cname)]
 polity$cyear=paste0(polity$ccode,polity$year)
 
-check=names(table(polity$cyear)[table(polity$cyear)>1])
-####################
-
-####################
-# Merge select conflict vars
-conVars=c('nconf', 'Int.mean', 'Int.max', 
-	'Conflict.area.mean', 'Conflict.area.max', 'Conflict.area.sum',
-	'minDist.mean', 'minDist.min', 'inRadius.sum', 
-	'capDist.min', 'capDist.mean','durSt2max')
-cyData=conData[,c('cyear',conVars)]
+names(table(polity$cyear)[table(polity$cyear)>1])
 
 # Combining datasets
-cyData=merge(cyData, polity[,c('polity2','cyear')], 
-	by='cyear', all.x=T, all.y=F)
-cyData=merge(cyData, wbData[,c(wbVars,'cyear')],
+yData=merge(yData, polity[,c('polity2','cyear')],
 	by='cyear', all.x=T, all.y=F)
 ####################
 
 ####################
 # Imputation
 # Checks for lagdata function
-mdl=cyData
-mdl$ccodeYear=numSM(mdl$ccodeYear)
-lagVars=names(mdl)[10:16]
-noLagVars=c('polity2','nconf')
-notImpVars=setdiff(colnames(cyData),
-	c(lagVars,noLagVars,
-		'ccodeYear','CNTRY_NAME','COWCODE',
-		'GWCODE','year','cname','ccode',
-		'cnameYear' ) )
+mdl=yData
+mdl$cyear=numSM(mdl$cyear)
+lagVars=names(mdl)[4:24]
 
 # Set up lags for sbgcop
-mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+mdl=lagDataSM(data=mdl,country_year='cyear',
 	country='ccode',varsTOlag=lagVars,lag=1)
-mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+mdl=lagDataSM(data=mdl,country_year='cyear',
 	country='ccode',
 	varsTOlag=paste0('lag1_',lagVars),lag=1)
-mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+mdl=lagDataSM(data=mdl,country_year='cyear',
 	country='ccode',
 	varsTOlag=paste0('lag1_lag1_',lagVars),lag=1)
-mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+mdl=lagDataSM(data=mdl,country_year='cyear',
 	country='ccode',
 	varsTOlag=paste0('lag1_lag1_lag1_',lagVars),lag=1)
-mdl=lagDataSM(data=mdl,country_year='ccodeYear',
+mdl=lagDataSM(data=mdl,country_year='cyear',
 	country='ccode',
 	varsTOlag=paste0('lag1_lag1_lag1_lag1_',lagVars),lag=1)
-lagVarsAll=setdiff(colnames(mdl), colnames(cyData))
+lagVarsAll=setdiff(colnames(mdl), colnames(yData))
 
 # Impute missing value
 # This takes time, set it and go for a run
 sbgcopTimeSR = system.time(
   sbgData <- sbgcop.mcmc(
-  	mdl[,c('ccode','year',lagVars,lagVarsAll,noLagVars)], 
-  	nsamp=6000,seed=123456, verb=TRUE) 
+  	mdl[,c('ccode','year',lagVars,lagVarsAll)],
+  	nsamp=5000,seed=123456, verb=TRUE)
   )
 
 # Clean
 impData=data.frame(
 	cbind(
-		ccodeYear=mdl[,'ccodeYear'],
-		sbgData$Y.pmean[,c('ccode','year',lagVars,noLagVars)],
-		mdl[,notImpVars]
+		cyear=mdl[,'cyear'],
+		sbgData$Y.pmean[,c('ccode','year',lagVars)]
 	)
 )
 ####################
@@ -148,5 +136,5 @@ impData=data.frame(
 ####################
 # Save
 setwd(pathData)
-save(yData, cyData, impData, file='combinedData.rda')
+save(yData, cyData, impData, sbgcopTimeSR, file='combinedData.rda')
 ####################
