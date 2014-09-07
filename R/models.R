@@ -1,4 +1,5 @@
 if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="s7m"){source('/Users/s7m/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
@@ -6,72 +7,50 @@ setwd(pathData)
 load('combinedData.rda')
 library(plm)
 
-yData$upperincome=0
-yData$upperincome[which(yData$income_l0 %in% c('High income: OECD', 'High income: nonOECD'  ) )] = 1
-
+# Dataset to run analysis on (impData or yData)
+# modData=impData
+modData=yData
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
-yData$lnminDist.min <- log(yData$minDist.min+1)
-yData$lnminDist.mean <- log(yData$minDist.mean)
-yData$lncapDist.min <- log(yData$capDist.min)
-yData$lnArea <- log(yData$Conflict.area.mean)
-yData$lnArea_min <- log(yData$Conflict.area_min)
-yData$Int.max <- yData$Int.max-1
-yData$Int_min <- yData$Int_min-1
-yData$intPerKm <- yData$Int.max/yData$lnArea
-yData$USA <- yData$ccode==2
-yData$coldwar <- yData$year<1991
-# yData$BX.KLT.DINV.CD.WD <-
-yData$lnAG.LND.TOTL.K2_l0 = yData$AG.LND.TOTL.K2_l0
+logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 
-yData <- yData[order(yData$year),]
+# Log transforming DVs
+modData$lngdpGr_l0 = logTrans(modData$gdpGr_l0)
+modData$lngdpCapGr_l0 = logTrans(modData$gdpCapGr_l0)
+
+# Transformations for conflict variables
+modData$lnminDist.min <- log(modData$minDist.min+1)
+modData$lncapDist.min <- log(modData$capDist.min+1)
+modData$Int.max <- modData$Int.max-1
+
+# Transformations for other controls
+modData$lninflation = logTrans(modData$inflation)
+modData$lngdp = logTrans(modData$gdp)
+modData$lngdpCap = logTrans(modData$gdpCap)
+modData$democ = as.numeric(modData$polity>=6)
+
+# Useful dummies
+modData$USA <- as.numeric(modData$ccode==2)
+modData$coldwar <- as.numeric(modData$year<1991)
+
+modData <- modData[order(modData$year),]
 ###################################################################
-
-
-## MODELS FOR GDP GROWTH PER CAPITA (ANNUAL %)
-###################################################################
-# model1 <- lmer(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + (1|ccode) + (1|year), data=yData)
-# plot(density(yData$NY.GDP.PCAP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth per Capita (Annual %)", main="")
-# summary(model1)
-# model1FE <- lm(NY.GDP.PCAP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
-# summary(model1FE)
-
-# resid <- resid(model1)
-# resid <- resid+(model1@frame$lnminDist.min*1.3566)
-# par(mar=c(5.1,4.1,2.1,2.1))
-# plot(model1@frame$lnminDist.min,resid, las=1, ylab="Model Residuals without Distance Measure", xlab="Distance from Major City")
-# abline(h=0,lty=2,lwd=3)
-# abline(lm(resid~model1@frame$lnminDist.min),lty=1,col="red",lwd=3)
-# plot(resid(model1))
-
-# model2 <- lmer(NY.GDP.PCAP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=yData)
-# summary(model2)
-# plot(resid(model2))
-# This model is weird
-###################################################################
-
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
-# plot(density(yData$NY.GDP.MKTP.KD.ZG_l0,na.rm=T), frame=F, las=1, ylab="", xlab="GDP Growth (Annual %)", main="")
-# names(yData)
-# yData$GDP_transform_l0 <- sqrt(abs(yData$NY.GDP.MKTP.KD.ZG_l0))
-# yData$GDP_transform_l0 <- yData$GDP_transform_l0 * ifelse(yData$NY.GDP.MKTP.KD.ZG_l0<0,-1,1)
-# plot(density(yData$GDP_transform_l0,na.rm=T))
-
 model3 <- lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea +
+  gdpGr_l0 ~ upperincome + Int.max + confAreaPropHi +
   lnminDist.min + territorial.max +
-	durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
-	+ (1|ccode) + (1|year), data=yData)
+	durSt1max + lninflation
+	+ (1|ccode), data=modData)
 summary(model3)
 
 model4 <- lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int_min + lnArea_min +
+  lngdpGr_l0 ~ upperincome + Int.max + lnArea_min +
   lnminDist.min + territorial.max +
   durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
-  + (1|ccode) + (1|year), data=yData)
+  + (1|ccode) + (1|year), data=modData)
 summary(model4)
 
 model5 = lmer(
@@ -79,7 +58,7 @@ model5 = lmer(
   NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
   Int_min + lnArea_min + territorial.max + durSt1max +
   lnminDist.min
-  + (1|ccode) + (1|year), data=yData)
+  + (1|ccode) + (1|year), data=modData)
 summary(model5)
 
 model6 = lmer(
@@ -87,10 +66,10 @@ model6 = lmer(
   NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
   Int.mean + lnArea + territorial.max + durSt1max +
   lnminDist.mean
-  + (1|ccode) + (1|year), data=yData)
+  + (1|ccode) + (1|year), data=modData)
 summary(model6)
 
-# model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=yData)
+# model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=modData)
 # summary(model3FE)
 
 
@@ -101,7 +80,7 @@ summary(model6)
 # abline(h=0,lty=2,lwd=3)
 # abline(lm(resid~model3@frame$lnminDist.min),lty=1,col="red",lwd=3)
 
-# model4 <- lmer(NY.GDP.MKTP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=yData)
+# model4 <- lmer(NY.GDP.MKTP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=modData)
 # summary(model4)
 # plot(resid(model4))
 ###################################################################
@@ -142,7 +121,7 @@ temp
 # Simulations
 coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min',
 	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
-data=na.omit(yData[,coefs])
+data=na.omit(modData[,coefs])
 results=model3
 estimates = results@fixef
 varcov = vcov(results)
@@ -152,7 +131,7 @@ dfResid = nrow(data)-length(results@fixef) - length(results@ranef) + 1
 # error = sqrt(RSS/dfResid)
 error=0 # Set to zero to get rid of fundamental uncertainty
 toTest = 'lnminDist.min'
-tRange=seq(quantile(yData[,toTest])[1],quantile(yData[,toTest])[length(quantile(yData[,toTest]))], 0.1)
+tRange=seq(quantile(modData[,toTest])[1],quantile(modData[,toTest])[length(quantile(modData[,toTest]))], 0.1)
 
 temp = ggsimplot(sims=10000, simData=data, vars=coefs,
   vi=toTest, vRange=tRange, ostat=median,

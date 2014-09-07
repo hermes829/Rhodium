@@ -38,7 +38,11 @@ wbData$cname = toupper(countrycode(wbData$iso2c, 'iso2c', 'country.name'))
 wbData = wbData[!is.na(wbData$cname),]
 wbData$ccode = panel$ccode[match(wbData$cname, panel$cname)]
 wbData = wbData[!is.na(wbData$ccode),]
-wbData$cyear = paste0(wbData$ccode, wbData$year)
+
+# Add upperincome dummy
+wbData$upperincome=0
+wbData$upperincome[which(wbData$income %in%
+	c('High income: OECD', 'High income: nonOECD'  ) )] = 1
 
 # Add world gdp growth as a covariate
 gdpGrYr=summaryBy(gdpGr + gdpCapGr ~ year,
@@ -46,7 +50,13 @@ gdpGrYr=summaryBy(gdpGr + gdpCapGr ~ year,
 wbData = merge(wbData, gdpGrYr, by='year', all.x=T, all.y=F)
 
 # Merging in wbData
-yData = merge(yData, wbData[,c(4:10, 20:22 ) ] ,
+# DVs
+wbData$cyear = paste0(wbData$ccode, wbData$year-1)
+yData = merge(yData, wbData[,c('cyear', 'gdpGr', 'gdpCapGr')],
+	by='cyear', all.x=T, all.y=F )
+colnames(yData)[13:14]=paste0(colnames(yData)[13:14], '_l0')
+wbData$cyear = paste0(wbData$ccode, wbData$year)
+yData = merge(yData, wbData[,c(4:7,9, 20:23 ) ] ,
 	by='cyear', all.x=T, all.y=F)
 
 # Create conflict area/land area var
@@ -97,7 +107,7 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 # Checks for lagdata function
 mdl=yData
 mdl$cyear=numSM(mdl$cyear)
-lagVars=names(mdl)[4:24]
+lagVars=names(mdl)[4:25]
 
 # Set up lags for sbgcop
 mdl=lagDataSM(data=mdl,country_year='cyear',
@@ -136,5 +146,5 @@ impData=data.frame(
 ####################
 # Save
 setwd(pathData)
-save(yData, cyData, impData, sbgcopTimeSR, file='combinedData.rda')
+save(yData, impData, sbgcopTimeSR, file='combinedData.rda')
 ####################
