@@ -8,8 +8,8 @@ load('combinedData.rda')
 library(plm)
 
 # Dataset to run analysis on (impData or yData)
-# modData=impData
 modData=yData
+# modData=impData
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
@@ -33,12 +33,19 @@ modData$democ = as.numeric(modData$polity>=6)
 # Useful dummies
 modData$USA <- as.numeric(modData$ccode==2)
 modData$coldwar <- as.numeric(modData$year<1991)
-
-modData <- modData[order(modData$year),]
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
+m1 = lmer( lngdpGr_l0 ~
+  lnminDist.min
+  + Int.max + territorial.mean + durSt1max + confAreaPropHi
+  + lninflation + upperincome + gdpGr.mean
+  + democ
+  + (1|ccode)
+  , data = modData )
+summary(m1)
+
 model3 <- lmer(
   gdpGr_l0 ~ upperincome + Int.max + confAreaPropHi +
   lnminDist.min + territorial.max +

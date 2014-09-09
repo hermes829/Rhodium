@@ -5,7 +5,17 @@ rm(list=ls())
 if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
  pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
- pathFunctions="~/Desktop/Prog Notes/R Functions"}
+ pathFunctions="~/Desktop/Prog Notes/R Functions";
+ pathData="~/Dropbox/Research/Rhodium/Data"
+}
+
+ if(Sys.info()["user"]=="s7m")
+{pathMain="~/Research/Rhodium/R";
+ pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
+ pathFunctions="~/Research/Rhodium/R";
+ pathData="~/Dropbox/Research/Rhodium/Data"
+}
+
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
 {pathMain="C:/Users/Ben/Dropbox/Rhodium/R";
