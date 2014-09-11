@@ -23,6 +23,7 @@ modData$lngdpCapGr_l0 = logTrans(modData$gdpCapGr_l0)
 modData$lnminDist.min <- log(modData$minDist.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$Int.max <- modData$Int.max-1
+modData$lnConflict.area.mean = log(modData$Conflict.area.mean)
 
 # Transformations for other controls
 modData$lninflation = logTrans(modData$inflation)
@@ -37,59 +38,21 @@ modData$coldwar <- as.numeric(modData$year<1991)
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
-m1 = lmer( lngdpGr_l0 ~
-  lnminDist.min
-  + Int.max + territorial.mean + durSt1max + confAreaPropHi
-  + lninflation + upperincome + gdpGr.mean
-  + democ
-  + (1|ccode)
-  , data = modData )
-summary(m1)
+mCity = lmer( gdpGr_l0 ~ 
+  upperincome + Int.max + Conflict.area.sum + 
+  lnminDist.min + territorial.max + durSt1max + 
+  inflation_l1 + landArea +
+  (1|ccode), data = modData
+ )
+summary(mCity)
 
-model3 <- lmer(
-  gdpGr_l0 ~ upperincome + Int.max + confAreaPropHi +
-  lnminDist.min + territorial.max +
-	durSt1max + lninflation
-	+ (1|ccode), data=modData)
-summary(model3)
-
-model4 <- lmer(
-  lngdpGr_l0 ~ upperincome + Int.max + lnArea_min +
-  lnminDist.min + territorial.max +
-  durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0
-  + (1|ccode) + (1|year), data=modData)
-summary(model4)
-
-model5 = lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~
-  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
-  Int_min + lnArea_min + territorial.max + durSt1max +
-  lnminDist.min
-  + (1|ccode) + (1|year), data=modData)
-summary(model5)
-
-model6 = lmer(
-  NY.GDP.MKTP.KD.ZG_l0 ~
-  NY.GDP.MKTP.KD.ZG_l1 + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 +
-  Int.mean + lnArea + territorial.max + durSt1max +
-  lnminDist.mean
-  + (1|ccode) + (1|year), data=modData)
-summary(model6)
-
-# model3FE <- lm(NY.GDP.MKTP.KD.ZG_l0 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + durSt1max + NY.GDP.DEFL.KD.ZG_l1 + lnAG.LND.TOTL.K2_l0 + as.factor(ccode), data=modData)
-# summary(model3FE)
-
-
-# resid <- resid(model3)
-# resid <- resid+(model3@frame$lnminDist.min*1.3566)
-# par(mar=c(5.1,4.1,2.1,2.1))
-# plot(model3@frame$lnminDist.min,resid, las=1, ylab="Model Residuals without Distance Measure", xlab="Distance from Major City")
-# abline(h=0,lty=2,lwd=3)
-# abline(lm(resid~model3@frame$lnminDist.min),lty=1,col="red",lwd=3)
-
-# model4 <- lmer(NY.GDP.MKTP.KD.ZG_l1 ~ upperincome + Int.max + lnArea + lnminDist.min + territorial.max + Int.max*lnminDist.min + (1|ccode), data=modData)
-# summary(model4)
-# plot(resid(model4))
+mCap = lmer( gdpGr_l0 ~ 
+  upperincome + Int.max + Conflict.area.sum + 
+  lncapDist.min + territorial.max + durSt1max + 
+  inflation_l1 + landArea +
+  (1|ccode), data = modData
+ )
+summary(mCap)
 ###################################################################
 
 ###################################################################

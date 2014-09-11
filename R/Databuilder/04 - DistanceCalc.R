@@ -155,3 +155,23 @@ yData=cbind(yData, prioMIN)
 setwd(pathData)
 save(yData, file='countryYear_ConflictData.rda')
 ##################################################################
+
+##################################################################
+# Bring in WB data
+# [5,] "BX.KLT.DINV.CD.WD"        "Foreign direct investment, net inflows (BoP, current US$)"
+# [12,] "AG.LND.TOTL.K2"        "Land area (sq. km)"
+# [76,] "NY.GDP.DEFL.KD.ZG"             "Inflation, GDP deflator (annual %)"
+# [94,] "NY.GDP.PCAP.KD"                 "GDP per capita (constant 2000 US$)"
+# [95,] "NY.GDP.PCAP.KD.ZG"             "GDP per capita growth (annual %)"
+# [86,] "NY.GDP.MKTP.KD"                 "GDP (constant 2000 US$)"
+# [87,] "NY.GDP.MKTP.KD.ZG"             "GDP growth (annual %)"
+wbVars=c("BX.KLT.DINV.CD.WD","AG.LND.TOTL.K2", "NY.GDP.DEFL.KD.ZG",
+  "NY.GDP.PCAP.KD", "NY.GDP.PCAP.KD.ZG",
+  "NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG")
+wbData=WDI(country='all', indicator=wbVars,
+  start=1988, end=2010, extra=T)
+names(wbData)[4:10]=c('fdi', 'landArea', 'inflation', 'gdpCap',
+  'gdpCapGr', 'gdp', 'gdpGr')
+setwd(pathData)
+save(wbData, file='wbData.rda')
+##################################################################
