@@ -32,8 +32,8 @@ modData$democ = as.numeric(modData$polity>=6)
 modForm=function(x){
   formula( paste0('lngdpGr_l0 ~', x, '+ 
   Int.max + territorial.max + durSt1max + confAreaPropHi +
-  upperincome + lninflation_l1 + gdpGr.mean_l0 +
-  democ + (1|ccode)' ) )
+  upperincome + lninflation_l1 + democ +
+  gdpGr.mean_l0 + (1|ccode)' ) )
 }
 ctyForm=modForm('lnminDist.min')
 capForm=modForm('lncapDist.min')
@@ -44,6 +44,75 @@ mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 # Basic model diags
 summary(modData$lngdpGr_l0); rmse(mCity); rmse(mCap)
 ###################################################################
+
+###################################################################
+# Coefficient Plots
+setwd(pathMain)
+source('vizResults.R')
+
+coefs=na.omit(rownames(summary(mCity)$'coefficients')[2:100])
+vnames=c('Ln(Min. City Dist.)$_{t-1}$', 
+  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}',
+  'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
+  'World GDP Growth$_{t}$')
+temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
+    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    specY=TRUE, ggylims=c(-.3,.3), ggybreaks=seq(-.3,.3,.2),
+    colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+temp
+setwd(pathTex)
+# tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
+temp
+# dev.off()
+
+coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
+vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', 
+  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}',
+  'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
+  'World GDP Growth$_{t}$')
+temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
+    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    specY=TRUE, ggylims=c(-.3,.3), ggybreaks=seq(-.3,.3,.2),
+    colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+temp
+setwd(pathTex)
+# tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
+temp
+# dev.off()
+###################################################################
+
+###################################################################
+# Simulations
+coefs=na.omit(rownames(summary(mCity)$'coefficients')[2:100])
+toTest = 'lnminDist.min'; xTitle="Ln(Min. City Dist.)$_{t}$"; results=mCity
+
+coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
+toTest = 'lncapDist.min'; xTitle="Ln(Min. Cap Dist.)$_{t}$"; results=mCap
+
+data=na.omit(modData[,coefs])
+varcov = vcov(results)
+estimates = results@beta; names(estimates)=rownames(varcov)
+RSS = sum(resid(results)^2)
+dfResid = nrow(data)-length(results@beta) - length(results@u) + 1
+tRange=seq(min(modData[,toTest]), max(modData[,toTest]), .1)
+
+temp = ggsimplot(sims=10000, simData=data, vars=coefs,
+  vi=toTest, vRange=tRange, ostat=median,
+  betas=estimates, vcov=varcov, sigma=0, intercept=TRUE,
+  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel=xTitle,
+  specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
+  # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
+  )
+temp
+setwd(pathTex)
+# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
+# tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
+temp
+# dev.off()
+###################################################################
+
+
+#### Begin Robustness checks
 
 ###################################################################
 # Divide intro training and test
@@ -98,56 +167,4 @@ for(f in 1:nF ){
 
 crossResults[[1]][which(rownames(crossResults[[1]])%in%'lnminDist.min'),]
 crossResults[[2]][which(rownames(crossResults[[2]])%in%'lncapDist.min'),]
-###################################################################
-
-###################################################################
-# Coefficient Plots
-setwd(pathMain)
-source('vizResults.R')
-
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min',
-	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
-
-vnames=c('Upper Income', 'Conflict Intensity$_{t}$', 'Ln(Conflict Area)$_{t}$', 'Ln(Min. Conflict Dist.)$_{t}$',
-	'Conflict Type$_{t}$', 'Conflict Duration$_{t}$', 'Inflation$_{t-1}$', 'Ln(Land Area)')
-
-temp <- ggcoefplot(coefData=summary(model3)@coefs,
-    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-7,5), ggybreaks=seq(-7,5,2),
-    colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-temp
-setwd(pathTex)
-# tikz(file='mod3CoefPlot.tex', width=4, height=4, standAlone=F)
-temp
-# dev.off()
-###################################################################
-
-###################################################################
-# Simulations
-coefs=c('upperincome', 'Int.max', 'lnArea', 'lnminDist.min',
-	'territorial.max', 'durSt1max', 'NY.GDP.DEFL.KD.ZG_l1', 'lnAG.LND.TOTL.K2_l0')
-data=na.omit(modData[,coefs])
-results=model3
-estimates = results@fixef
-varcov = vcov(results)
-rownames(varcov) = names(estimates); colnames(varcov) = names(estimates)
-RSS = sum(results@resid^2)
-dfResid = nrow(data)-length(results@fixef) - length(results@ranef) + 1
-# error = sqrt(RSS/dfResid)
-error=0 # Set to zero to get rid of fundamental uncertainty
-toTest = 'lnminDist.min'
-tRange=seq(quantile(modData[,toTest])[1],quantile(modData[,toTest])[length(quantile(modData[,toTest]))], 0.1)
-
-temp = ggsimplot(sims=10000, simData=data, vars=coefs,
-  vi=toTest, vRange=tRange, ostat=median,
-  betas=estimates, vcov=varcov, sigma=error, intercept=TRUE,
-  ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. Conflict Dist.)$_{t}$",
-  specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
-  # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
-  )
-temp
-setwd(pathTex)
-# tikz(file='mod3SimPlot.tex', width=6, height=4, standAlone=F)
-temp
-# dev.off()
 ###################################################################
