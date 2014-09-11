@@ -1,11 +1,10 @@
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
-if(Sys.info()["user"]=="s7m"){source('/Users/s7m/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
 load('combinedData.rda')
-library(plm)
 
 # Dataset to run analysis on (impData or yData)
 modData=yData
@@ -17,23 +16,15 @@ logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 
 # Log transforming DVs
 modData$lngdpGr_l0 = logTrans(modData$gdpGr_l0)
-modData$lngdpCapGr_l0 = logTrans(modData$gdpCapGr_l0)
 
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$Int.max <- modData$Int.max-1
-modData$lnConflict.area.sum = log(modData$Conflict.area.sum)
 
 # Transformations for other controls
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
-modData$lngdp = logTrans(modData$gdp)
-modData$lngdpCap = logTrans(modData$gdpCap)
 modData$democ = as.numeric(modData$polity>=6)
-
-# Useful dummies
-modData$USA <- as.numeric(modData$ccode==2)
-modData$coldwar <- as.numeric(modData$year<1991)
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
@@ -48,7 +39,6 @@ ctyForm=modForm('lnminDist.min')
 capForm=modForm('lncapDist.min')
 
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
-
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 
 # Basic model diags
@@ -81,8 +71,33 @@ outSampPerf(mCityTr); outSampPerf(mCapTr)
 ###################################################################
 
 ###################################################################
-# Crossval
+# Crossval: Testing for heterogeneous effects across subsets
+vars=unique(na.omit(c( 'ccode','year','lngdpGr_l0',
+  rownames(summary(mCity)$'coefficients')[2:100],
+  rownames(summary(mCap)$'coefficients')[2:100] ) ) )
+crossData=na.omit( modData[,vars] )
 
+cntries=unique(modData$ccode)
+set.seed(543543)
+nF=8
+folds=data.frame(
+  cbind(ccode=cntries, fold=sample(1:nF, length(cntries), replace=TRUE) ) )
+
+crossData$fold=folds$fold[match(crossData$ccode, folds$ccode)]
+table(crossData$fold)
+
+# Runnign models
+crossResults=list(NULL, NULL)
+for(f in 1:nF ){
+  cData=crossData[which(crossData$fold!=f), ]
+  ctyCR=cbind(summary(lmer(ctyForm, cData))$'coefficients',fold=f)
+  capCR=cbind(summary(lmer(capForm, cData))$'coefficients',fold=f)
+  crossResults[[1]]=rbind(crossResults[[1]],  ctyCR)
+  crossResults[[2]]=rbind(crossResults[[2]],  capCR)
+}
+
+crossResults[[1]][which(rownames(crossResults[[1]])%in%'lnminDist.min'),]
+crossResults[[2]][which(rownames(crossResults[[2]])%in%'lncapDist.min'),]
 ###################################################################
 
 ###################################################################
