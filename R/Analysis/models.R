@@ -23,10 +23,10 @@ modData$lngdpCapGr_l0 = logTrans(modData$gdpCapGr_l0)
 modData$lnminDist.min <- log(modData$minDist.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$Int.max <- modData$Int.max-1
-modData$lnConflict.area.mean = log(modData$Conflict.area.mean)
+modData$lnConflict.area.sum = log(modData$Conflict.area.sum)
 
 # Transformations for other controls
-modData$lninflation = logTrans(modData$inflation)
+modData$lninflation_l1 = logTrans(modData$inflation_l1)
 modData$lngdp = logTrans(modData$gdp)
 modData$lngdpCap = logTrans(modData$gdpCap)
 modData$democ = as.numeric(modData$polity>=6)
@@ -38,29 +38,31 @@ modData$coldwar <- as.numeric(modData$year<1991)
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
-mCity = lmer( gdpGr_l0 ~ 
-  upperincome + Int.max + Conflict.area.sum + 
-  lnminDist.min + territorial.max + durSt1max + 
-  inflation_l1 + landArea +
+mCity = lmer( lngdpGr_l0 ~ 
+  lnminDist.min +
+  Int.max + territorial.max + durSt1max + 
+  # lnConflict.area.sum + log(landArea) +  
+  confAreaPropHi +
+  upperincome + lninflation_l1 + gdpGr.mean_l0 +
+  democ + 
   (1|ccode), data = modData
  )
 summary(mCity)
 
-mCap = lmer( gdpGr_l0 ~ 
-  upperincome + Int.max + Conflict.area.sum + 
-  lncapDist.min + territorial.max + durSt1max + 
-  inflation_l1 + landArea +
+mCap = lmer( lngdpGr_l0 ~ 
+  lncapDist.min +
+  Int.max + territorial.max + durSt1max + 
+  # lnConflict.area.sum + log(landArea) +  
+  confAreaPropHi +  
+  upperincome + lninflation_l1 + gdpGr.mean_l0 +
+  democ + 
   (1|ccode), data = modData
  )
 summary(mCap)
+summary(modData$lngdpGr_l0); rmse(mCity); rmse(mCap)
 ###################################################################
 
 ###################################################################
-# Performance
-
-# RMSE
-rmse(model3); rmse(model4); rmse(model5); rmse(model6)
-
 # Divide intro training and test
 
 ###################################################################
