@@ -38,32 +38,50 @@ modData$coldwar <- as.numeric(modData$year<1991)
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
-mCity = lmer( lngdpGr_l0 ~ 
-  lnminDist.min +
-  Int.max + territorial.max + durSt1max + 
-  # lnConflict.area.sum + log(landArea) +  
-  confAreaPropHi +
+modForm=function(x){
+  formula( paste0('lngdpGr_l0 ~', x, '+ 
+  Int.max + territorial.max + durSt1max + confAreaPropHi +
   upperincome + lninflation_l1 + gdpGr.mean_l0 +
-  democ + 
-  (1|ccode), data = modData
- )
-summary(mCity)
+  democ + (1|ccode)' ) )
+}
+ctyForm=modForm('lnminDist.min')
+capForm=modForm('lncapDist.min')
 
-mCap = lmer( lngdpGr_l0 ~ 
-  lncapDist.min +
-  Int.max + territorial.max + durSt1max + 
-  # lnConflict.area.sum + log(landArea) +  
-  confAreaPropHi +  
-  upperincome + lninflation_l1 + gdpGr.mean_l0 +
-  democ + 
-  (1|ccode), data = modData
- )
-summary(mCap)
+mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
+
+mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
+
+# Basic model diags
 summary(modData$lngdpGr_l0); rmse(mCity); rmse(mCap)
 ###################################################################
 
 ###################################################################
 # Divide intro training and test
+train=modData[which(modData$year<=2000),]
+test=modData[which(modData$year>2000),]
+
+# Run model on train
+mCityTr=lmer(ctyForm, data=train)
+mCapTr=lmer(capForm, data=train)
+
+# Performance stats on test
+outSampPerf = function(mod){
+  res=summary(mod)$'coefficients'
+  tData=na.omit(
+    cbind(1, test[,c('lngdpGr_l0', rownames(res)[2:nrow(res)] ) ] ) 
+    )
+  y=tData[,2]; tData=data.matrix(tData[,c(1,3:ncol(tData))])
+  tY = tData %*% cbind(res[,1])
+  diff=y-tY
+  return( sqrt(mean(diff^2)) )
+}
+
+rmse(mCityTr); rmse(mCapTr)
+outSampPerf(mCityTr); outSampPerf(mCapTr)
+###################################################################
+
+###################################################################
+# Crossval
 
 ###################################################################
 
