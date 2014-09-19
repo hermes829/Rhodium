@@ -2634,6 +2634,18 @@
   date-modified = {2008-10-08 14:06:05 -0700}
 }
 
+@ARTICLE{begg:1999,
+  author = {Iain Begg},
+  title = {Cities and Competitiveness},
+  journal = {Urban Studies},
+  year = {1999},
+  volume = {36},
+  pages = {795-809},
+  number = {5-6},
+  owner = {Ben},
+  timestamp = {2014.09.18}
+}
+
 @BOOK{beissinger:2002,
   title = {Nationalist Mobilization and the Collapse of the Soviet State},
   publisher = {Cambridge University Press},
@@ -2644,10 +2656,11 @@
   date-modified = {2013-05-28 21:52:51 +0000}
 }
 
-@BOOK{beittelmexico,
+@BOOK{beittel:2011,
   title = {Mexico’s Drug Trafficking Organizations: Source and Scope of the
 	Rising Violence},
   publisher = {DIANE Publishing},
+  year = {2011},
   author = {Beittel, J.S.},
   isbn = {9781437980875},
   url = {http://books.google.com/books?id=Z38r6HDRDPsC}
@@ -7341,6 +7354,18 @@
   number = {1},
   date-added = {2012-10-05 15:33:20 +0000},
   date-modified = {2013-05-30 16:08:07 +0000}
+}
+
+@ARTICLE{ciccone:hall:1996,
+  author = {Antonio Ciccone and Robert E. Hall},
+  title = {Productivity and the Density of Economic Activity},
+  journal = {The American Economic Review},
+  year = {1996},
+  volume = {86},
+  pages = {54-70},
+  number = {1},
+  owner = {Ben},
+  timestamp = {2014.09.18}
 }
 
 @ARTICLE{clare:danilovic:2010,
@@ -13546,6 +13571,17 @@
   issn = {0022-0027}
 }
 
+@ARTICLE{glaeser:shapiro:2002,
+  author = {Edward Glaeser and Jesse M. Shapiro},
+  title = {Cities and Warfare: The Impact of Terrorism on Urban Form},
+  journal = {Journal of Urban Economics},
+  year = {2002},
+  volume = {51},
+  pages = {205-224},
+  owner = {Ben},
+  timestamp = {2014.09.18}
+}
+
 @ARTICLE{glassmyer:sambanis:2008,
   author = {Glassmyer, Katherine and Sambanis, Nicholas},
   title = {{Rebel--Military Integration and Civil War Termination}},
@@ -18053,6 +18089,24 @@
   year = {2011},
   date-added = {2013-09-06 18:27:29 +0000},
   date-modified = {2013-09-06 18:27:29 +0000}
+}
+
+@BOOK{jacobs:1984,
+  title = {Cities and the Wealth of Nations: Principles of Economic Life},
+  publisher = {Random House},
+  year = {1984},
+  author = {Jane Jacobs},
+  owner = {Ben},
+  timestamp = {2014.09.18}
+}
+
+@BOOK{jacobs:1969,
+  title = {The Economy of Cities},
+  publisher = {Random House},
+  year = {1969},
+  author = {Jane Jacobs},
+  owner = {Ben},
+  timestamp = {2014.09.18}
 }
 
 @ARTICLE{jaggers:gurr:1995,
@@ -27993,6 +28047,18 @@
   mendeley-tags = {conflict recurrence}
 }
 
+@ARTICLE{quigley:1998,
+  author = {John M. Quigley},
+  title = {Urban Diversity and Economic Growth},
+  journal = {Journal of Economic Perspectives},
+  year = {1998},
+  volume = {12},
+  pages = {127-138},
+  number = {2},
+  owner = {Ben},
+  timestamp = {2014.09.18}
+}
+
 @ARTICLE{quinlivan:1999,
   author = {Quinlivan, J.T.},
   title = {Coup-proofing: Its practice and consequences in the Middle East},
@@ -29180,6 +29246,17 @@
   pages = {371-94},
   date-added = {2012-10-05 15:33:20 +0000},
   date-modified = {2013-05-24 15:41:20 -0500}
+}
+
+@ARTICLE{lucas:1988,
+  author = {Robert E. Lucas, Jr.},
+  title = {On the Mechanics of Economic Development},
+  journal = {Journal of Monetary Economics},
+  year = {1988},
+  volume = {22},
+  pages = {2-42},
+  owner = {Ben},
+  timestamp = {2014.09.18}
 }
 
 @CONFERENCE{franzese:hays:2006,
