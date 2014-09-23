@@ -4,7 +4,7 @@ ggcoefplot = function(coefData, vars, varNames, estimates, serrors,
 	Noylabel=FALSE, coordFlip=TRUE, 
 	specY=FALSE, ggylims=NULL, ggybreaks=NULL, revVar=TRUE,
 	facet=FALSE, facetName=NULL, facetDim=NULL, facetBreaks=NULL, facetLabs=NULL,
-	facetColor=FALSE, colorGrey=FALSE, grSTA=0.8, grEND=0.2){
+	facetColor=FALSE, colorGrey=FALSE, grSTA=0.8, grEND=0.2, xAngle=45){
   
   # Calculate confidence intervals
   relevRows = which(rownames(coefData) %in% vars)
@@ -78,7 +78,7 @@ ggcoefplot = function(coefData, vars, varNames, estimates, serrors,
   coefp = coefp + scale_x_discrete(breaks=facetBreaks, labels=facetLabs)
   if(Noylabel){coefp = coefp + theme(axis.text.y = element_blank())}
   if(coordFlip){coefp = coefp + coord_flip()} else {
-  	coefp = coefp + theme(axis.text.x=element_text(angle=45, hjust=1)) }
+  	coefp = coefp + theme(axis.text.x=element_text(angle=xAngle, hjust=1)) }
   coefp = coefp + theme(legend.position='none', legend.title=element_blank(),
     axis.ticks=element_blank(), panel.grid.major=element_blank(),
     panel.grid.minor=element_blank())
@@ -97,7 +97,7 @@ ggcoefplot = function(coefData, vars, varNames, estimates, serrors,
 	  coefp = coefp + xlab("") + ylab("") 
 	  if(Noylabel){coefp = coefp + theme(axis.text.y = element_blank())}
 	  if(coordFlip){coefp = coefp + coord_flip()} else {
-	  	coefp = coefp + theme(axis.text.x=element_text(angle=45, hjust=1)) }
+	  	coefp = coefp + theme(axis.text.x=element_text(angle=xAngle, hjust=1)) }
 	  coefp = coefp + theme(legend.position='none', legend.title=element_blank(),
 	    axis.ticks=element_blank(), panel.grid.major=element_blank(),
 	    panel.grid.minor=element_blank(), panel.border = element_blank(),

@@ -52,7 +52,7 @@ source('vizResults.R')
 
 coefs=na.omit(rownames(summary(mCity)$'coefficients')[2:100])
 vnames=c('Ln(Min. City Dist.)$_{t-1}$', 
-  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}',
+  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
@@ -67,7 +67,7 @@ temp
 
 coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
 vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', 
-  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}',
+  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
@@ -76,7 +76,7 @@ temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
-# tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
+# tikz(file='mCapCoefPlot.tex', width=4, height=4, standAlone=F)
 temp
 # dev.off()
 ###################################################################
@@ -137,6 +137,27 @@ outSampPerf = function(mod){
 
 rmse(mCityTr); rmse(mCapTr)
 outSampPerf(mCityTr); outSampPerf(mCapTr)
+
+ggRMSE=data.frame(rbind(
+  cbind(var="Ln(Min. City Dist.)$_{t}$", type='In-Sample \n n=375 \n N=66', stat=rmse(mCityTr) ),
+  cbind("Ln(Min. City Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', outSampPerf(mCityTr)),
+  cbind("Ln(Min. Cap Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', rmse(mCapTr) ),
+  cbind("Ln(Min. Cap Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', outSampPerf(mCapTr))
+  ))
+ggRMSE$stat=numSM(ggRMSE$stat)
+
+# Bar plot
+temp=ggplot(ggRMSE, aes(x=type, y=stat))
+temp=temp + geom_bar(stat='identity') + ylab('RMSE') + xlab('')
+temp=temp + facet_wrap(~var)
+temp=temp + theme(legend.position='none', legend.title=element_blank(),
+      axis.ticks=element_blank(), panel.grid.major=element_blank(),
+      panel.grid.minor=element_blank())
+temp
+setwd(pathTex)
+tikz(file='rmseInOut.tex', width=6, height=4, standAlone=F)
+temp
+dev.off()
 ###################################################################
 
 ###################################################################
@@ -165,6 +186,22 @@ for(f in 1:nF ){
   crossResults[[2]]=rbind(crossResults[[2]],  capCR)
 }
 
-crossResults[[1]][which(rownames(crossResults[[1]])%in%'lnminDist.min'),]
-crossResults[[2]][which(rownames(crossResults[[2]])%in%'lncapDist.min'),]
+# Plotting cross-validation to test model heterogeneity
+ccityCross=rbind(
+  crossResults[[1]][which(rownames(crossResults[[1]])%in%'lnminDist.min'),],
+  crossResults[[2]][which(rownames(crossResults[[2]])%in%'lncapDist.min'),])
+ccCoefs=c('lncapDist.min', 'lnminDist.min')
+ccNames=c('Ln(Min. Capital Dist.)$_{t-1}$','Ln(Min. City Dist.)$_{t-1}$')
+
+temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames, 
+  Noylabel=FALSE, coordFlip=FALSE, revVar=TRUE, xAngle=45,
+  facet=TRUE, facetName='fold', facetBreaks=1:nF, 
+  facetLabs=paste0('Fold ',LETTERS[1:nF]),
+  colorGrey=TRUE, , grSTA=0.4, grEND=0.4
+  )
+temp  
+setwd(pathTex)
+# tikz(file='crossValPlot.tex', width=6, height=4, standAlone=F)
+# temp
+# dev.off()
 ###################################################################

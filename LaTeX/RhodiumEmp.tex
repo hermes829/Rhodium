@@ -3,9 +3,11 @@
 
 \subsection{Conflict and City Data}
 
-To measure economic performance we use annual percent change in GDP, which we collect from the World Development Indicators at the World Bank. We choose to focus on year over change in GDP because we expect conflicts proximate to major cities to lead to reductions in growth.\footnote{Alternative measures of economic performance would have included changes in FDI inflows or changes in GDP per capita, in using either of these measures are results remain relatively the same.} Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
+To measure economic performance we use logged, annual percent change in GDP, which we collect from the World Development Indicators at the World Bank. We choose to focus on year over change in GDP because we expect conflicts proximate to major cities to lead to reductions in growth.\footnote{Alternative measures of economic performance would have included changes in FDI inflows or changes in GDP per capita, in using either of these measures our results remain relatively the same.} Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
 
 Our key independent variable on the location of conflicts come from the PRIO Conflict Site Dataset. This dataset contains geo-referenced armed conflict events from 1989 to 2008.\footnote{We only include examine the effect of internal armed conflicts.} A downside of this geo-referenced database is that every conflict-year is assigned a circular conflict zone, which leads to the dataset reporting that the conflict is covering more territory than actually affected. Crafting a more specfic approach to the spread of conflict would, however, eliminate important cases from our analysis. In total this dataset provides us with almost 800 geo-referenced conflict-year cases. 
+
+% Might want to drop this stuff about getting city data from the almanac
 
 The key theory that we advance here is that the effects of conflict on economic performance are conditional on the proximity of those conflicts to major city centers. Thus a crucial part of our work here involved determining major city centers by year. The only data source we found with enough geographical and temporal coverage on major cities was The World Alamanac. To gather data from these textbooks we hired several undergraduate students to identify the major cities listed for each country within a yearly edition of the Almanac from 1989 to 2008. Major cities are classified as those that have relatively large shares of a country's population and/or are economic centers. Typically, the Alamanacs listed at least three major cities for each country and year from 1989 to 2008. After we had gathered a yearly list of major cities by country, we determined the centroid location of each city using Google's Geocoding API. 
 
@@ -60,22 +62,54 @@ We depict the results of our model in figure \ref{fig:coefPlot}. Most of the fin
 
 Most importantly, we find strong support for our key hypothesis relating the proximity of a conflict to lower levels of GDP growth. The fact that the logged, minimum conflict distance variable is positive indicates that conflicts closer to major cities have an adverse effect on economic growth. 
 
-\begin{figure}[ht]
+\begin{figure}
 	\centering
-	\resizebox{.6\textwidth}{!}{\input{mod3CoefPlot.tex}}
-	\caption{Here we show the random effect regression results on GDP growth. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
-	\label{fig:coefPlot}	
+	\begin{tabular}{cc}
+		\subfloat[SubFigure 1][Capital City]{
+			\resizebox{.45\textwidth}{!}{\input{mCapCoefPlot}}
+		\label{fig:capCoef}} &
+		\subfloat[SubFigure 2][Any City]{
+			\resizebox{.45\textwidth}{!}{\input{mCityCoefPlot}}
+		\label{fig:cityCoef}}
+	\end{tabular}
+	\caption{Regression results using conflict distance from capital city on the left, and the chart on the right shows regression results using minimum conflict distance from any major city. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
+	\label{fig:coefplot}
 \end{figure}
-\FloatBarrier
 
 To assess the substantive effect of the minimum conflict distance variable we conduct a number of simulations. We set up scenarios where we hold all variables to their median except for the logged, minimum conflict distance, which we range from its minimum to maximum value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, we calculate the predicted value of GDP growth based on the conditions set by the scenarios. We plot the results of this analyis in figure \ref{fig:simsPlot}.  
 
-\begin{figure}[ht]
+\begin{figure}
 	\centering
-	\resizebox{.8\textwidth}{!}{\input{mod3SimPlot.tex}}
+	\begin{tabular}{cc}
+		\subfloat[SubFigure 1][Capital City]{
+			\resizebox{.45\textwidth}{!}{\input{mCapSimPlot}}
+		\label{fig:capCoef}} &
+		\subfloat[SubFigure 2][Any City]{
+			\resizebox{.45\textwidth}{!}{\input{mCitySimPlot}}
+		\label{fig:cityCoef}}
+	\end{tabular}
 	\caption{Expected values for GDP growth based on scenarios where all variables are held to their constants but Ln(Min. Conflict Dist.) varies from its minimum to maximum. The 90\% interval of each distribution is shaded in dark grey and the 95\% in a lighter color.}
 	\label{fig:simsPlot}
 \end{figure}
-\FloatBarrier
 
 Here we can clearly see that conflicts located farther away from major cities have almost no adverse impact on economic growth. On average, countries for which conflicts are farther away see almost no declines in economic growth and, in fact, are likely to still see positive growth. Where we see more variation, however, is on the effect of conflicts near to major cities. Although on average our model estimates that these more proximate conflicts are associated with negative levels of economic growth our estimate of this effect is highly uncertain. This just indicates to us that more work needs to be done in parsing out possible variation in economic growth levels for those countries that are experiencing conflicts proximate to their major cities. Nonetheless, overall our results are quite in line with our theoretical expectations.
+
+\subsection{Model Performance}
+
+RMSE: in and out of sample
+
+\begin{figure}
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{rmseInOut}}
+	\caption{In and out of sample performance.}
+	\label{fig:rmsePlot}
+\end{figure}
+
+Model heterogeneity: 
+
+\begin{figure}
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{crossValPlot}}
+	\caption{Each row here shows the coefficient estimate of distance from rerunning the model on eight random subsamples within the dataset. All the covariates used in the initial models were included as well.}
+	\label{fig:crossPlot}
+\end{figure}
