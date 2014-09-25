@@ -34,25 +34,30 @@ Our analysis focuses on exploring variations in economic growth in countries und
 
 A key problem we face in conducting this analysis is reconciling the unit of analysis for our key independent and dependent variables. Our dependent variable is at the country-year and our key independent variable, distance between conflicts and major cities, is at the conflict-country-year level. To deal with this, we aggregate up to the country-year level by calculating the minimum logged distance any conflict is from a major city. Thus if a country faced, for example, four conflicts in one year, the datapoint that we would aggregate up to the country-year level would be for the conflict that was closest to a major city. This obviously is somewhat problematic as we end up discarding the information from the other conflicts. At the same time, we argue that this choice of aggregation is what conforms closest to our theoretical claims about economic activity only being severely disrupted in cases of conflicts being proximate to major cities. From the PRIO dataset we also bring in additional information about that conflict, specifically: 
 
-\begin{itemize}
-	\item Conflict intensity
-	\item Ln(Conflict Area)
-	\item Civil Conflict Type (e.g., territory or non-territory dispute)
-	\item Conflict Duration (Years)
-\end{itemize}
+% Replace list with sentences
+
+% \begin{itemize}
+% 	\item Conflict intensity
+% 	\item Ln(Conflict Area)
+% 	\item Civil Conflict Type (e.g., territory or non-territory dispute)
+% 	\item Conflict Duration (Years)
+% \end{itemize}
 
 Last, we include a number of additional control measures. First, we control for a country's total, logged land area to differentiate between the proximity effects of conflicts within large and small countries. We also control for a couple of macroeconomic variables that could affect year over year changes in GDP, specifically, lagged inflation and whether or not the state is an upper income country, as defined by the World Bank.
 
 \subsection{Estimation Method}
 
-To estimate the model we use random effects clustered on countries and years. Results using a fixed effects estimation approach are similar.\footnote{The fixed effects model includes the same regressors as the random effects model but adds indicator variables for each country in the sample.}  The model we estimate is shown below:
+To estimate the model we use random effects clustered on countries. Results using a fixed effects estimation approach are similar.\footnote{The fixed effects model includes the same regressors as the random effects model but adds indicator variables for each country in the sample.} The model we estimate is shown below:
+
+Add in descriptors for each of these variables and expectations of their sign.
 
 \begin{align*}
-	\% \Delta GDP_{i,t} &= \beta_{1}(Upper \; Income_{i,t}) \\
-	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t}) \;+\; \beta_{3}(Ln(Conflict \; Area)_{i,t}) \\
-	& \;+\; \beta_{4}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \;+\; \beta_{5}(Conflict \; Type_{i,t}) \\
-	& \;+\; \beta_{6}(Conflict \; Duration_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
-	& \;+\; \beta_{8}(Ln(Land \; Area)_{i,t}) \;+\; \alpha_{i} + \gamma_{t} + \mu_{i,t}
+	\% \Delta Log(GDP_{i,t}) &= \beta_{1}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \\
+	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t}) \;+\; \beta_{3}(Conflict \; Type_{i,t}) \\
+	& \;+\; \beta_{4}(Conflict \; Duration_{i,t}) \;+\; \beta_{5}(Ln(Conflict \; Area)_{i,t}) \\	
+	& \;+\; \beta_{6}(Upper \; Income_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
+	&  \;+\; \beta_{8}(Democracy_{i,t-1}) \;+\; \beta_{9}(World \; GDP \; Growth_{t}) \\
+	& \;+\; \alpha_{i} + \mu_{i,t}
 \end{align*}
 
 \section{Results}
