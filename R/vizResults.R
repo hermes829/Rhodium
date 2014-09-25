@@ -126,7 +126,8 @@ ggsimplot = function(
   if(sigma){sigma = sqrt(RSS/dfResid)} else {sigma = 0}
 
   # Set up scenario
-  vRange=seq(min(simData[,vi]), max(simData[,vi]), .1)
+  # vRange=seq(min(simData[,vi]), max(simData[,vi]), .1)
+  vRange=sort(unique(simData[,vi]))
   scenCol = length(vars); scenRow = length(vRange)
   scenario = matrix(NA, nrow=scenRow, ncol=scenCol)
   colnames(scenario) = c(vars)
@@ -157,6 +158,7 @@ ggsimplot = function(
         temp = temp + geom_errorbar(aes(x=x, ymax=Hi90, ymin=Lo90), width=0.2) 
         temp = temp + geom_errorbar(aes(x=x, ymax=Hi95, ymin=Lo95), width=.5) 
         temp = temp + geom_point(aes(x=x, y=Fit))
+        temp = temp + geom_rug(sides='b')
         if(specX){temp = temp + scale_x_discrete(limits=ggxlims, breaks=ggxbreaks)}
         }
     
@@ -165,6 +167,7 @@ ggsimplot = function(
       temp <- ggplot(ggData, aes(x=x, y=Fit, ymin=Lo95, ymax=Hi95))
       temp <- temp + geom_line() + geom_ribbon(alpha=0.3)
       temp <- temp + geom_ribbon(aes(ymin=Lo90, ymax=Hi90), alpha=0.5)
+      temp = temp + geom_rug(sides='b')
       if(specX){temp = temp + scale_x_continuous(limits=ggxlims, breaks=ggxbreaks)}
     }
   }

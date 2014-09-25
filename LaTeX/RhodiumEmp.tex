@@ -3,13 +3,13 @@
 
 \subsection{Conflict and City Data}
 
-To measure economic performance we use logged, annual percent change in GDP, which we collect from the World Development Indicators at the World Bank. We choose to focus on year over change in GDP because we expect conflicts proximate to major cities to lead to reductions in growth.\footnote{Alternative measures of economic performance would have included changes in FDI inflows or changes in GDP per capita, in using either of these measures our results remain relatively the same.} Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
+To measure economic performance we use annual percent change in logged GDP collected from the World Development Indicators at the World Bank. We choose to focus on year over change in logged GDP because we expect conflicts proximate to major cities to lead to immediate reductions in overall growth. Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
 
-Our key independent variable on the location of conflicts come from the PRIO Conflict Site Dataset. This dataset contains geo-referenced armed conflict events from 1989 to 2008.\footnote{We only include examine the effect of internal armed conflicts.} A downside of this geo-referenced database is that every conflict-year is assigned a circular conflict zone, which leads to the dataset reporting that the conflict is covering more territory than actually affected. Crafting a more specfic approach to the spread of conflict would, however, eliminate important cases from our analysis. In total this dataset provides us with almost 800 geo-referenced conflict-year cases. 
+Our key independent variable on the location of conflicts come from the PRIO Conflict Site Dataset. This dataset contains geo-referenced armed conflict events from 1989 to 2008.\footnote{We only include examine the effect of internal armed conflicts.} In total this dataset provides us with almost 800 geo-referenced conflict-year cases. 
 
 % Might want to drop this stuff about getting city data from the almanac
 
-The key theory that we advance here is that the effects of conflict on economic performance are conditional on the proximity of those conflicts to major city centers. Thus a crucial part of our work here involved determining major city centers by year. The only data source we found with enough geographical and temporal coverage on major cities was The World Alamanac. To gather data from these textbooks we hired several undergraduate students to identify the major cities listed for each country within a yearly edition of the Almanac from 1989 to 2008. Major cities are classified as those that have relatively large shares of a country's population and/or are economic centers. Typically, the Alamanacs listed at least three major cities for each country and year from 1989 to 2008. After we had gathered a yearly list of major cities by country, we determined the centroid location of each city using Google's Geocoding API. 
+A crucial part of our work here involved determining major city centers by year. The only data source we found with enough geographical and temporal coverage on major cities was The World Alamanac.\footnote{To gather data from these textbooks we hired several research assistants to identify the major cities listed for each country within a yearly edition of the Almanac from 1989 to 2008.} Major cities are classified as those that have relatively large shares of a country's population and/or are economic centers. Typically, the Alamanacs listed at least three major cities for each country and year from 1989 to 2008. After we had gathered a yearly list of major cities by country, we determined the centroid location of each city using Google's Geocoding API. 
 
 \begin{amssidewaysfigure}
 	\centering
@@ -30,26 +30,13 @@ Our analysis focuses on exploring variations in economic growth in countries und
 	\label{fig:columbiaMap}
 \end{figure}
 
-\subsection{Level of Aggregation}
-
-A key problem we face in conducting this analysis is reconciling the unit of analysis for our key independent and dependent variables. Our dependent variable is at the country-year and our key independent variable, distance between conflicts and major cities, is at the conflict-country-year level. To deal with this, we aggregate up to the country-year level by calculating the minimum logged distance any conflict is from a major city. Thus if a country faced, for example, four conflicts in one year, the datapoint that we would aggregate up to the country-year level would be for the conflict that was closest to a major city. This obviously is somewhat problematic as we end up discarding the information from the other conflicts. At the same time, we argue that this choice of aggregation is what conforms closest to our theoretical claims about economic activity only being severely disrupted in cases of conflicts being proximate to major cities. From the PRIO dataset we also bring in additional information about that conflict, specifically: 
-
-% Replace list with sentences
-
-% \begin{itemize}
-% 	\item Conflict intensity
-% 	\item Ln(Conflict Area)
-% 	\item Civil Conflict Type (e.g., territory or non-territory dispute)
-% 	\item Conflict Duration (Years)
-% \end{itemize}
+Our dependent variable is at the country-year and our key independent variable, distance between conflicts and major cities, is at the conflict-country-year level. To deal with this, we aggregate up to the country-year level by calculating the minimum logged distance any conflict is from a major city. Thus if a country faced, for example, four conflicts in one year, the datapoint that we would aggregate up to the country-year level would be for the conflict that was closest to a major city. This obviously is somewhat problematic as we end up discarding the information from the other conflicts. At the same time, we argue that this choice of aggregation is what conforms closest to our theoretical claims about economic activity only being severely disrupted in cases of conflicts being proximate to major cities. From the PRIO dataset we also bring in additional information about that conflict, specifically its intensity, the area of conflict, whether the conflict involves a territorial dispute, and its duration.
 
 Last, we include a number of additional control measures. First, we control for a country's total, logged land area to differentiate between the proximity effects of conflicts within large and small countries. We also control for a couple of macroeconomic variables that could affect year over year changes in GDP, specifically, lagged inflation and whether or not the state is an upper income country, as defined by the World Bank.
 
-\subsection{Estimation Method}
-
-To estimate the model we use random effects clustered on countries. Results using a fixed effects estimation approach are similar.\footnote{The fixed effects model includes the same regressors as the random effects model but adds indicator variables for each country in the sample.} The model we estimate is shown below:
-
 Add in descriptors for each of these variables and expectations of their sign.
+
+To estimate the model we use random effects clustered on countries. The model we estimate is shown below:
 
 \begin{align*}
 	\% \Delta Log(GDP_{i,t}) &= \beta_{1}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \\
@@ -101,7 +88,7 @@ Here we can clearly see that conflicts located farther away from major cities ha
 
 \subsection{Model Performance}
 
-RMSE: in and out of sample
+To assess the accuracy and performance of these estimates we employ a simple two-fold cross validation procedure.\footnote{Results of analysis were similar when employing a 10-fold cross validation as well, however, we limit to showing six here for the sake of space.} We use this procedure both to determine the robustness of our coefficient estimates when estimated on different subsamples of our dataset, and to assess how well the results of our model would generalize to an independent dataset. To begin the cross-validation, we split the 653 sanction cases in our dataset into six approximately equal subsets. We then run each model shown in Table \ref{tab:regResults} six times, where in each iteration we left out one subsample to use as a test set. This allows us to compare the prediction accuracy of each model, thereby helping us to determine the gains from incorporating the reciprocity covariates that are key to our argument.
 
 \begin{figure}
 	\centering
@@ -110,7 +97,7 @@ RMSE: in and out of sample
 	\label{fig:rmsePlot}
 \end{figure}
 
-Model heterogeneity: 
+First, however, we show the results for our reciprocity covariates when we rerun our survival analysis on each of the six folds from the cross-validation. This analysis helps us to understand whether some of the subsets in our dataset follow a different pattern than what is in the broader set.\footnote{\cite{beck2008time}} Figure \ref{fig:crossval} shows that this is not the case for the analysis we present here, the coefficient estimates for compliance and sanction reciprocity remain consistent across each of these subsamples.\footnote{The parameter estimates for the other covariates also remain consistent across each of the six folds but we leave them out here due to space constraints.}
 
 \begin{figure}
 	\centering

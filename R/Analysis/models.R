@@ -40,7 +40,8 @@ mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 
 # Basic model diags
-summary(modData$lngdpGr_l0); rmse(mCity); rmse(mCap)
+Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
+rmse(mCity); rmse(mCap)
 ###################################################################
 
 ###################################################################
@@ -48,13 +49,13 @@ summary(modData$lngdpGr_l0); rmse(mCity); rmse(mCap)
 setwd(pathMain)
 source('vizResults.R')
 
-coefs=na.omit(rownames(summary(mCity)$'coefficients')[2:100])
 vnames=c('Ln(Min. City Dist.)$_{t-1}$', 
   'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
-    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
+    varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
@@ -63,13 +64,13 @@ setwd(pathTex)
 # temp
 # dev.off()
 
-coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
 vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', 
   'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
-    vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
+    varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
@@ -81,6 +82,7 @@ setwd(pathTex)
 
 ###################################################################
 # Simulations
+
 temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData, 
   vars=charSM(na.omit(rownames(summary(mCity)$'coefficients')[2:100])),
   vi='lnminDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
@@ -88,7 +90,7 @@ temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData,
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
 temp
-# setwd(pathTex)
+setwd(pathTex)
 # tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
 # temp
 # dev.off()
@@ -100,8 +102,7 @@ temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData,
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
 temp
-# setwd(pathTex)
-# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
+setwd(pathTex)
 # tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
 # temp
 # dev.off()
@@ -164,15 +165,15 @@ vars=unique(na.omit(c( 'ccode','year','lngdpGr_l0',
 crossData=na.omit( modData[,vars] )
 
 cntries=unique(modData$ccode)
-set.seed(543543)
-nF=8
+set.seed(6886)
+nF=7
 folds=data.frame(
   cbind(ccode=cntries, fold=sample(1:nF, length(cntries), replace=TRUE) ) )
-
+table(folds$fold)
 crossData$fold=folds$fold[match(crossData$ccode, folds$ccode)]
 table(crossData$fold)
 
-# Runnign models
+# Running models
 crossResults=list(NULL, NULL)
 for(f in 1:nF ){
   cData=crossData[which(crossData$fold!=f), ]
@@ -192,11 +193,10 @@ ccNames=c('Ln(Min. Capital Dist.)$_{t-1}$','Ln(Min. City Dist.)$_{t-1}$')
 temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames, 
   Noylabel=FALSE, coordFlip=FALSE, revVar=TRUE, xAngle=45,
   facet=TRUE, facetName='fold', facetBreaks=1:nF, 
-  facetLabs=paste0('Fold ',LETTERS[1:nF]),
-  colorGrey=TRUE, , grSTA=0.4, grEND=0.4
+  facetLabs=paste0('Fold ',LETTERS[1:nF])
   )
 temp  
-setwd(pathTex)
+# setwd(pathTex)
 # tikz(file='crossValPlot.tex', width=6, height=4, standAlone=F)
 # temp
 # dev.off()
