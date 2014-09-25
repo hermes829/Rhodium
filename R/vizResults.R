@@ -109,12 +109,24 @@ ggcoefplot = function(coefData, vars, varNames, estimates, serrors,
 
 #######################################################################
 # gg simulation plot
-ggsimplot = function(sims=10000, simData, vars, vi, vRange, ostat=median, 
-  betas, vcov, sigma, intercept=TRUE, ylabel, xlabel,
+ggsimplot = function(
+  modelResults, sims=10000, simData, vars, vi, ostat=median, 
+  sigma=FALSE, intercept=TRUE, ylabel, xlabel,
   specX=FALSE, ggxlims=NULL, ggxbreaks=NULL,
   specY=FALSE, ggylims=NULL, ggybreaks=NULL, plotType='errorBar'){
 
+  # Prep data
+  simData=na.omit(simData[,vars])
+
+  # Pull out model results
+  vcov=vcov(modelResults)
+  betas=modelResults@beta; names(betas)=rownames(vcov)
+  RSS=sum(resid(modelResults)^2)
+  dfResid=nrow(simData)-length(modelResults@beta) - length(modelResults@u) + 1
+  if(sigma){sigma = sqrt(RSS/dfResid)} else {sigma = 0}
+
   # Set up scenario
+  vRange=seq(min(simData[,vi]), max(simData[,vi]), .1)
   scenCol = length(vars); scenRow = length(vRange)
   scenario = matrix(NA, nrow=scenRow, ncol=scenCol)
   colnames(scenario) = c(vars)

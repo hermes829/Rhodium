@@ -4,18 +4,16 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
-load('combinedData.rda')
-
-# Dataset to run analysis on (impData or yData)
-modData=yData
-# modData=impData
+load('combinedData.rda'); modData=yData
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
 logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 
 # Log transforming DVs
-modData$lngdpGr_l0 = logTrans(modData$gdpGr_l0)
+modData$lngdp_l0 = log(modData$gdp_l0)
+modData$lngdp = log(modData$gdp)
+modData$lngdpGr_l0 = (modData$lngdp_l0-modData$lngdp)/modData$lngdp_l0
 
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
@@ -57,12 +55,12 @@ vnames=c('Ln(Min. City Dist.)$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-.3,.3), ggybreaks=seq(-.3,.3,.2),
+    specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
 # tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
-temp
+# temp
 # dev.off()
 
 coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
@@ -72,42 +70,40 @@ vnames=c('Ln(Min. Capital Dist.)$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=coefs, varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-.3,.3), ggybreaks=seq(-.3,.3,.2),
+    specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
 # tikz(file='mCapCoefPlot.tex', width=4, height=4, standAlone=F)
-temp
+# temp
 # dev.off()
 ###################################################################
 
 ###################################################################
 # Simulations
-coefs=na.omit(rownames(summary(mCity)$'coefficients')[2:100])
-toTest = 'lnminDist.min'; xTitle="Ln(Min. City Dist.)$_{t}$"; results=mCity
-
-coefs=na.omit(rownames(summary(mCap)$'coefficients')[2:100])
-toTest = 'lncapDist.min'; xTitle="Ln(Min. Cap Dist.)$_{t}$"; results=mCap
-
-data=na.omit(modData[,coefs])
-varcov = vcov(results)
-estimates = results@beta; names(estimates)=rownames(varcov)
-RSS = sum(resid(results)^2)
-dfResid = nrow(data)-length(results@beta) - length(results@u) + 1
-tRange=seq(min(modData[,toTest]), max(modData[,toTest]), .1)
-
-temp = ggsimplot(sims=10000, simData=data, vars=coefs,
-  vi=toTest, vRange=tRange, ostat=median,
-  betas=estimates, vcov=varcov, sigma=0, intercept=TRUE,
-  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel=xTitle,
+temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData, 
+  vars=charSM(na.omit(rownames(summary(mCity)$'coefficients')[2:100])),
+  vi='lnminDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
+  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. City Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
-  # specY=TRUE, ggybreaks=seq(0,12,2), ggylims=c(2,12)
   )
 temp
-setwd(pathTex)
+# setwd(pathTex)
+# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
+# temp
+# dev.off()
+
+temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData, 
+  vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]),
+  vi='lncapDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
+  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. Cap Dist.)$_{t}$",
+  specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
+  )
+temp
+# setwd(pathTex)
 # tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
 # tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
-temp
+# temp
 # dev.off()
 ###################################################################
 
@@ -155,9 +151,9 @@ temp=temp + theme(legend.position='none', legend.title=element_blank(),
       panel.grid.minor=element_blank())
 temp
 setwd(pathTex)
-tikz(file='rmseInOut.tex', width=6, height=4, standAlone=F)
-temp
-dev.off()
+# tikz(file='rmseInOut.tex', width=6, height=4, standAlone=F)
+# temp
+# dev.off()
 ###################################################################
 
 ###################################################################
