@@ -47,7 +47,6 @@ require(countrycode)
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}
 charSM=function(x){as.character(x)}
-rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
 
 # Lagging vars
 lagTS <- function(x,l){

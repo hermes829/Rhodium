@@ -14,6 +14,7 @@ logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 modData$lngdp_l0 = log(modData$gdp_l0)
 modData$lngdp = log(modData$gdp)
 modData$lngdpGr_l0 = (modData$lngdp_l0-modData$lngdp)/modData$lngdp_l0
+modData$lngdpGr_l0 = modData$gdpGr_l0
 
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
@@ -21,8 +22,10 @@ modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$Int.max <- modData$Int.max-1
 
 # Transformations for other controls
+modData$lngdpCap = log(modData$gdpCap)
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
 modData$democ = as.numeric(modData$polity>=6)
+modData$polity2 = modData$polity2 + 11
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
@@ -30,7 +33,8 @@ modData$democ = as.numeric(modData$polity>=6)
 modForm=function(x){
   formula( paste0('lngdpGr_l0 ~', x, '+ 
   Int.max + territorial.max + durSt1max + confAreaPropHi +
-  upperincome + lninflation_l1 + democ +
+  nconf + 
+  upperincome + lninflation_l1 + polity2 +
   gdpGr.mean_l0 + (1|ccode)' ) )
 }
 ctyForm=modForm('lnminDist.min')
@@ -40,6 +44,8 @@ mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 
 # Basic model diags
+rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
+
 Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
 rmse(mCity); rmse(mCap)
 ###################################################################
@@ -51,12 +57,14 @@ source('vizResults.R')
 
 vnames=c('Ln(Min. City Dist.)$_{t-1}$', 
   'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
+  'Number of conflicts$_{t-1}$',
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
+    specY=TRUE, 
+    # ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
@@ -66,12 +74,14 @@ setwd(pathTex)
 
 vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', 
   'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
+  'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'World GDP Growth$_{t}$')
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
+    specY=TRUE, 
+    # ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
@@ -121,10 +131,10 @@ mCityTr=lmer(ctyForm, data=train)
 mCapTr=lmer(capForm, data=train)
 
 # Performance stats on test
-outSampPerf = function(mod){
+outSampPerf = function(dv, mod, testData){
   res=summary(mod)$'coefficients'
   tData=na.omit(
-    cbind(1, test[,c('lngdpGr_l0', rownames(res)[2:nrow(res)] ) ] ) 
+    cbind(1, testData[,c(dv, rownames(res)[2:nrow(res)] ) ] ) 
     )
   y=tData[,2]; tData=data.matrix(tData[,c(1,3:ncol(tData))])
   tY = tData %*% cbind(res[,1])
@@ -132,14 +142,15 @@ outSampPerf = function(mod){
   return( sqrt(mean(diff^2)) )
 }
 
-rmse(mCityTr); rmse(mCapTr)
-outSampPerf(mCityTr); outSampPerf(mCapTr)
-
 ggRMSE=data.frame(rbind(
-  cbind(var="Ln(Min. City Dist.)$_{t}$", type='In-Sample \n n=375 \n N=66', stat=rmse(mCityTr) ),
-  cbind("Ln(Min. City Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', outSampPerf(mCityTr)),
-  cbind("Ln(Min. Cap Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', rmse(mCapTr) ),
-  cbind("Ln(Min. Cap Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', outSampPerf(mCapTr))
+  cbind(var="Ln(Min. City Dist.)$_{t}$", type='In-Sample \n n=375 \n N=66', 
+    stat=rmse(mCityTr) ),
+  cbind("Ln(Min. City Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
+    outSampPerf('lngdpGr_l0',mCityTr,test)),
+  cbind("Ln(Min. Cap Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', 
+    rmse(mCapTr) ),
+  cbind("Ln(Min. Cap Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
+    outSampPerf('lngdpGr_l0',mCapTr,test))
   ))
 ggRMSE$stat=numSM(ggRMSE$stat)
 
@@ -175,12 +186,27 @@ table(crossData$fold)
 
 # Running models
 crossResults=list(NULL, NULL)
+perfMat=matrix(NA, nrow=nF,ncol=3,
+  dimnames=list(NULL,c('Fold','inRMSE','outRMSE')))
+crossPerf=list(perfMat, perfMat)
 for(f in 1:nF ){
+  # Subset data by fold
   cData=crossData[which(crossData$fold!=f), ]
-  ctyCR=cbind(summary(lmer(ctyForm, cData))$'coefficients',fold=f)
-  capCR=cbind(summary(lmer(capForm, cData))$'coefficients',fold=f)
+  
+  # Run models 
+  ctyMod=lmer(ctyForm, cData)
+  capMod=lmer(capForm, cData)
+  
+  # Save coefficient estimates
+  ctyCR=cbind(summary(ctyMod)$'coefficients',fold=f)
+  capCR=cbind(summary(capMod)$'coefficients',fold=f)
   crossResults[[1]]=rbind(crossResults[[1]],  ctyCR)
   crossResults[[2]]=rbind(crossResults[[2]],  capCR)
+
+  # Save performance stats
+  test=crossData[which(crossData$fold==f), ]
+  crossPerf[[1]][f,]=c(f,rmse(ctyMod), outSampPerf('lngdpGr_l0',ctyMod,test) ) 
+  crossPerf[[2]][f,]=c(f,rmse(capMod), outSampPerf('lngdpGr_l0',capMod,test) ) 
 }
 
 # Plotting cross-validation to test model heterogeneity
@@ -200,4 +226,21 @@ temp
 # tikz(file='crossValPlot.tex', width=6, height=4, standAlone=F)
 # temp
 # dev.off()
+
+# Cross val performance stats
+crossPerfData=rbind(data.frame(crossPerf[[1]]), data.frame(crossPerf[[2]]))
+crossPerfData$Variable=c( rep('Ln(Min. City Dist.)$_{t-1}$',nF),
+  rep('Ln(Min. Capital Dist.)$_{t-1}$',nF))
+ggRMSE=melt(crossPerfData, id=c('Fold','Variable'))
+
+temp=ggplot(ggRMSE, aes(x=Fold, y=value, fill=variable))
+temp=temp + geom_bar(stat='identity',position=position_dodge())
+# temp=temp + ylab('RMSE') + xlab('') + ylim(0, 0.006) 
+temp=temp + scale_x_continuous(breaks=1:7,labels=paste0('Fold ',LETTERS[1:nF]))
+temp=temp + scale_fill_manual(values=c('inRMSE'='black', 'outRMSE'='grey'))
+temp=temp + facet_wrap(~Variable)
+temp=temp + theme(legend.position='none', legend.title=element_blank(),
+      axis.ticks=element_blank(), panel.grid.major=element_blank(),
+      panel.grid.minor=element_blank(), axis.text.x=element_text(angle=45,hjust=1))
+temp
 ###################################################################

@@ -91,46 +91,30 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 	by='cyear', all.x=T, all.y=F)
 ####################
 
-# ####################
-# # Imputation
-# # Checks for lagdata function
-# mdl=yData
-# mdl$cyear=numSM(mdl$cyear)
-# lagVars=names(mdl)[4:25]
+####################
+# Imputation
+# Impute missing value
+library('Amelia')
+names(yData)
+exclVars=c('cyear')
+test=amelia(yData[,-which(exclVars %in% names(yData))], cs='ccode', ts='year')
 
-# # Set up lags for sbgcop
-# mdl=lagDataSM(data=mdl,country_year='cyear',
-# 	country='ccode',varsTOlag=lagVars,lag=1)
-# mdl=lagDataSM(data=mdl,country_year='cyear',
-# 	country='ccode',
-# 	varsTOlag=paste0('lag1_',lagVars),lag=1)
-# mdl=lagDataSM(data=mdl,country_year='cyear',
-# 	country='ccode',
-# 	varsTOlag=paste0('lag1_lag1_',lagVars),lag=1)
-# mdl=lagDataSM(data=mdl,country_year='cyear',
-# 	country='ccode',
-# 	varsTOlag=paste0('lag1_lag1_lag1_',lagVars),lag=1)
-# mdl=lagDataSM(data=mdl,country_year='cyear',
-# 	country='ccode',
-# 	varsTOlag=paste0('lag1_lag1_lag1_lag1_',lagVars),lag=1)
-# lagVarsAll=setdiff(colnames(mdl), colnames(yData))
 
-# # Impute missing value
-# # This takes time, set it and go for a run
-# sbgcopTimeSR = system.time(
-#   sbgData <- sbgcop.mcmc(
-#   	mdl[,c('ccode','year',lagVars,lagVarsAll)],
-#   	nsamp=5000,seed=123456, verb=TRUE)
-#   )
 
-# # Clean
-# impData=data.frame(
-# 	cbind(
-# 		cyear=mdl[,'cyear'],
-# 		sbgData$Y.pmean[,c('ccode','year',lagVars)]
-# 	)
-# )
-# ####################
+sbgcopTimeSR = system.time(
+  sbgData <- sbgcop.mcmc(
+  	,
+  	nsamp=5000,seed=123456, verb=TRUE)
+  )
+
+# Clean
+impData=data.frame(
+	cbind(
+		cyear=mdl[,'cyear'],
+		sbgData$Y.pmean[,c('ccode','year',lagVars)]
+	)
+)
+####################
 
 ####################
 # Save

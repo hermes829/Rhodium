@@ -3,13 +3,13 @@
 
 \subsection{Conflict and City Data}
 
-To measure economic performance we use annual percent change in logged GDP collected from the World Development Indicators at the World Bank. We choose to focus on year over change in logged GDP because we expect conflicts proximate to major cities to lead to immediate reductions in overall growth. Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. We believe this approach to be superior because it allows us to estimate the direct effect of the conflict on economic performance in that year. A ten-year average approach might hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
+To measure economic performance we use annual percent change in logged GDP collected from the World Development Indicators at the World Bank. We choose to focus on year over change in logged GDP because we expect conflicts proximate to major cities to lead to immediate reductions in overall growth. Unlike much of the extant literature in constructing our dependent variable we focus on year over change instead of a ten year average. This allows us to estimate the direct effect of conflict on economic performance in that year. A ten-year average approach would hide important variation in our dependent variable that can be explained by the proximity of conflict to economic centers.
 
 Our key independent variable on the location of conflicts come from the PRIO Conflict Site Dataset. This dataset contains geo-referenced armed conflict events from 1989 to 2008.\footnote{We only include examine the effect of internal armed conflicts.} In total this dataset provides us with almost 800 geo-referenced conflict-year cases. 
 
-% Might want to drop this stuff about getting city data from the almanac
+A crucial part of our work here involved determining the capital and major city centers for country-years referenced in the PRIO dataset.\footnote{To gather information on capital and major cities we turned to yearly editions of The World Almanac from 1989 to 2008.} Typically, the Alamanacs listed at least three major cities for each country and year from 1989 to 2008. After we had gathered a yearly list of major cities by country, we determined the centroid location of each city using Google's Geocoding API. 
 
-A crucial part of our work here involved determining major city centers by year. The only data source we found with enough geographical and temporal coverage on major cities was The World Alamanac.\footnote{To gather data from these textbooks we hired several research assistants to identify the major cities listed for each country within a yearly edition of the Almanac from 1989 to 2008.} Major cities are classified as those that have relatively large shares of a country's population and/or are economic centers. Typically, the Alamanacs listed at least three major cities for each country and year from 1989 to 2008. After we had gathered a yearly list of major cities by country, we determined the centroid location of each city using Google's Geocoding API. 
+In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. The centroid locations of conflicts are shown by red dots. Not surprisingly, we can see that in many cases conflict locations are clustered within specific parts of a country. In most cases, this clustering is indicative of the same conflict moving within the geographic boundaries of a country over time. The blue diamonds in \ref{fig:CityConfMap} denote the locations of major cities as identified in The World Alamanacs from 1989 to 2008. Countries shaded in grey are those for which no armed conflict took place in this period according to the PRIO dataset.  
 
 \begin{amssidewaysfigure}
 	\centering
@@ -18,8 +18,6 @@ A crucial part of our work here involved determining major city centers by year.
 	\label{fig:CityConfMap}
 \end{amssidewaysfigure}
 \FloatBarrier
-
-In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. The centroid locations of conflicts are shown by red dots. Not surprisingly, we can see that in many cases conflict locations are clustered within specific parts of a country. In most cases, this clustering is indicative of the same conflict moving within the geographic boundaries of a country over time. The blue diamonds in \ref{fig:CityConfMap} denote the locations of major cities as identified in The World Alamanacs from 1989 to 2008. Countries shaded in grey are those for which no armed conflict took place in this period according to the PRIO dataset.  
 
 Our analysis focuses on exploring variations in economic growth in countries undergoing conflict by the proximity of those conflicts to major cities, thus we restrict our sample to only those countries that are listed as having conflicts in the PRIO dataset. To determine proximity, we calculate the distance in kilometers between the centroid of each of the conflicts with the centroids of city locations. Meaning that for each year we determine the distance between every conflict and every major city within a state. For example, in figure \ref{fig:columbiaMap} we show the location of armed conflicts in Colombia, dots colored in shades of red, and the major cities therein, blue diamonds.\footnote{One armed conflict involving rebel actors and the Colombian government occurred outside of Colombia's borders.} For Colombia each of the red dots represents the same conflict but a different year, with earlier years shaded in light red and later years shaded in dark red. Thus for every year we made six distance calculations -- one for every city.
 
@@ -44,7 +42,7 @@ To estimate the model we use random effects clustered on countries. The model we
 	& \;+\; \beta_{4}(Conflict \; Duration_{i,t}) \;+\; \beta_{5}(Ln(Conflict \; Area)_{i,t}) \\	
 	& \;+\; \beta_{6}(Upper \; Income_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
 	&  \;+\; \beta_{8}(Democracy_{i,t-1}) \;+\; \beta_{9}(World \; GDP \; Growth_{t}) \\
-	& \;+\; \alpha_{i} + \mu_{i,t}
+	& \;+\; \mu_{i,t} \;+\; \epsilon_{i,t}
 \end{align*}
 
 \section{Results}
@@ -88,7 +86,7 @@ Here we can clearly see that conflicts located farther away from major cities ha
 
 \subsection{Model Performance}
 
-To assess the accuracy and performance of these estimates we employ a simple two-fold cross validation procedure.\footnote{Results of analysis were similar when employing a 10-fold cross validation as well, however, we limit to showing six here for the sake of space.} We use this procedure both to determine the robustness of our coefficient estimates when estimated on different subsamples of our dataset, and to assess how well the results of our model would generalize to an independent dataset. To begin the cross-validation, we split the 653 sanction cases in our dataset into six approximately equal subsets. We then run each model shown in Table \ref{tab:regResults} six times, where in each iteration we left out one subsample to use as a test set. This allows us to compare the prediction accuracy of each model, thereby helping us to determine the gains from incorporating the reciprocity covariates that are key to our argument.
+To assess the accuracy and performance of these estimates we employ a simple two-fold cross validation procedure. We use this procedure both to determine the robustness of our coefficient estimates when estimated on different subsamples of our dataset, and to assess how well the results of our model would generalize to an independent dataset. To begin the cross-validation, we split the 653 sanction cases in our dataset into six approximately equal subsets. We then run each model shown in Table \ref{tab:regResults} six times, where in each iteration we left out one subsample to use as a test set. This allows us to compare the prediction accuracy of each model, thereby helping us to determine the gains from incorporating the reciprocity covariates that are key to our argument.
 
 \begin{figure}
 	\centering
