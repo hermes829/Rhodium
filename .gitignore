@@ -10,5 +10,6 @@
 *.ps
 *.gz
 *.Rhistory
+*.pdf
 .DS_Store*
 .Rapp.history*
