@@ -41,9 +41,8 @@ digitsep=fullstop
 \usepackage[font={small},labelfont=bf]{caption}
 
 % references
-\usepackage[longnamesfirst]{natbib}
-\bibpunct{(}{)}{;}{a}{}{,}
-
+\usepackage[natbib=true, style=authoryear]{biblatex}
+\bibliography{master.bib}
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
@@ -141,24 +140,10 @@ digitsep=fullstop
 
 \thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
 
-% \setlength{\headheight}{15pt}
-% \setlength{\headsep}{20pt}
-% \pagestyle{fancyplain}
- 
-% \fancyhf{}
- 
-% \lhead{\fancyplain{}{}}
-% \chead{\fancyplain{}{}}
-% \rhead{\fancyplain{}{}}
-% \rfoot{\fancyplain{}{}}
-
 % ----------------------------------------------- %
 
 
 % -------------------- customizations -------------------- %
-
-% define the includegraphics search path
-% \graphicspath{{Graphics/}}
 
 % easy commands for number propers
 \newcommand{\first}{$1^{\text{st}}$}
@@ -211,7 +196,6 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
-\bibliographystyle{apsr}
-\bibliography{master.bib}
+\printbibliography
 
 \end{document} 
