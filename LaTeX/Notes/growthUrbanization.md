@@ -1,18 +1,18 @@
-Notes from articles
+Econ literature
 ===
 
-[Naude and Krugell 2004]: (http://www.econstor.eu/bitstream/10419/84653/1/rp2004-08.pdf)
+[Naude and Krugell 2004](http://www.econstor.eu/bitstream/10419/84653/1/rp2004-08.pdf)
 ---
 
 The location of production in space is a central part of the process by which economic 
 prosperity and trade is created (Krugman 1991; Martin and Sunley 1996). It is a 
 particularly noticeable feature of economic growth that the location of production in space 
 tends towards agglomeration in a few places. The resulting prominence of cities and towns 
-as a feature of the economic landscape has caused Hanson (1998:1) to remark that ‘most of 
-the United States produces very little’. The development of cities and towns and their 
+as a feature of the economic landscape has caused Hanson (1998:1) to remark that "most of 
+the United States produces very little". The development of cities and towns and their 
 subsequent fate is therefore important for economic growth and development. Puga and 
-Venables (1999:292) recognise that ‘economic underdevelopment is a manifestation of the 
-spatial pattern of agglomeration’. 
+Venables (1999:292) recognise that "economic underdevelopment is a manifestation of the 
+spatial pattern of agglomeration". 
 
 One of the salient facts of international economic development has been of a spatial nature, 
 namely the persistent urbanization across countries over the last 200 years (Zhang 
@@ -37,39 +37,39 @@ Economists were early to point out that once a city had become established throu
 process of urbanization, it would tend to become a self-reinforcing growth centre through a 
 process called cumulative causation (see Myrdal 1957). The new economic geography 
 emphasises the role of agglomeration and cumulative causation. In the words of Krugman 
-(1995), ‘activities tend to cluster where markets are large and markets become larger there 
-where activities cluster’. 
+(1995), "activities tend to cluster where markets are large and markets become larger there 
+where activities cluster". 
 
 ### Relevant references
 
 * Krugman, P. (1991). Geography and Trade, MIT Press: Cambridge MA. 
 
-* Puga, D. and A. Venables (1999). ‘Agglomeration and economic development: import 
-substitution versus trade liberalization’, The Economic Journal 109:292-311. 
+* Puga, D. and A. Venables (1999). "Agglomeration and economic development: import 
+substitution versus trade liberalization", The Economic Journal 109:292-311. 
 
-* Hanson, G. (1998). ‘Market potential, increasing returns and geographic concentration’, 
+* Hanson, G. (1998). "Market potential, increasing returns and geographic concentration", 
 NBER Working Papers 6429, National Bureau of Economic Research: Cambridge MA. 
 
-* Martin, R. and P. Sunley (1996). ‘Paul Krugman’s “Geographical economics” and its 
-implications for regional development theory: a critical assessment’, Economic 
+* Martin, R. and P. Sunley (1996). "Paul Krugman"s “Geographical economics” and its 
+implications for regional development theory: a critical assessment", Economic 
 Geography 72(3). 
 
-* Zhang, J. (2002). ‘Urbanization, population transition, and growth’, Oxford Economic 
+* Zhang, J. (2002). "Urbanization, population transition, and growth", Oxford Economic 
 Papers 54:91-117.
 
 * Chenery, H. and M. Syrquin (1975). Patterns of Development: 1950-1970, Oxford 
 University Press: London. 
 
-* Henderson, J.V. (2000). ‘How urban concentration affects economic growth’, World Bank 
+* Henderson, J.V. (2000). "How urban concentration affects economic growth", World Bank 
 Country Economics Department Working Papers 2226, World Bank: Washington DC. 
 
-* Glaeser, E., H. Kallal, J. Scheinkman and A. Shleifer (1992). ‘Growth in cities’, Journal of 
+* Glaeser, E., H. Kallal, J. Scheinkman and A. Shleifer (1992). "Growth in cities", Journal of 
 Political Economy 100:1126-52. 
 
-* Lucas, R.E. (1988). ‘On the mechanics of economic development’, Journal of Monetary 
+* Lucas, R.E. (1988). "On the mechanics of economic development", Journal of Monetary 
 Economics 22:3-42. 
 
-* Romer, P.M. (1986). ‘Increasing returns and long-run growth’, Journal of Political 
+* Romer, P.M. (1986). "Increasing returns and long-run growth", Journal of Political 
 Economy 94:1002-37. 
 
 * Myrdal, G. (1957). Economic Theory and Under-developed Regions, Duckworth: London. 
@@ -77,7 +77,7 @@ Economy 94:1002-37.
 * Krugman, P. (1995). Development, Geography and Economic Theory, MIT Press: 
 Cambridge MA. 
 
-[Karlsson and Nilsson 1999]: (http://www-sre.wu-wien.ac.at/ersa/ersaconfs/ersa99/Papers/a031.pdf)
+[Karlsson and Nilsson 1999](http://www-sre.wu-wien.ac.at/ersa/ersaconfs/ersa99/Papers/a031.pdf)
 ---
 
 It is a well-known fact that both production and households are not spread evenly
@@ -96,7 +96,7 @@ business (Krugman, 1998).
 * Krugman, P (1998) Space: The Final Frontier, Journal of Economic Perspective, 
 Spring98, Vol.12, Issue 2, pp 161-175.
 
-[Hanson 2000]: (http://core.kmi.open.ac.uk/download/pdf/6501899.pdf)
+[Hanson 2000](http://core.kmi.open.ac.uk/download/pdf/6501899.pdf)
 ---
 
 During the last decade or so, economists have rediscovered geography. While urban and
@@ -136,7 +136,7 @@ Economics 19: 47-70.
 
 * Lucas, R.E. 1988. "The Mechanics of Economic Development." Journal of Monetary Economics 22: 3-42.
 
-[Venables 2003]: (http://eprints.lse.ac.uk/2038/1/Spatial_Disparities_in_Developing_Countries_Cities,_Regions_and_International_Trade.pdf)
+[Venables 2003](http://eprints.lse.ac.uk/2038/1/Spatial_Disparities_in_Developing_Countries_Cities,_Regions_and_International_Trade.pdf)
 ---
 
 The spatial concentration of new activities also occurs at a much finer level of
@@ -147,11 +147,11 @@ world. The number of cities in the world with a population of more than 1 millio
 115 in 1960 to 416 in 2000; for cities of more than 4 million the increase was from 18 to 53,
 and for more than 12 million from 1 to 11 (Henderson and Wang 2003).
 
-These changes in spatial structure indicate a ‘lumpiness’ in economic development. 
+These changes in spatial structure indicate a "lumpiness" in economic development. 
 Far from being a process of smooth convergence, development is highly spatially
 differentiated. 
 
 ### Relevant references
 
-* Henderson, J.V. and H.G. Wang (2003) ‘Urbanization and city growth’, processed, Brown
+* Henderson, J.V. and H.G. Wang (2003) "Urbanization and city growth", processed, Brown
 University.
