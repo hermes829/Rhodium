@@ -11289,7 +11289,7 @@
   journal = {The Annals of Regional Science},
   year = {2010},
   volume = {44},
-  pages = {1-20},
+  pages = {1--20},
   number = {1},
   owner = {Ben},
   timestamp = {2014.09.23}
@@ -15613,6 +15613,13 @@
   year = {1998},
   date-added = {2013-05-31 14:18:26 +0000},
   date-modified = {2013-05-31 14:18:26 +0000}
+}
+
+@ARTICLE{,
+  author = {Hallberg, Johan D.},
+  title = {PRIO Conflict Site 1989-2008: A Geo-Referenced Dataset on Armed Conflict},
+  owner = {janus829},
+  timestamp = {2014.10.06}
 }
 
 @ARTICLE{halperin:2008,

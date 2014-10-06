@@ -14,7 +14,7 @@ prio$Conflict.territory <- toupper(countrycode(prio$Conflict.territory,"country.
 
 ######################################################################
 # Trace conflict over time
-cname="COLOMBIA"
+cname="INDIA"
 worldmap=cshp(date=as.Date("1990-01-01"),useGW=F)
 ccode <- countrycode(cname,"country.name","cown")
 country.shape <- worldmap[worldmap$COWCODE==ccode,]
@@ -57,7 +57,11 @@ setwd(pathTex)
 ######################################################################
 # Trace GDP over time
 setwd(pathData)
-load('wbData.rda')
-cwbdata=wbData[which(wbData$cname==cname & wbData$year>=min(newprio$Year) & wbData$year<=max(newprio$Year)),]
-ggplot(cwbdata, aes(x=year,y=gdpGr))+geom_line()
+load('combinedData.rda')
+yData$lnminDist.min <- log(yData$minDist.min+1)
+yData$lncapDist.min <- log(yData$capDist.min+1)
+
+cyData=yData[which(yData$ccode==ccode & yData$year>=min(newprio$Year) & yData$year<=max(newprio$Year)),]
+mean(cyData$gdpGr_l0)
+ggplot(cyData, aes(x=lncapDist.min,y=gdpGr_l0))+geom_line()
 ######################################################################
