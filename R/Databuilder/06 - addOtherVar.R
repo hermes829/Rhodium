@@ -1,6 +1,6 @@
 ####################
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
-if(Sys.info()["user"]=="s7m"){source('/Users/s7m/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year and WB data

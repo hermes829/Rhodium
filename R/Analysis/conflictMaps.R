@@ -1,4 +1,5 @@
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
@@ -30,11 +31,11 @@ temp = temp + geom_map(map=ggmap, fill='white',
 temp = temp + geom_point(aes(
 	x=fYrCty$cleanLong[fYrCty$cname==cname & fYrCty$Capital==0], 
 	y=fYrCty$cleanLat[fYrCty$cname==cname & fYrCty$Capital==0]), 
-	pch=17,size=4,col='black')
+	pch=17,size=4,col='darkgrey')
 temp = temp + geom_point(aes(
 	x=fYrCty$cleanLong[fYrCty$cname==cname & fYrCty$Capital!=0], 
 	y=fYrCty$cleanLat[fYrCty$cname==cname & fYrCty$Capital!=0]), 
-	pch=18,size=5,col='black')
+	pch=18,size=5,col='darkgrey')
 temp = temp + geom_point(aes(x=newprio$Longitude, y=newprio$Latitude,
 	color=newprio$Year),size=4)
 temp = temp + scale_colour_gradient('',
@@ -48,7 +49,15 @@ temp = temp + theme(
   panel.grid.minor=element_blank(), panel.border=element_blank())
 temp
 setwd(pathTex)
-pdf(file=paste0(tolower(cname),'Map.pdf'), width=5, height=7)
-temp
-dev.off()
+# pdf(file=paste0(tolower(cname),'Map.pdf'), width=5, height=7)
+# temp
+# dev.off()
+######################################################################
+
+######################################################################
+# Trace GDP over time
+setwd(pathData)
+load('wbData.rda')
+cwbdata=wbData[which(wbData$cname==cname & wbData$year>=min(newprio$Year) & wbData$year<=max(newprio$Year)),]
+ggplot(cwbdata, aes(x=year,y=gdpGr))+geom_line()
 ######################################################################
