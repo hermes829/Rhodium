@@ -165,13 +165,15 @@ save(yData, file='countryYear_ConflictData.rda')
 # [95,] "NY.GDP.PCAP.KD.ZG"             "GDP per capita growth (annual %)"
 # [86,] "NY.GDP.MKTP.KD"                 "GDP (constant 2000 US$)"
 # [87,] "NY.GDP.MKTP.KD.ZG"             "GDP growth (annual %)"
+# NY.GDP.TOTL.RT.ZS             "Natual Resource Rents % of GDP"
 wbVars=c("BX.KLT.DINV.CD.WD","AG.LND.TOTL.K2", "NY.GDP.DEFL.KD.ZG",
   "NY.GDP.PCAP.KD", "NY.GDP.PCAP.KD.ZG",
-  "NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG")
+  "NY.GDP.MKTP.KD", "NY.GDP.MKTP.KD.ZG", 
+  'NY.GDP.TOTL.RT.ZS')
 wbData=WDI(country='all', indicator=wbVars,
   start=1988, end=2010, extra=T)
-names(wbData)[4:10]=c('fdi', 'landArea', 'inflation', 'gdpCap',
-  'gdpCapGr', 'gdp', 'gdpGr')
+names(wbData)[4:11]=c('fdi', 'landArea', 'inflation', 'gdpCap',
+  'gdpCapGr', 'gdp', 'gdpGr', 'resourceGDP')
 setwd(pathData)
 save(wbData, file='wbData.rda')
 ##################################################################

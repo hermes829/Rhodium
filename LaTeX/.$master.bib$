@@ -22665,17 +22665,6 @@
 
 @ARTICLE{lucas:1988,
   author = {Robert E. Lucas},
-  title = {The Mechanics of Economic Development},
-  journal = {Journal of Monetary Economics},
-  year = {1988},
-  volume = {22},
-  pages = {3--42},
-  owner = {janus829},
-  timestamp = {2014.10.06}
-}
-
-@ARTICLE{lucas:1988,
-  author = {Robert E. Lucas},
   title = {On the Mechanics of Economic Development},
   journal = {Journal of Monetary Economics},
   year = {1988},

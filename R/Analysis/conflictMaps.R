@@ -13,29 +13,16 @@ prio$Conflict.territory <- toupper(countrycode(prio$Conflict.territory,"country.
 
 ######################################################################
 # Trace conflict over time
-cname="MEXICO"
+cname="COLOMBIA"
 worldmap=cshp(date=as.Date("1990-01-01"),useGW=F)
 ccode <- countrycode(cname,"country.name","cown")
 country.shape <- worldmap[worldmap$COWCODE==ccode,]
-
 newprio <- na.omit(prio[prio$Conflict.territory==cname,])
-mypal <- colorRampPalette(c("#FEE5D9",'#FB6A4A',"#99000D"))
-newprio$col= mypal(nrow(newprio))
 
 gpclibPermit()
 ggmap = fortify(country.shape, region = "COWCODE")
 ggmapData = data.frame("id" = unique(ggmap$id))
 ggmapData$id = as.numeric(as.character(ggmapData$id))
-
-# Trace conflict over time UGLY
-tracePrio=data.frame(matrix(NA, nrow=nrow(newprio), ncol=4, 
-	dimnames=list(NULL,c('lon1','lat1','lon2','lat2'))))
-pvars=c('Longitude', 'Latitude')
-for(ii in 1:nrow(newprio)){
-	t1 = newprio$Year[ii]; t2=t1+1; id = newprio$ID[ii]
-	toPull=newprio[which(newprio$Year==t2 & newprio$ID==id),pvars]
-	if(nrow(toPull)!=0){ tracePrio[ii,] = as.matrix(cbind(newprio[ii,pvars], toPull)) }
-}
 
 temp = ggplot(ggmapData, aes(map_id = id))
 temp = temp + geom_map(map=ggmap, fill='white', 
@@ -50,13 +37,9 @@ temp = temp + geom_point(aes(
 	pch=18,size=5,col='black')
 temp = temp + geom_point(aes(x=newprio$Longitude, y=newprio$Latitude,
 	color=newprio$Year),size=4)
-# temp = temp + geom_segment(
-# 	aes(x=tracePrio$lon1, xend=tracePrio$lon2, 
-# 		y=tracePrio$lat1, yend=tracePrio$lat2), 
-# 	color='black', arrow=arrow(length = unit(0.3,"cm")))
 temp = temp + scale_colour_gradient('',
 	low=brewer.pal(9,'Blues')[2],high=brewer.pal(9,'Blues')[9],
-	breaks=newprio$Year[c(1,5,10,15,20)])
+	breaks=seq(min(newprio$Year),max(newprio$Year),6))
 temp = temp + theme(
   line=element_blank(),title=element_blank(),
   axis.text.x=element_blank(),axis.text.y=element_blank(),
@@ -65,7 +48,7 @@ temp = temp + theme(
   panel.grid.minor=element_blank(), panel.border=element_blank())
 temp
 setwd(pathTex)
-pdf(file=paste0(tolower(cname),'Map.pdf'), width=5, height=6)
+pdf(file=paste0(tolower(cname),'Map.pdf'), width=5, height=7)
 temp
 dev.off()
 ######################################################################

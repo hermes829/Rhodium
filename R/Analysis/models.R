@@ -35,7 +35,7 @@ modForm=function(x){
   Int.max + territorial.max + durSt1max + confAreaPropHi +
   nconf + 
   upperincome + lninflation_l1 + polity2 +
-  gdpGr.mean_l0 + (1|ccode)' ) )
+  resourceGDP + gdpGr.mean_l0 + (1|ccode)' ) )
 }
 ctyForm=modForm('lnminDist.min')
 capForm=modForm('lncapDist.min')
@@ -55,11 +55,12 @@ rmse(mCity); rmse(mCap)
 setwd(pathMain)
 source('vizResults.R')
 
-vnames=c('Ln(Min. City Dist.)$_{t-1}$', 
-  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
-  'Number of conflicts$_{t-1}$',
+otherCovars=c('Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
+  'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
-  'World GDP Growth$_{t}$')
+  'Resource Rents/GDP$_{t}$', 'World GDP Growth$_{t}$')
+
+vnames=c('Ln(Min. City Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
@@ -72,11 +73,7 @@ setwd(pathTex)
 # temp
 # dev.off()
 
-vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', 
-  'Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
-  'Number of conflicts$_{t-1}$',  
-  'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
-  'World GDP Growth$_{t}$')
+vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
@@ -236,10 +233,10 @@ ggRMSE=melt(crossPerfData, id=c('Fold','Variable'))
 temp=ggplot(ggRMSE, aes(x=Fold, y=value, fill=variable))
 temp=temp + geom_bar(stat='identity',position=position_dodge())
 # temp=temp + ylab('RMSE') + xlab('') + ylim(0, 0.006) 
-temp=temp + scale_x_continuous(breaks=1:7,labels=paste0('Fold ',LETTERS[1:nF]))
+temp=temp + scale_x_continuous(breaks=1:nF,labels=paste0('Fold ',LETTERS[1:nF]))
 temp=temp + scale_fill_manual(values=c('inRMSE'='black', 'outRMSE'='grey'))
 temp=temp + facet_wrap(~Variable)
-temp=temp + theme(legend.position='none', legend.title=element_blank(),
+temp=temp + theme(legend.position='top', legend.title=element_blank(),
       axis.ticks=element_blank(), panel.grid.major=element_blank(),
       panel.grid.minor=element_blank(), axis.text.x=element_text(angle=45,hjust=1))
 temp

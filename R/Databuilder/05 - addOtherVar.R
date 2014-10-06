@@ -37,15 +37,15 @@ wbData = merge(wbData, gdpGrYr, by='year', all.x=T, all.y=F)
 
 # Merging
 wbData$cyear = paste0(wbData$ccode, wbData$year)
-yData = merge(yData, wbData[,c(4:10,20:ncol(wbData))], 
+yData = merge(yData, wbData[,c(4:11,20:ncol(wbData))], 
 	by='cyear', all.x=T, all.y=F)
 
 wbData$cyear = paste0(wbData$ccode, wbData$year-1)
-yData = merge(yData, wbData[,c(4:10,20:ncol(wbData))], 
+yData = merge(yData, wbData[,c(4:11,20:ncol(wbData))], 
 	by='cyear', all.x=T, all.y=F, suffixes=c("_l0",""))
 
 wbData$cyear = paste0(wbData$ccode, wbData$year+1)
-yData = merge(yData, wbData[,c(4:10,20:ncol(wbData))], 
+yData = merge(yData, wbData[,c(4:11,20:ncol(wbData))], 
 	by='cyear', all.x=T, all.y=F, suffixes=c("_l1",""))
 
 # Create conflict area/land area var
@@ -79,8 +79,8 @@ polity$country[polity$country=='Congo Kinshasa']='Democratic Congo'
 polity$country[polity$country=='UAE']='United Arab Emirates'
 polity$cname=toupper(countrycode(polity$country,'country.name','country.name'))
 
-polity$cname[polity$cname=="Czechoslovakia"]='CZECH REPUBLIC'
-polity$cname[polity$cname=="Yugoslavia"]="SERBIA"
+polity$cname[polity$cname=="CZECHOSLOVAKIA"]='CZECH REPUBLIC'
+polity$cname[polity$cname=="YUGOSLAVIA"]="SERBIA"
 polity$ccode=panel$ccode[match(polity$cname, panel$cname)]
 polity$cyear=paste0(polity$ccode,polity$year)
 
@@ -91,30 +91,30 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 	by='cyear', all.x=T, all.y=F)
 ####################
 
-####################
-# Imputation
-# Impute missing value
-library('Amelia')
-names(yData)
-exclVars=c('cyear')
-test=amelia(yData[,-which(exclVars %in% names(yData))], cs='ccode', ts='year')
+# ####################
+# # Imputation
+# # Impute missing value
+# library('Amelia')
+# names(yData)
+# exclVars=c('cyear')
+# test=amelia(yData[,-which(exclVars %in% names(yData))], cs='ccode', ts='year')
 
 
 
-sbgcopTimeSR = system.time(
-  sbgData <- sbgcop.mcmc(
-  	,
-  	nsamp=5000,seed=123456, verb=TRUE)
-  )
+# sbgcopTimeSR = system.time(
+#   sbgData <- sbgcop.mcmc(
+#   	,
+#   	nsamp=5000,seed=123456, verb=TRUE)
+#   )
 
-# Clean
-impData=data.frame(
-	cbind(
-		cyear=mdl[,'cyear'],
-		sbgData$Y.pmean[,c('ccode','year',lagVars)]
-	)
-)
-####################
+# # Clean
+# impData=data.frame(
+# 	cbind(
+# 		cyear=mdl[,'cyear'],
+# 		sbgData$Y.pmean[,c('ccode','year',lagVars)]
+# 	)
+# )
+# ####################
 
 ####################
 # Save

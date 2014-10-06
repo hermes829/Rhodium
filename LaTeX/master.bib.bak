@@ -7141,6 +7141,13 @@
   reviewedwork_3 = {Norms in International Relations: The Struggle against Apartheid}
 }
 
+@MISC{chenery:syrquin:1975,
+  author = {Chenery, Hollis B. and Syrquin, Moises},
+  title = {Patterns of Development, 1950-1970},
+  year = {1975},
+  publisher = {Oxford University Press}
+}
+
 @ARTICLE{chiba:reed:2010,
   author = {Chiba, Daina and Reed, William},
   title = {{Commitment Problems, Territorial Claims, and Third-Party Conflict}},
@@ -10035,6 +10042,19 @@
   address = {New York},
   date-added = {2013-05-31 21:52:09 +0000},
   date-modified = {2013-05-31 21:52:09 +0000}
+}
+
+@ARTICLE{glaeser:etal:1992,
+  author = {Edward L. Glaeser, Hedi D. Kallal, Jos\'{e} A. Scheinkman, and Andrei
+	Shleifer},
+  title = {Growth in Cities},
+  journal = {Journal of Political Economy},
+  year = {1992},
+  volume = {100},
+  pages = {1126--1152},
+  number = {6},
+  owner = {janus829},
+  timestamp = {2014.10.06}
 }
 
 @ARTICLE{mansfield:milner:2000,
@@ -16525,6 +16545,17 @@
   volume = {2326}
 }
 
+@ARTICLE{henderson:wang:2007,
+  author = {Henderson, Vernon and Wang, Hyoung G.},
+  title = {Urbanization and City Growth: The Role of Institutions},
+  journal = {Regional Science and Urban Economics},
+  year = {2007},
+  volume = {37},
+  pages = {283--313},
+  number = {3},
+  publisher = {Elsevier}
+}
+
 @MISC{hensel:2005,
   author = {Hensel, Paul R.},
   title = {{Multilateral Treaties of Pacific Settlement (MTOPS) Data Set, version
@@ -20750,11 +20781,31 @@
   issn = {0022-0027}
 }
 
-@BOOK{krugman1991geography,
+@BOOK{krugman:1997,
+  title = {Development, Geography, and Economic Theory},
+  publisher = {MIT press},
+  year = {1997},
+  author = {Krugman, Paul R.},
+  volume = {6}
+}
+
+@BOOK{krugman:1991,
   title = {Geography and Trade},
   publisher = {MIT press},
   year = {1991},
   author = {Krugman, Paul R.}
+}
+
+@ARTICLE{krugman:1991a,
+  author = {Paul R. Krugman},
+  title = {Increasing Returns and Economic Geography},
+  journal = {Journal of Political Economy},
+  year = {1991},
+  volume = {99},
+  pages = {483--499},
+  number = {31},
+  owner = {janus829},
+  timestamp = {2014.10.06}
 }
 
 @ARTICLE{kruskal:1977,
@@ -22623,6 +22674,17 @@
   timestamp = {2014.09.18}
 }
 
+@ARTICLE{,
+  author = {Robert E. Lucas},
+  title = {The Mechanics of Economic Development},
+  journal = {Journal of Monetary Economics},
+  year = {1988},
+  volume = {22},
+  pages = {3--42},
+  owner = {janus829},
+  timestamp = {2014.10.06}
+}
+
 @ARTICLE{lujala:2010,
   author = {Lujala, P.},
   title = {{The spoils of nature: Armed civil conflict and rebel access to natural
@@ -23568,6 +23630,15 @@
   number = {2},
   date-added = {2010-12-12 12:47:47 -0500},
   date-modified = {2013-05-24 15:41:19 -0500}
+}
+
+@BOOK{marshall:1920,
+  title = {Principles of Economics},
+  publisher = {New York: Macmillan},
+  year = {1920},
+  author = {Alfred Marshall},
+  owner = {janus829},
+  timestamp = {2014.10.06}
 }
 
 @ELECTRONIC{marshall:etal:2013,
@@ -25607,6 +25678,13 @@
   doi = {10.1177/0022002709333356},
   file = {:Users/dynaman/Dropbox/Papers/2009/Myerson - 2009 - A  Field Manual for the Cradle of Civilization Theory of  Leadership and Lessons of Iraq.pdf:pdf},
   issn = {0022-0027}
+}
+
+@ARTICLE{myrdal:sitohang:1957,
+  author = {Myrdal, Gunnar and Sitohang, Paul},
+  title = {Economic Theory and Under-Developed Regions},
+  year = {1957},
+  publisher = {Duckworth London}
 }
 
 @ARTICLE{najeeb-shafiq:sinno:2009,
