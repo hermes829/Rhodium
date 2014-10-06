@@ -96,11 +96,12 @@ temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData,
   ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. City Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
+temp + theme(axis.title.y=element_text(vjust=1))
 temp
 setwd(pathTex)
-# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
+temp
+dev.off()
 
 temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData, 
   vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]),
@@ -108,11 +109,12 @@ temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData,
   ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. Cap Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
+temp + theme(axis.title.y=element_text(vjust=1))
 temp
 setwd(pathTex)
-# tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
+temp
+dev.off()
 ###################################################################
 
 
@@ -155,14 +157,15 @@ ggRMSE$stat=numSM(ggRMSE$stat)
 temp=ggplot(ggRMSE, aes(x=type, y=stat))
 temp=temp + geom_bar(stat='identity') + ylab('RMSE') + xlab('')
 temp=temp + facet_wrap(~var)
-temp=temp + theme(legend.position='none', legend.title=element_blank(),
-      axis.ticks=element_blank(), panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank())
+temp=temp + theme(axis.title.y=element_text(vjust=1),
+  legend.position='none', legend.title=element_blank(),
+  axis.ticks=element_blank(), panel.grid.major=element_blank(),
+  panel.grid.minor=element_blank())
 temp
 setwd(pathTex)
-# tikz(file='rmseInOut.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)
+temp
+dev.off()
 ###################################################################
 
 ###################################################################
@@ -218,11 +221,12 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
   facet=TRUE, facetName='fold', facetBreaks=1:nF, 
   facetLabs=paste0('Fold ',LETTERS[1:nF])
   )
-temp  
-# setwd(pathTex)
-# tikz(file='crossValPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+temp=temp+facet_wrap(~Variable, scales='fixed')
+temp
+setwd(pathTex)
+tikz(file='crossValPlot.tex', width=7, height=4, standAlone=FALSE)
+temp
+dev.off()
 
 # Cross val performance stats
 crossPerfData=rbind(data.frame(crossPerf[[1]]), data.frame(crossPerf[[2]]))
