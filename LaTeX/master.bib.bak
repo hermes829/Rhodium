@@ -15615,9 +15615,13 @@
   date-modified = {2013-05-31 14:18:26 +0000}
 }
 
-@ARTICLE{,
+@ARTICLE{hallberg:2012,
   author = {Hallberg, Johan D.},
-  title = {PRIO Conflict Site 1989-2008: A Geo-Referenced Dataset on Armed Conflict},
+  title = {PRIO Conflict Site 1989-2008: A Geo-Referenced Dataset on Armed Conflicts},
+  journal = {Conflict Management and Peace Science},
+  year = {2012},
+  volume = {29},
+  pages = {219--232},
   owner = {janus829},
   timestamp = {2014.10.06}
 }
@@ -34203,6 +34207,17 @@
   date-modified = {2013-05-24 15:41:21 -0500}
 }
 
+@ARTICLE{tollefsen:etal:2012,
+  author = {Tollefsen, Andreas For{\o} and Strand, H{\aa}vard and Buhaug, Halvard},
+  title = {PRIO-GRID: A Unified Spatial Data Structures},
+  journal = {Journal of Peace Research},
+  year = {2012},
+  volume = {49},
+  pages = {363--374},
+  number = {2},
+  publisher = {SAGE Publications}
+}
+
 @ARTICLE{tomz:etal:2007,
   author = {Michael Tomz and Judith Goldstein and Douglas Rivers},
   title = {Do We Really Know That the WTO Increases Trade?},
@@ -34879,6 +34894,19 @@
   jstor_formatteddate = {Summer, 1972},
   language = {English},
   publisher = {The MIT Press}
+}
+
+@ARTICLE{vincenty:1975,
+  author = {Vincenty, Thaddeus},
+  title = {Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application
+	of Nested Equations},
+  journal = {Survey Review},
+  year = {1975},
+  volume = {23},
+  pages = {88--93},
+  number = {176},
+  publisher = {Maney Publishing Suite 1C, Joseph's Well, Hanover Walk, Leeds LS3
+	1AB, UK}
 }
 
 @ARTICLE{volgy:fausett:etal:2008,
