@@ -33,8 +33,7 @@ modData$polity2 = modData$polity2 + 11
 modForm=function(x){
   formula( paste0('lngdpGr_l0 ~', x, '+ 
   Int.max + territorial.max + durSt1max + confAreaPropHi +
-  nconf + 
-  upperincome + lninflation_l1 + polity2 +
+  nconf + upperincome + lninflation_l1 + polity2 +
   resourceGDP + gdpGr.mean_l0 + (1|ccode)' ) )
 }
 ctyForm=modForm('lnminDist.min')
@@ -64,21 +63,17 @@ vnames=c('Ln(Min. City Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, 
-    # ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
-# tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
-# temp
-# dev.off()
+tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
+temp
+dev.off()
 
 vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-    specY=TRUE, 
-    # ggylims=c(-.004,.004), ggybreaks=seq(-.004,.004,.002),
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 temp
 setwd(pathTex)
@@ -99,22 +94,22 @@ temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData,
 temp + theme(axis.title.y=element_text(vjust=1))
 temp
 setwd(pathTex)
-tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
-temp
-dev.off()
+# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
+# temp
+# dev.off()
 
 temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData, 
   vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]),
   vi='lncapDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
-  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. Cap Dist.)$_{t}$",
+  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. Capital Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
 temp + theme(axis.title.y=element_text(vjust=1))
 temp
 setwd(pathTex)
-tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
-temp
-dev.off()
+# tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
+# temp
+# dev.off()
 ###################################################################
 
 
@@ -146,9 +141,9 @@ ggRMSE=data.frame(rbind(
     stat=rmse(mCityTr) ),
   cbind("Ln(Min. City Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
     outSampPerf('lngdpGr_l0',mCityTr,test)),
-  cbind("Ln(Min. Cap Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', 
+  cbind("Ln(Min. Capital Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', 
     rmse(mCapTr) ),
-  cbind("Ln(Min. Cap Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
+  cbind("Ln(Min. Capital Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
     outSampPerf('lngdpGr_l0',mCapTr,test))
   ))
 ggRMSE$stat=numSM(ggRMSE$stat)
@@ -163,9 +158,9 @@ temp=temp + theme(axis.title.y=element_text(vjust=1),
   panel.grid.minor=element_blank())
 temp
 setwd(pathTex)
-tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)
-temp
-dev.off()
+# tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)
+# temp
+# dev.off()
 ###################################################################
 
 ###################################################################
@@ -224,9 +219,9 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
 temp=temp+facet_wrap(~Variable, scales='fixed')
 temp
 setwd(pathTex)
-tikz(file='crossValPlot.tex', width=7, height=4, standAlone=FALSE)
-temp
-dev.off()
+# tikz(file='crossValPlot.tex', width=7, height=4, standAlone=FALSE)
+# temp
+# dev.off()
 
 # Cross val performance stats
 crossPerfData=rbind(data.frame(crossPerf[[1]]), data.frame(crossPerf[[2]]))
