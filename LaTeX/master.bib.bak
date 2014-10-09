@@ -2325,6 +2325,15 @@
   mendeley-tags = {fixed effects}
 }
 
+@ARTICLE{beck2008time,
+  author = {Beck, Nathaniel},
+  title = {Time-series-cross-section methods},
+  journal = {Oxford Handbook of Political Methodology},
+  year = {2008},
+  pages = {475--93},
+  publisher = {Oxford University Press New York}
+}
+
 @UNPUBLISHED{beck:2006,
   author = {Beck, Nathaniel},
   title = {{Time-Series -- Cross-Section Methods}},
@@ -33848,6 +33857,17 @@
   publisher = {Mendeley Ltd.}
 }
 
+@ARTICLE{themner:wallensteen:2014,
+  author = {Themn{\'e}r, Lotta and Wallensteen, Peter},
+  title = {Armed Conflicts, 1946--2013},
+  journal = {Journal of Peace Research},
+  year = {2014},
+  volume = {51},
+  pages = {541--554},
+  number = {4},
+  publisher = {SAGE Publications}
+}
+
 @ARTICLE{te:chech2005,
   author = {{The~Economist}},
   title = {An Empire's Fraying Edge},
@@ -34904,9 +34924,7 @@
   year = {1975},
   volume = {23},
   pages = {88--93},
-  number = {176},
-  publisher = {Maney Publishing Suite 1C, Joseph's Well, Hanover Walk, Leeds LS3
-	1AB, UK}
+  number = {176}
 }
 
 @ARTICLE{volgy:fausett:etal:2008,

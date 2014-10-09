@@ -6,6 +6,9 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 setwd(pathData)
 load('combinedData.rda'); modData=yData
 
+# Gen tikz?
+genTikz=TRUE
+
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
 logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
@@ -24,7 +27,7 @@ modData$Int.max <- modData$Int.max-1
 # Transformations for other controls
 modData$lngdpCap = log(modData$gdpCap)
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
-modData$democ = as.numeric(modData$polity>=6)
+modData$democ = as.numeric(modData$polity2>=6)
 modData$polity2 = modData$polity2 + 11
 ###################################################################
 
@@ -32,7 +35,7 @@ modData$polity2 = modData$polity2 + 11
 ###################################################################
 modForm=function(x){
   formula( paste0('lngdpGr_l0 ~', x, '+ 
-  Int.max + territorial.max + durSt1max + confAreaPropHi +
+  Int.max + durSt1max + confAreaPropHi +
   nconf + upperincome + lninflation_l1 + polity2 +
   resourceGDP + gdpGr.mean_l0 + (1|ccode)' ) )
 }
@@ -54,7 +57,7 @@ rmse(mCity); rmse(mCap)
 setwd(pathMain)
 source('vizResults.R')
 
-otherCovars=c('Intensity$_{t-1}$', 'Type$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
+otherCovars=c('Intensity$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'Resource Rents/GDP$_{t}$', 'World GDP Growth$_{t}$')
@@ -64,22 +67,20 @@ temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-temp
 setwd(pathTex)
-tikz(file='mCityCoefPlot.tex', width=4, height=4, standAlone=F)
+if(genTikz){ tikz(file='mCityCoefPlot.tex', width=4, height=6, standAlone=F)}
 temp
-dev.off()
+if(genTikz){ dev.off() }
 
 vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-temp
 setwd(pathTex)
-# tikz(file='mCapCoefPlot.tex', width=4, height=4, standAlone=F)
-# temp
-# dev.off()
+if(genTikz){ tikz(file='mCapCoefPlot.tex', width=4, height=6, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
 ###################################################################
 
 ###################################################################
@@ -88,28 +89,26 @@ setwd(pathTex)
 temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData, 
   vars=charSM(na.omit(rownames(summary(mCity)$'coefficients')[2:100])),
   vi='lnminDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
-  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. City Dist.)$_{t}$",
+  ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. City Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
-temp + theme(axis.title.y=element_text(vjust=1))
-temp
+temp=temp + theme(axis.title.y=element_text(vjust=1))
 setwd(pathTex)
-# tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+if(genTikz){ tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
 
 temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData, 
   vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]),
   vi='lncapDist.min', ostat=median, sigma=FALSE, intercept=TRUE,
-  ylabel="\\% $\\Delta$ Ln(GDP)$_{t}$", xlabel="Ln(Min. Capital Dist.)$_{t}$",
+  ylabel="\\% $\\Delta$ GDP$_{t}$", xlabel="Ln(Min. Capital Dist.)$_{t}$",
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
-temp + theme(axis.title.y=element_text(vjust=1))
-temp
+temp=temp + theme(axis.title.y=element_text(vjust=1))
 setwd(pathTex)
-# tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)
-# temp
-# dev.off()
+if(genTikz){ tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
 ###################################################################
 
 
@@ -156,11 +155,10 @@ temp=temp + theme(axis.title.y=element_text(vjust=1),
   legend.position='none', legend.title=element_blank(),
   axis.ticks=element_blank(), panel.grid.major=element_blank(),
   panel.grid.minor=element_blank())
-temp
 setwd(pathTex)
-# tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)
-# temp
-# dev.off()
+if(genTikz){ tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)}
+temp
+if(genTikz){ dev.off() }
 ###################################################################
 
 ###################################################################
@@ -172,7 +170,7 @@ crossData=na.omit( modData[,vars] )
 
 cntries=unique(modData$ccode)
 set.seed(6886)
-nF=7
+nF=6
 folds=data.frame(
   cbind(ccode=cntries, fold=sample(1:nF, length(cntries), replace=TRUE) ) )
 table(folds$fold)
@@ -217,11 +215,10 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
   facetLabs=paste0('Fold ',LETTERS[1:nF])
   )
 temp=temp+facet_wrap(~Variable, scales='fixed')
-temp
 setwd(pathTex)
-# tikz(file='crossValPlot.tex', width=7, height=4, standAlone=FALSE)
-# temp
-# dev.off()
+if(genTikz){ tikz(efile='crossValPlot.tex', width=7, height=4, standAlone=FALSE)}
+temp
+if(genTikz){ dev.off() }
 
 # Cross val performance stats
 crossPerfData=rbind(data.frame(crossPerf[[1]]), data.frame(crossPerf[[2]]))

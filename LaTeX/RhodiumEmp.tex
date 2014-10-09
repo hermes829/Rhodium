@@ -1,7 +1,7 @@
 \section{Data and Sample}
 \label{empirics}
 
-\subsection{Measuring Spatial Proximity of Conflict to Urban Centers}
+\subsection{Measuring Spatial Proximity}
 
 Our theoretical framework centers around the argument that variation in macroeconomic growth amongst countries in the midst of civil war can be explained by the spatial proximity between civil conflicts and urban centers. In constructing our dataset, we thus restrict the cases we include to only those country-years in which there was an internal armed conflict. Additionally, the unit of observation for this analysis is the country-year. This enables us to directly explore whether variation in growth amongst countries experiencing internal conflict can be explained by the proximity of conflict to cities.
 
@@ -13,56 +13,62 @@ We collect information on the location of conflicts from the PRIO Conflict Site 
 
 To construct a time-series cross-sectional database of urban centers, we turn to yearly editions of The World Almanac from 1989 to 2008. More refined subnational data listing urban centers by their contribution to economic output would be the most direct way to test our hypothesis, however, cross-national data such as this over the time period of our analysis, especially for developing countries, is simply not available. The World Alamanac lists the major cities in a country by population, thus providing us with a second best approximation of the urban centers that are most relevant for a particular national economy. Typically, the Almanacs list at least three major cities, including the capital, for each country and year from 1989 to 2008. We use the top five major cities listed for each country and then determine their geographical centers.
 
-% Again if you could add anything to why The World Alamanac data is the right choice that would be great.
+% Note to Ben: Again if you could add anything to why The World Alamanac data is the right choice that would be great.
 
-Using our geo-referenced conflict and urban center data, we proceed to compute the proximity of every civil armed conflict in a country-year from every urban center listed in that year.\footnote{Distances between centroid locations were computed using an iterative method of distance calculation proposed by \citet{vincenty:1975}.} Since our unit of analysis is the country-year, we aggregate the distance between conflicts and major cities by calculating the  minimum logged distance any conflict is from a major city. For example, if a country faces, four conflicts in a year, the datapoint for that country-year level would be the minimum distance any conflict centroid is from any city centroid. This choice of aggregation is what conforms closest to our theoretical claims about macroeconomic activity only being severely disrupted in cases of conflicts being proximate to major cities. 
-
-\begin{figure}
-	\centering
-	\resizebox{.8\textwidth}{!}{\input{distGdp}}
-	\caption{Average relationship between city and capital distance from conflict and GDP growth.}
-	\label{fig:distGdp}
-\end{figure}
-
-In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. The centroid locations of conflicts are shown by red dots. Not surprisingly, we can see that in many cases conflict locations are clustered within specific parts of a country. In most cases, this clustering is indicative of the same conflict moving within the geographic boundaries of a country over time. The blue diamonds in \ref{fig:CityConfMap} denote the locations of major cities as identified in The World Alamanacs from 1989 to 2008. Countries shaded in grey are those for which no armed conflict took place in this period according to the PRIO dataset.  
+In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. The centroid locations of conflicts are shown by red dots. Not surprisingly, in many cases conflict locations are clustered within specific parts of a country. In most cases, this clustering is indicative of the same conflict moving within the geographic boundaries of a country over time. The blue diamonds in \ref{fig:CityConfMap} denote the locations of major cities from 1989 to 2008. Countries shaded in grey are those for which no armed conflict took place in this period according to the PRIO dataset.  
 
 \begin{amssidewaysfigure}
 	\centering
 	\includegraphics[width=1\textwidth]{CityConfMap-crop}
-	\caption{This map illustrates the geographic distribution of all conflicts, according to the PRIO Conflict Site Dataset, and major cities listed in The World Almanac from 1989 to 2008. Countries for which no armed conflicts are recorded are shaded in grey.}
+	\caption{This map illustrates the geographic distribution of all internal armed conflicts and major cities from 1989 to 2008. Countries for which no armed conflicts are recorded are shaded in grey.}
 	\label{fig:CityConfMap}
 \end{amssidewaysfigure}
 \FloatBarrier
 
-\subsection{Control Variables}
+Using our geo-referenced conflict and urban center data, we proceed to compute the proximity of every civil armed conflict in a country-year from every urban center listed in that year.\footnote{Distances between centroid locations were computed using an iterative method of distance calculation proposed by \citet{vincenty:1975}.} Since our unit of analysis is the country-year, we aggregate the distance between conflicts and major cities by calculating the minimum logged distance any conflict is from a major city. For example, if a country faces, four conflicts in a year, the datapoint for that country-year would be the minimum distance any conflict centroid is from any city centroid. In addition, to identifying the minimum distance a conflict is from any city, we also create a variable measures that measures minimum distance of any conflict from the capital of the country. Given the importance of cities as drivers of macroeconomic growth the proximity of conflict to even one city should have at least a noticeable short-term impact on growth. Thus this choice of aggregation conforms clostest to our theoretical claims about how macroeconomic growth can be severely disrupted in cases where conflicts are proximate to major cities. 
 
-From the PRIO dataset we also bring in additional information about that conflict, specifically its intensity, the area of conflict, whether the conflict involves a territorial dispute, and its duration.
+Figure \ref{fig:distGdp} provides a cursory illustration of the relationship between GDP growth and our spatial proximity variables. Each bar on the rightmost panel represents the average GDP growth rate across country-years for which the minimum distance between the centroid of the conflict and capital city fell within a certain quartile range across our full sample. Clearly, as the minimum distance from a conflict to capital city declines, there is a sharp decline in average growth rates for the following year. On the rightmost panel of this figure, the same relationship holds when we test the effect of the minimum distance of conflict from any major urban center. 
 
-Last, we include a number of additional control measures. First, we control for a country's total, logged land area to differentiate between the proximity effects of conflicts within large and small countries. We also control for a couple of macroeconomic variables that could affect year over year changes in GDP, specifically, lagged inflation and whether or not the state is an upper income country, as defined by the World Bank.
+\begin{figure}
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{distGdp}}
+	\caption{Average percent change in GDP growth at time $t$ by distance from conflict to capital city on rightmost panel at time $t-1$, and from conflict to any city on the leftmost. The error bars represent the 95\% confidence interval around the mean.}
+	\label{fig:distGdp}
+\end{figure}
 
-Add in descriptors for each of these variables and expectations of their sign.
+\subsection{Empirical Model}
 
-A drawback with circular conflict zones is that they cover more territory than is actually affected by the conflict, including territories of neighboring countries.4 Due to the nature of armed conflict it may be impossible to gain information on the exact locations of armed encounters, occupied territories, and rebel bases. It might be possible to map the actual conflict-affected area with high precision for some well- reported conflicts, but it would be virtually impossible to code all conflict-years in the dataset coherently in a similar manner. The operationalization of conflict zones is essentially a trade-off between precision and simplicity, and in most cases a circular conflict zone will give a good indication of the core area of the conflict.
+% Note to Ben: Does empirical model sound weird?
 
-Using a dataset that includes 497 country-years of civil war from 68 different countries during the period of 1989 to 2007. 
+Next, we move beyond this cursory illustration and explicate our full modeling strategy. Given how we constructed our spatial proximity of conflict variables, it would make little sense to include both within one model. The obvious problem we would run into is that there would be cases for which the minimum distance of a conflict to any city would be the same as the minimum distance to the capital. Thus we estimate two separate models, one where we include the minimum distance from a conflict to the capital and the other where we include the minimum distance to any urban center. In addition, to the inclusion of our spatial proximity covariates we include a number of control measures to account for extant explanations of how civil war dynamics affect GDP growth and to mitigate against omitted variable bias. 
 
-To estimate the model we use random effects clustered on countries. The model we estimate is shown below:
+From the PRIO Armed Conflict dataset we bring in additional information about conflict intensity, duration, the area covered by the conflict, and the number of conflicts \citep{themner:wallensteen:2014}. Conflict intensity is a binary that distinguishes between minor armed conflicts and wars, and we set this equal to one if any of the conflicts in a country year were classified as a war and zero if not. In aggregating conflict duration to the country year level, we bring in the duration (measured in years) of the longest lasting conflict by a certain country-year. Conflict area measures the conflict zone in square kilometers. To include this in our country-year model, we sum up the area covered by each conflict being fought and divide by the total land area of the country. From this we then create a binary measure that is one if greater than 50\% of a country's total land area is immersed in conflict and zero otherwise. Finally, the number of conflicts is simply a count of the number of ongoing internal armed conflicts in a country-year according to the PRIO dataset.
+
+Aggregating each of the PRIO conflict descriptive measures in this way is to help account for those countries in which conflicts are especially intense, cover large areas, have been long-lasting, and multiple conflicts are occurring. Given the findings in the extant literature, our expectation is that each of these measures should have a negative effect on economic growth. Though we also expect that the substantive implications of any one of these measures will matter less than the adverse effect to economic growth by the spatial proximity of conflict to urban centers.
+
+We also include a number of variables that help to capture structural and institutional aspects of the country itself. First, we include a binary for whether the country is classified as upper income by the World Bank and for the level of inflation in the country. Second, we also control for the level of democracy in the country using the polity index \citep{marshall:etal:2013}. We also control for the proportion of a country's GDP that is made up of natural resource rents. This is a particularly important variable to control for as countries that draw a large share of their GDP from natural resource rents likely rely less on urban centers to serve as drivers of growth. Finally, given that the timeframe of our sample overlaps with the occurence of two major global crises, we add a control for the average GDP growth across all countries in the world. 
+
+% Note to Ben: Anything else to add about why including polity would be important in the model?
+
+To estimate variation in growth rates, we use a random effects model clustered on countries. A random effects specification is preferred to using fixed effects here as we are not interested in estimating the change in GDP within units over time, rather our purpose is to explain variation between units. The total number of observations we have for this analysis are 497 country-year cases of civil war from 68 different countries during the period of 1989 to 2008. The estimation model is shown below, where $Ln(Min. \; Conflict \; Dist.)_{i,t-1}$ is a placeholder for $Ln(Min. \; Capital \; Dist.)_{i,t-1}$ and $Ln(Min. \; City \; Dist.)_{i,t-1}$:
 
 \begin{align*}
-	\% \Delta Log(GDP_{i,t}) &= \beta_{1}(Ln(Min. \; Conflict \; Dist.)_{i,t}) \\
-	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t}) \;+\; \beta_{3}(Conflict \; Type_{i,t}) \\
-	& \;+\; \beta_{4}(Conflict \; Duration_{i,t}) \;+\; \beta_{5}(Ln(Conflict \; Area)_{i,t}) \\	
-	& \;+\; \beta_{6}(Upper \; Income_{i,t}) \;+\; \beta_{7}(Inflation_{i,t-1}) \\
-	&  \;+\; \beta_{8}(Democracy_{i,t-1}) \;+\; \beta_{9}(Resource \; Rents/GDP_{t}) \\
-	& \;+\; \beta_{10}(World \; GDP \; Growth_{t}) \;+\; \mu_{i,t} \;+\; \epsilon_{i,t}
+	\% \Delta GDP_{i,t} &= \beta_{1}(Ln(Min. \; Conflict \; Dist.)_{i,t-1}) \\
+	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t-1}) \;+\; \beta_{3}(Conflict \; Duration_{i,t-1}) \\
+	& \;+\; \beta_{4}(Ln(Conflict \; Area)_{i,t-1}) \;+\; \beta_{5}(Upper \; Income_{i,t}) \\	
+	& \;+\; \beta_{6}(Inflation_{i,t-1}) \;+\; \beta_{7}(Democracy_{i,t-1}) \\
+	& \;+\; \beta_{8}(Resource \; Rents/GDP_{t-1}) \;+\; \beta_{9}(World \; GDP \; Growth_{t}) \\
+	& \;+\; \mu_{i,t} \;+\; \epsilon_{i,t}
 \end{align*}
 
 \section{Results}
 \label{findings} 
 
-We depict the results of our model in figure \ref{fig:coefPlot}. Most of the findings here are in line with our theoretical expectations. We find that higher levels of conflict intensity are associated with lower levels of GDP growth. The effect of conflict type is positive, indicating that non-territorial disputes are related to lower levels of GDP growth as well. Surprisingly, conflicts that are of a longer duration are, on average, not having a negative effect on GDP growth. 
+We depict the results of our models in figures \ref{fig:capCoef} and \ref{fig:cityCoef}. The results across the two models are broadly consistent, so we will discuss them in tandem. The intensity of a conflict aligns in the direction that we would expect though its effect is marginal. Additionally, the effect of having a high proportion of a country's land area immersed in conflict is sharply negative and aligns with the findings in the extant literature. Surprisingly, conflict duration and the number of conflicts a country is facing do not relate to GDP growth in the direction that we expected. As expected, inflation has a sharp negative effect on GDP growth. Countries deriving greater shares of their GDP from natural resource rents see slighlty higher levels of growth, and, not surprisingly, the average of world GDP growth is positively related to our dependent variable.
 
-Most importantly, we find strong support for our key hypothesis relating the proximity of a conflict to lower levels of GDP growth. The fact that the logged, minimum conflict distance variable is positive indicates that conflicts closer to major cities have an adverse effect on economic growth. 
+% Note to Ben: Anything you think we should say about the two surprising findings above
+
+Turning to our hypothesis, we find strong support for the argument that spatial proximity of conflict to either a capital city or any major urban center is associated with lower levels of GDP growth. The positive coefficient on the logged, minimum conflict distance variables indicates that conflicts closer to major cities has an adverse effect on economic growth. 
 
 \begin{figure}
 	\centering
@@ -78,40 +84,38 @@ Most importantly, we find strong support for our key hypothesis relating the pro
 	\label{fig:coefplot}
 \end{figure}
 
-To assess the substantive effect of the minimum conflict distance variable we conduct a number of simulations. We set up scenarios where we hold all variables to their median except for the logged, minimum conflict distance, which we range from its minimum to maximum value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, we calculate the predicted value of GDP growth based on the conditions set by the scenarios. We plot the results of this analyis in figure \ref{fig:simsPlot}.  
+To ensure that our parameter estimates are robust to changes in our sample, we run a six-fold cross-validation. This analysis helps us to understand whether some of the subsets in our dataset follow a different pattern than what is in the broader set \citep{beck2008time}. To conduct the cross-validation, we randomly split the 68 country observations in our dataset into six approximately equal subsets. Each subset ends up containing a minimum of approximately 65 cases. We then run each model shown in figure \ref{fig:coefplot} seven times, where in each iteration we left out one subsample. The results of this analysis are depicted in \ref{fig:crossPlot}, and we can clearly see that the parameter estimates for our two spatial proximity variables remain consistent across the exclusion of any of the folds.
+
+\begin{figure}
+	\centering
+	\resizebox{.8\textwidth}{!}{\input{crossValPlot}}
+	\caption{Each line here in the left panel shows the coefficient estimate of $Ln(Min. \; Capital \; Dist.)_{i,t-1}$ from rerunning the model on six random subsamples within the dataset. The panel on the right shows the same for $Ln(Min. \; City \; Dist.)_{i,t-1}$. All the covariates used in the initial model shown in figure \ref{fig:coefplot} were included as well.}
+	\label{fig:crossPlot}
+\end{figure}
+
+% Note from Ben: I think we should leave the rmse plot out because we cant hope to actually predict gdp growth with this model setup. But we've done plenty of other important things with checking that our parameter estimates are somewhat substantive and stable, so I'm happy. That's why I've commented it out for now. If you want to put it back in feel free. If you do though, you do have to say something about the RMSE still being pretty damn high.
+
+% \begin{figure}
+% 	\centering
+% 	\resizebox{.8\textwidth}{!}{\input{rmseInOut}}
+% 	\caption{In and out of sample performance.}
+% 	\label{fig:rmsePlot}
+% \end{figure}
+
+To assess the substantive effect of these results, we conduct a number of simulations. We set up scenarios where we hold all variables to their median except for logged, minimum conflict distance, which we range from its minimum to maximum value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, we calculate the predicted value of GDP growth based on the conditions set by the scenarios. We plot the results of this analyis in figures \ref{fig:capSim} and \ref{fig:citySim}.  
 
 \begin{figure}
 	\centering
 	\begin{tabular}{cc}
 		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.45\textwidth}{!}{\input{mCapSimPlot}}
-		\label{fig:capCoef}} &
+			\resizebox{.7\textwidth}{!}{\input{mCapSimPlot}}
+		\label{fig:capSim}} \\
 		\subfloat[SubFigure 2][Any City]{
-			\resizebox{.45\textwidth}{!}{\input{mCitySimPlot}}
-		\label{fig:cityCoef}}
+			\resizebox{.7\textwidth}{!}{\input{mCitySimPlot}}
+		\label{fig:citySim}}
 	\end{tabular}
 	\caption{Expected values for GDP growth based on scenarios where all variables are held to their constants but Ln(Min. Conflict Dist.) varies from its minimum to maximum. The 90\% interval of each distribution is shaded in dark grey and the 95\% in a lighter color.}
 	\label{fig:simsPlot}
 \end{figure}
 
-Here we can clearly see that conflicts located farther away from major cities have almost no adverse impact on economic growth. On average, countries for which conflicts are farther away see almost no declines in economic growth and, in fact, are likely to still see positive growth. Where we see more variation, however, is on the effect of conflicts near to major cities. Although on average our model estimates that these more proximate conflicts are associated with negative levels of economic growth our estimate of this effect is highly uncertain. This just indicates to us that more work needs to be done in parsing out possible variation in economic growth levels for those countries that are experiencing conflicts proximate to their major cities. Nonetheless, overall our results are quite in line with our theoretical expectations.
-
-\subsection{Model Performance}
-
-To assess the accuracy and performance of these estimates we employ a simple two-fold cross validation procedure. We use this procedure both to determine the robustness of our coefficient estimates when estimated on different subsamples of our dataset, and to assess how well the results of our model would generalize to an independent dataset. To begin the cross-validation, we split the 653 sanction cases in our dataset into six approximately equal subsets. We then run each model shown in Table \ref{tab:regResults} six times, where in each iteration we left out one subsample to use as a test set. This allows us to compare the prediction accuracy of each model, thereby helping us to determine the gains from incorporating the reciprocity covariates that are key to our argument.
-
-\begin{figure}
-	\centering
-	\resizebox{.8\textwidth}{!}{\input{rmseInOut}}
-	\caption{In and out of sample performance.}
-	\label{fig:rmsePlot}
-\end{figure}
-
-First, however, we show the results for our reciprocity covariates when we rerun our survival analysis on each of the six folds from the cross-validation. This analysis helps us to understand whether some of the subsets in our dataset follow a different pattern than what is in the broader set.\footnote{\cite{beck2008time}} Figure \ref{fig:crossval} shows that this is not the case for the analysis we present here, the coefficient estimates for compliance and sanction reciprocity remain consistent across each of these subsamples.\footnote{The parameter estimates for the other covariates also remain consistent across each of the six folds but we leave them out here due to space constraints.}
-
-\begin{figure}
-	\centering
-	\resizebox{.8\textwidth}{!}{\input{crossValPlot}}
-	\caption{Each row here shows the coefficient estimate of distance from rerunning the model on eight random subsamples within the dataset. All the covariates used in the initial models were included as well.}
-	\label{fig:crossPlot}
-\end{figure}
+The simulation results for both $Ln(Min. \; Capital \; Dist.)_{i,t-1}$ and $Ln(Min. \; City \; Dist.)_{i,t-1}$ are quite similar. In both cases, conflicts located farther away from major cities have almost no adverse impact on economic growth, and, in fact, are likely to still see positive growth. As the proximity of conflicts to urban centers increases, however, we can clearly see substantive declines in growth rates start to emerge. Thus, through utilizing these spatial proximity measures we can start to explain why there is such meaningful variation in economic performance amongst countries facing internal armed conflict.
