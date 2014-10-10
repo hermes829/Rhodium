@@ -41,16 +41,16 @@
   >
 ]>
 <requests version="1.0">
-  <internal package="biblatex" priority="9" active="0">
+  <internal package="biblatex" priority="9" active="1">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>Rhodium.aux</file>
-      <file>Rhodium-blx.bib</file>
+      <file>Rhodium.bcf</file>
     </provides>
     <requires type="dynamic">
       <file>Rhodium.bbl</file>
     </requires>
     <requires type="static">
+      <file>blx-dm.def</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>blx-natbib.def</file>
@@ -61,15 +61,14 @@
       <file>english.lbx</file>
     </requires>
   </internal>
-  <external package="biblatex" priority="5" active="0">
-    <generic>bibtex</generic>
+  <external package="biblatex" priority="5" active="1">
+    <generic>biber</generic>
     <cmdline>
-      <binary>bibtex</binary>
-      <option>-min-crossrefs 2</option>
+      <binary>biber</binary>
       <infile>Rhodium</infile>
     </cmdline>
     <input>
-      <file>Rhodium.aux</file>
+      <file>Rhodium.bcf</file>
     </input>
     <output>
       <file>Rhodium.bbl</file>
@@ -78,14 +77,10 @@
       <file>Rhodium.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>Rhodium.aux</file>
-      <file>Rhodium-blx.bib</file>
+      <file>Rhodium.bcf</file>
     </requires>
     <requires type="editable">
       <file>master.bib</file>
-    </requires>
-    <requires type="static">
-      <file>biblatex.bst</file>
     </requires>
   </external>
 </requests>
