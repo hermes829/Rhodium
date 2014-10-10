@@ -9,7 +9,7 @@
 *.tcp
 *.ps
 *.gz
-*.Rhistory
 *.pdf
+*.Rhistory
 .DS_Store*
 .Rapp.history*
