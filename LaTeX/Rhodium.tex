@@ -15,7 +15,6 @@
 \newenvironment{amssidewaysfigure}
   {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
   {\end{minipage}\end{sidewaysfigure}}
-\usepackage{fancyhdr}
 \usepackage{parallel}
 \usepackage{parcolumns}
 
@@ -24,13 +23,6 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-
-% tables
-\usepackage{tabularx}
-\usepackage{booktabs}
-\usepackage{multicol}
-\usepackage{multirow}
-\usepackage{longtable}
 
 \usepackage[%
 decimalsymbol=.,
@@ -57,9 +49,6 @@ digitsep=fullstop
 % to colorize links in document. See color specification below
 \usepackage[x11names]{xcolor}
 
-% for multiple references and insertion of the word "figure" or "table"
-% \usepackage{cleveref}
-
 % load the hyper-references package and set document info
 \usepackage[pdftex]{hyperref}
 
@@ -69,7 +58,6 @@ digitsep=fullstop
 \usepackage[space]{grffile} % allows us to specify directories that have spaces
 \usepackage[section]{placeins} % prevents floats from moving past a \FloatBarrier or section
 \usepackage{tikz}
-% \usepackage{pgfplots}
 
 % Spacing
 \usepackage[doublespacing]{setspace}
@@ -82,43 +70,14 @@ digitsep=fullstop
 	pdffitwindow=false,     % window fit to page when opened
 	pdfstartview={FitH},    % fits the width of the page to the window
 	pdfnewwindow=true,%
-	pdfauthor={Shahryar Minhas},%
-	pdftitle={Title},%
+	pdfauthor={Minhas and Radford},%
+	pdftitle={Enemy at the Gates},%
 	colorlinks,%
 	citecolor=black,%
 	filecolor=black,%
 	linkcolor=black,%
 	urlcolor=RoyalBlue4%
 	}
-
-% Including External Code
-\usepackage{verbatim}
-\usepackage{listings}
-\lstset{
-	language=R,
-	basicstyle=\scriptsize\ttfamily,
-	commentstyle=\ttfamily\color{gray},
-	numbers=left,
-	numberstyle=\ttfamily\color{gray}\footnotesize,
-	stepnumber=1,
-	numbersep=5pt,
-	backgroundcolor=\color{white},
-	showspaces=false,
-	showstringspaces=false,
-	showtabs=false,
-	frame=single,
-	tabsize=2,
-	captionpos=b,
-	breaklines=true,
-	breakatwhitespace=false,
-	title=\lstname,
-	escapeinside={},
-	keywordstyle={},
-	morekeywords={}
-	}
-
-% \usepackage{draftwatermark}
-% \SetWatermarkScale{4}
 % -------------------------------------------------- %
 
 
@@ -146,13 +105,10 @@ digitsep=fullstop
 % -------------------- customizations -------------------- %
 
 % easy commands for number propers
-\newcommand{\first}{$1^{\text{st}}$}
-\newcommand{\second}{$2^{\text{nd}}$}
-\newcommand{\third}{$3^{\text{rd}}$}
-\newcommand{\nth}[1]{${#1}^{\text{th}}$}
-
-% easy command for boldface math symbols
-\newcommand{\mbs}[1]{\boldsymbol{#1}}
+\makeatletter
+\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
+\makeatother
+\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
 
 % -------------------------------------------------------- %
 
@@ -161,7 +117,7 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\doublespacing 
+\doublespacing
 
 \begin{document}
 

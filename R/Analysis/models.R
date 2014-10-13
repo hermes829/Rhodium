@@ -67,7 +67,7 @@ temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
     vars=na.omit(rownames(summary(mCity)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(file='mCityCoefPlot.tex', width=4, height=6, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
@@ -77,7 +77,7 @@ temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     vars=na.omit(rownames(summary(mCap)$'coefficients')[2:100]), 
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(file='mCapCoefPlot.tex', width=4, height=6, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
@@ -93,7 +93,7 @@ temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData,
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
 temp=temp + theme(axis.title.y=element_text(vjust=1))
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(file='mCitySimPlot.tex', width=6, height=4, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
@@ -105,7 +105,7 @@ temp = ggsimplot(modelResults=mCap, sims=10000, simData=modData,
   specX=TRUE, ggxbreaks=seq(-1,7,1), plotType='ribbon'
   )
 temp=temp + theme(axis.title.y=element_text(vjust=1))
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(file='mCapSimPlot.tex', width=6, height=4, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
@@ -155,7 +155,7 @@ temp=temp + theme(axis.title.y=element_text(vjust=1),
   legend.position='none', legend.title=element_blank(),
   axis.ticks=element_blank(), panel.grid.major=element_blank(),
   panel.grid.minor=element_blank())
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)}
 temp
 if(genTikz){ dev.off() }
@@ -215,7 +215,7 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
   facetLabs=paste0('Fold ',LETTERS[1:nF])
   )
 temp=temp+facet_wrap(~Variable, scales='fixed')
-setwd(pathTex)
+setwd(pathGraphics)
 if(genTikz){ tikz(efile='crossValPlot.tex', width=7, height=4, standAlone=FALSE)}
 temp
 if(genTikz){ dev.off() }

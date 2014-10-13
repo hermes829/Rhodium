@@ -35,7 +35,7 @@ tmp=tmp + theme( axis.title.y=element_text(vjust=1),
   axis.ticks=element_blank(),legend.position='none',
   panel.grid.major=element_blank(), panel.grid.minor=element_blank() )
 tmp
-setwd(pathTex)
+setwd(pathGraphics)
 # tikz(file='distGdp.tex', width=7, height=4, standAlone=FALSE)
 # tmp
 # dev.off()
@@ -63,7 +63,7 @@ noConfCntries=setdiff(Wcntries, cntries)
 mapColors=rep('white',length(Wcntries))
 mapColors[which(Wcntries %in% noConfCntries)] = 'grey'
 
-setwd(pathTex)
+setwd(pathGraphics)
 # pdf(file='CityConfMap.pdf', width=12, height=6)
 plot(worldmap, col=mapColors)
 points(fYrCty$cleanLong, fYrCty$cleanLat, col='blue', pch=18, cex=0.5)

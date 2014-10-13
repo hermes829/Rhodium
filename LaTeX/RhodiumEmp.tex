@@ -11,8 +11,6 @@ We collect information on the location of conflicts from the PRIO Conflict Site 
 
 To construct a time-series cross-sectional database of urban centers, we turn to yearly editions of \citet{worldalmanac:1989}. More refined subnational data listing urban centers by their contribution to economic output would be the most direct way to test our hypothesis, however, cross-national data such as this over the time period of our analysis, especially for developing countries, is simply not available. \emph{The World Alamanac} lists the major cities in a country by population, thus providing us with a second best approximation of the urban centers that are most relevant for a particular national economy. Typically, the \emph{Almanacs} list at least three major cities, including the capital, for each country and year from 1989 to 2008. Because the \emph{Almanacs} are not perfectly consistent from year to year, we opted to code cities with a five year rolling window. That is, cities listed in the 1995 \emph{Almanac} are also included in our dataset for years 1993-1997. In doing so, we hope to minimize the effect of coding inconsistencies on the part of \emph{The World Almanac}. Also, as a more conservative test of our hypothesis, we replicate our models using the distance of conflict from each capital city rather than our preferred measure of minimum distance to a major urban center. While our hypothesis is most accurately represented by distance from any major urban centers, distance from capital cities provides an appealing and consistent alternative measure. Every country has a capital city in our sample, so using this alternative measure does not rely on differing population or density thresholds across countries that must be used in coding major cities.
 
-% Note to Ben: Again if you could add anything to why The World Alamanac data is the right choice that would be great.
-
 In figure \ref{fig:CityConfMap}, we show the geographic distribution of conflicts and cities. The centroid locations of conflicts are shown by red dots. Not surprisingly, in many cases conflict locations are clustered within specific parts of a country. In most cases, this clustering is indicative of the same conflict moving within the geographic boundaries of a country over time. The blue diamonds in \ref{fig:CityConfMap} denote the locations of major cities from 1989 to 2008. Countries shaded in grey are those for which no armed conflict took place in this period according to the PRIO dataset.  
 
 \begin{amssidewaysfigure}
@@ -29,15 +27,12 @@ Figure \ref{fig:distGdp} provides a cursory illustration of the relationship bet
 
 \begin{figure}
 	\centering
-	\resizebox{.8\textwidth}{!}{\input{distGdp}}
+	\resizebox{.8\textwidth}{!}{\input{distGdp.tex}}
 	\caption{Average percent change in GDP growth at time $t$ by distance from conflict to capital city on rightmost panel at time $t-1$, and from conflict to any city on the leftmost. The error bars represent the 95\% confidence interval around the mean.}
 	\label{fig:distGdp}
 \end{figure}
 
 \subsection{Empirical Model}
-
-% Note to Ben: Does empirical model sound weird?
-% Note to Shahryar: It sounds a lot better than "theory."
 
 Next, we move beyond this cursory illustration and explicate our full modeling strategy. Given how we constructed our spatial proximity of conflict variables, it would make little sense to include both within one model. The obvious problem we would run into is that there would be cases for which the minimum distance of a conflict to any city would be the same as the minimum distance to the capital. Thus we estimate two separate models, one where we include the minimum distance from a conflict to the capital and the other where we include the minimum distance to any urban center. In addition to the inclusion of our spatial proximity covariates we include a number of control measures to account for extant explanations of how civil war dynamics affect GDP growth and to mitigate omitted variable bias. 
 
@@ -75,10 +70,10 @@ Turning to our hypothesis, we find strong support for the argument that spatial 
 	\centering
 	\begin{tabular}{cc}
 		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.45\textwidth}{!}{\input{mCapCoefPlot}}
+			\resizebox{.45\textwidth}{!}{\input{mCapCoefPlot.tex}}
 		\label{fig:capCoef}} &
 		\subfloat[SubFigure 2][Any Major City]{
-			\resizebox{.45\textwidth}{!}{\input{mCityCoefPlot}}
+			\resizebox{.45\textwidth}{!}{\input{mCityCoefPlot.tex}}
 		\label{fig:cityCoef}}
 	\end{tabular}
 	\caption{Regression results using conflict distance from capital city on the left, and the chart on the right shows regression results using minimum conflict distance from any major city. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
@@ -89,19 +84,10 @@ To ensure that our parameter estimates are robust to changes in our sample, we r
 
 \begin{figure}
 	\centering
-	\resizebox{.8\textwidth}{!}{\input{crossValPlot}}
+	\resizebox{.8\textwidth}{!}{\input{crossValPlot.tex}}
 	\caption{Each line here in the left panel shows the coefficient estimate of $Ln(Min. \; Capital \; Dist.)_{i,t-1}$ from rerunning the model on six random subsamples within the dataset. The panel on the right shows the same for $Ln(Min. \; City \; Dist.)_{i,t-1}$. All the covariates used in the initial model shown in figure \ref{fig:coefplot} were included as well.}
 	\label{fig:crossPlot}
 \end{figure}
-
-% Note from Ben: I think we should leave the rmse plot out because we cant hope to actually predict gdp growth with this model setup. But we've done plenty of other important things with checking that our parameter estimates are somewhat substantive and stable, so I'm happy. That's why I've commented it out for now. If you want to put it back in feel free. If you do though, you do have to say something about the RMSE still being pretty damn high.
-
-% \begin{figure}
-% 	\centering
-% 	\resizebox{.8\textwidth}{!}{\input{rmseInOut}}
-% 	\caption{In and out of sample performance.}
-% 	\label{fig:rmsePlot}
-% \end{figure}
 
 To assess the substantive effect of these results, we conduct a number of simulations. We set up scenarios where we hold all variables to their median except for logged, minimum conflict distance, which we range from its minimum to maximum value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of the regression coefficients. After obtaining these distributions, we calculate the predicted value of GDP growth based on the conditions set by the scenarios. We plot the results of this analyis in figures \ref{fig:capSim} and \ref{fig:citySim}.  
 
@@ -109,10 +95,10 @@ To assess the substantive effect of these results, we conduct a number of simula
 	\centering
 	\begin{tabular}{cc}
 		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.7\textwidth}{!}{\input{mCapSimPlot}}
+			\resizebox{.7\textwidth}{!}{\input{mCapSimPlot.tex}}
 		\label{fig:capSim}} \\
 		\subfloat[SubFigure 2][Any City]{
-			\resizebox{.7\textwidth}{!}{\input{mCitySimPlot}}
+			\resizebox{.7\textwidth}{!}{\input{mCitySimPlot.tex}}
 		\label{fig:citySim}}
 	\end{tabular}
 	\caption{Expected values for GDP growth based on scenarios where all variables are held to their constants but Ln(Min. Conflict Dist.) varies from its minimum to maximum. The 90\% interval of each distribution is shaded in dark grey and the 95\% in a lighter color.}

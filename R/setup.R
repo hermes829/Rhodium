@@ -5,19 +5,16 @@ rm(list=ls())
 if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
 	pathData='~/Dropbox/Research/Rhodium/Data/';
-	pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
-	pathTex="~/Desktop/Research/Rhodium/LaTeX"}
+	pathGraphics="~/Dropbox/Research/Rhodium/Graphics"}
 
 if(Sys.info()["user"]=="s7m")
 {pathMain="~/Research/Rhodium/R";
   pathData='~/Dropbox/Research/Rhodium/Data/';
-  pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
-  pathTex="~/Research/Rhodium/LaTeX"}
+  pathGraphics="~/Dropbox/Research/Rhodium/Graphics"}
 
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
 {pathMain="/Users/Ben/Github/Rhodium/R";
-pathTex="/Users/Ben/Github/Rhodium/LaTeX";
  pathGraphics="/Users/Ben/Dropbox/Rhodium/Graphics";
  pathData="/Users/Ben/Dropbox/Rhodium/Data"
 }

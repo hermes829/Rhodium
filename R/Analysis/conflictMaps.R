@@ -51,7 +51,7 @@ temp = temp + theme(
   panel.grid.major=element_blank(), 
   panel.grid.minor=element_blank(), panel.border=element_blank())
 temp
-setwd(pathTex)
+setwd(pathGraphics)
 # pdf(file=paste0(tolower(cname),'Map.pdf'), width=5, height=7)
 # temp
 # dev.off()
