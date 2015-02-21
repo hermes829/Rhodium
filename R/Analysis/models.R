@@ -1,5 +1,5 @@
-if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
-if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
+  source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
@@ -7,7 +7,7 @@ setwd(pathData)
 load('combinedData.rda'); modData=yData
 
 # Gen tikz?
-genTikz=TRUE
+genTikz=FALSE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
@@ -44,6 +44,27 @@ capForm=modForm('lncapDist.min')
 
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
+
+# Fixef Robustness Checks
+modForm=function(x){
+  formula( paste0('lngdpGr_l0 ~', x, '+ 
+  Int.max + durSt1max + confAreaPropHi +
+  nconf + upperincome + lninflation_l1 + polity2 +
+  resourceGDP + gdpGr.mean_l0 + factor(ccode)' ) )
+}
+
+mCityFixefCntry = lm(ctyForm, data = modData ); summary(mCityFixefCntry)$'coefficients'
+mCapFixefCntry = lm(capForm, data = modData ); summary(mCapFixefCntry)$'coefficients'
+
+modForm=function(x){
+  formula( paste0('lngdpGr_l0 ~', x, '+ 
+  Int.max + durSt1max + confAreaPropHi +
+  nconf + upperincome + lninflation_l1 + polity2 +
+  resourceGDP + gdpGr.mean_l0 + factor(ccode) + factor(year)' ) )
+}
+
+mCityFixefCntryYr = lm(ctyForm, data = modData ); summary(mCityFixefCntryYr)$'coefficients'
+mCapFixefCntryYr = lm(capForm, data = modData ); summary(mCapFixefCntryYr)$'coefficients'
 
 # Basic model diags
 rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}

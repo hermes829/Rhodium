@@ -2,15 +2,10 @@
 rm(list=ls())
 
 # Setting working directory
-if(Sys.info()["user"]=="janus829")
-{pathMain="~/Desktop/Research/Rhodium/R";
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m")
+{pathMain="~/Research/Rhodium/R";
 	pathData='~/Dropbox/Research/Rhodium/Data/';
 	pathGraphics="~/Dropbox/Research/Rhodium/Graphics"}
-
-if(Sys.info()["user"]=="s7m")
-{pathMain="~/Research/Rhodium/R";
-  pathData='~/Dropbox/Research/Rhodium/Data/';
-  pathGraphics="~/Dropbox/Research/Rhodium/Graphics"}
 
 # Setting working directory
 if(Sys.info()["user"]=="Ben")
