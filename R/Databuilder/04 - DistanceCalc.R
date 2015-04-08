@@ -7,6 +7,10 @@ setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
 source(paste0(pathMain,"/geodistance.R"))
 
+# Load ACLED data and clean
+acledData <- read.csv("acled_v5_standard.csv", stringsAsFactors=F)
+acledData$cname <- toupper(countrycode(acledData$COUNTRY, 'country.name', 'country.name'))
+
 # Load PRIO data and clean
 # Clean PRIO data
 setwd(paste0(pathData,'/PRIO - Conflict Site Data'))
