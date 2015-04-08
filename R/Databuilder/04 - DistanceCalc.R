@@ -10,6 +10,7 @@ source(paste0(pathMain,"/geodistance.R"))
 # Load ACLED data and clean
 acledData <- read.csv("acled_v5_standard.csv", stringsAsFactors=F)
 acledData$cname <- toupper(countrycode(acledData$COUNTRY, 'country.name', 'country.name'))
+acledData <- acledData[which(acledData$YEAR %in% 1989:2008),]
 
 # Load PRIO data and clean
 # Clean PRIO data
@@ -48,6 +49,9 @@ prioAC <- prioAC[!prioAC$Latitude<(-360),]
 # Calculate min dist of confict sites from cities in country
 prioAC$minDist <- minDist(
   prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
+  fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
+acledData$minDist <- minDist(
+  acledData$LATITUDE, acledData$LONGITUDE, acledData$cname, acledData$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
 
 # Calculate number of cities within radius of conflict
