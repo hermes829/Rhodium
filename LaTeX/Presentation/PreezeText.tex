@@ -1,0 +1,223 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+% \titlepage
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Motivating Question}
+
+High variation in economic performance between countries in the midst of internal armed conflict
+
+\begin{itemize}
+\item Mexico
+\item India
+\item Nicaragua
+\end{itemize}
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Melding of Literatures}
+
+\begin{itemize}
+\item Krugman 1991; Henderson 2000; Hanson 2005 - Cities are important drivers of economic growth
+\item Heterogeneity in effect of conflict on growth is due to spatial proximity of conflict relative to major urban centers
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Literature Review}
+
+\begin{itemize}
+	\item Civil War $\rightarrow$ Economic Performance
+	\begin{itemize}
+	\item Collier (1999) - destruction, disruption, diversion, dissaving, portfolio substitution
+	\item Imai \& Weinstein (2005) - geographical spread of conflict
+	\end{itemize}
+	\item Economic Performance $\rightarrow$ Civil War
+	\begin{itemize}
+	\item Collier et al. (2003) - the conflict trap
+	\item Fearon \& Laitin (2003) - poor economic growth conducive for civil war
+	\end{itemize}
+	\item Disaggregating Civil Wars
+	\begin{itemize}
+	\item Pierskalla \& Hollenbach (2013) - cell phone coverage $\rightarrow$ rebel mobilization
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Cities, Conflict, \& Growth}
+
+\begin{itemize}
+	\item Cities $\rightarrow$ Growth
+	\begin{itemize}
+	\item Marshall (1920) - geographic clustering promotes valuable learning and exchange between actors
+	\item Lucas (1998) \& Glaeser et al. (1992) - accumulation of human capital generates positive spillovers
+	\item Venables (2005) - economy consists of ``lumps'' of productivity and swaths of areas contributing little to growth	
+	\end{itemize}
+	\item Cities \& Conflict $\rightarrow$ Growth
+	\begin{itemize}
+	\item Conflicts have heterogeneous effects on economic growth 
+	\item Effects determined by spatial proximity to economically relevant centers such as cities
+	\end{itemize}
+\end{itemize}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{FARC guerillas \& the Colombian government}
+
+\begin{quote}FARC's strategy and [beliefs have] always been to make economic pressure on both, multinational companies and the Colombian government. This has been done by attacking oil and natural gas infrastructure affecting companies such as Pacific Rubiales Energy, Oxy and Ecopetrol. For non-fuel related international companies with subsidiaries in Colombia, such as Goodyear, Nestle, Microsoft, Toyota, among others, FARC’s modus operandi was mainly racketeering, kidnappings and extortion. (Flannery 2012)\end{quote}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Spread of Conflict: Colombia}
+
+\vspace{-8mm}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{colombiaMap-crop}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Spread of Conflict: India}
+
+\vspace{-8mm}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{indiaMap-crop}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Conflict \& City Data}
+
+% \vspace{-0.25cm}
+\begin{figure}[ht]
+  \centering
+  % \hspace{-50mm}
+  \includegraphics[width=1\textwidth]{CityConfMap-crop}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Bivariate Relationship?}
+
+\vspace{-0.25cm}
+\begin{figure}[ht]
+  \centering
+  \resizebox{1\textwidth}{!}{\input{distGdp.tex}}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Estimation Approach}
+
+\begin{align*}
+	\% \Delta Ln(GDP)_{i,t} &= \beta_{1}(Ln(Min. \; Conflict \; Dist.)_{i,t-1}) \\
+	& \;+\; \beta_{2}(Conflict \; Intensity_{i,t-1}) \\
+	& \;+\; \beta_{3}(Conflict \; Duration_{i,t-1}) \\
+	& \;+\; \beta_{4}(Conflict \; Area_{i,t-1} \;/\; Land \; Area_{i,t-1} > 50\%) \\
+	& \;+\; \beta_{5}(Number \; of \; Conflicts_{i,t-1}) \\
+	& \;+\; \beta_{6}(Upper \; Income_{i,t}) \\	
+	& \;+\; \beta_{7}(Inflation_{i,t-1}) \;+\; \beta_{8}(Democracy_{i,t-1}) \\
+	& \;+\; \beta_{9}(Resource \; Rents/GDP_{t-1}) \\ 
+	& \;+\; \beta_{10}(World \; GDP \; Growth_{t}) \;+\; \mu_{i,t} \;+\; \epsilon_{i,t}
+\end{align*}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Findings}
+
+\vspace{-8mm}
+\begin{figure}
+	\centering
+	\begin{tabular}{cc}
+	\hspace{-9mm}
+		\resizebox{.5\textwidth}{!}{\input{mCapCoefPlot.tex}} &
+		\resizebox{.5\textwidth}{!}{\input{mCityCoefPlot.tex}}
+	\end{tabular}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Cross-Validation of Parameter Estimates}
+
+\begin{figure}[ht]
+	\centering
+	\resizebox{1\textwidth}{!}{\input{crossValPlot.tex}}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Substantive Effects: Capital Distance}
+
+\vspace{-6mm}
+\begin{figure}
+	\centering
+	\resizebox{1\textwidth}{!}{\input{mCapSimPlot.tex}}
+\end{figure}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Conclusions \& Next Steps}
+
+\begin{block}{Conclusions}
+\begin{itemize}
+	\item Novel approach in the study of civil conflict to distinguish between spatially dissimilar events
+	\item Proximity of conflict to major cities explains disparate economic outcomes
+\end{itemize}
+\end{block}
+
+\begin{block}{Next Steps}
+\begin{itemize}
+\item Account for other economically important locations (e.g., oil fields)
+\item Alternative methods to address aggregation problem
+\item More refined analysis within a country using subnational economic data
+\end{itemize}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
