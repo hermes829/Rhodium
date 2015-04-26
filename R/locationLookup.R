@@ -43,16 +43,19 @@ reverseLookup <- function(lat,lon,radius=10)
   return(data.frame(country=country,admin1Name=adm1,toponymName=toponym,distance=distance))
 }
 
-googleLookup <- function(locname)
+googleLookup <- function(locname,sleeptime=.5)
 {
-  locname <- toupper(gsub(' ','%20',locname)) #Encode URL Parameters
+#   locname <- toupper(gsub(' ','%20',locname)) #Encode URL Parameters
+  locnam <- toupper(locname)
   lat <- rep(NA, length(locname))
   lon <- rep(NA, length(locname))
   for(loc in unique(locname))
   {
     results <- getGeoCode(loc)
+    cat(loc," ",results[1]," ",results[2],"\n")
     lat[locname==loc] <- results[1]
     lon[locname==loc] <- results[2]
+    Sys.sleep(sleeptime)
   }
   return(data.frame(lat=lat,lon=lon))
 }
