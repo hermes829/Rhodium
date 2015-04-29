@@ -50,9 +50,19 @@ prioAC <- prioAC[!prioAC$Latitude<(-360),]
 prioAC$minDist <- minDist(
   prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
-acledData$minDist <- minDist(
+
+acledData <- acledData[acledData$cname%in%fYrCty$cname & acledData$FATALITIES>=25,]
+acledData$minDistACLED <- minDist(
   acledData$LATITUDE, acledData$LONGITUDE, acledData$cname, acledData$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
+
+plot(density(acledData$minDistACLED,na.rm=T),lty=2,frame=F,yaxt="n",xlab="Minimum Distance",ylab="",main="PRIO vs ACLED")
+lines(density(prioAC$minDist,na.rm=T),lty=1)
+legend("topright",c("PRIO","ACLED"),lty=c(1,2),bty="n")
+
+acledData <- aggregate(acledData$minDistACLED, list(acledData$cname,acledData$YEAR), FUN=function(x)min(x,na.rm=T))
+names(acledData) <- c("cname","YEAR","minDistACLED")
+prioAC <- merge(prioAC, acledData, by=c("cname","YEAR"), all.x=T, all.y=F)
 
 # Calculate number of cities within radius of conflict
 prioAC$inRadius <- inRadius(
@@ -102,7 +112,7 @@ prioAC$capDist <- minDist(
 # Aggregate to the country-year
 prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
 prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial",
-  "Conflict.area","Type","Region","minDist","inRadius","capDist",
+  "Conflict.area","Type","Region","minDist","minDistACLED","inRadius","capDist",
 	"cname","YEAR", 'startYr1', 'startYr2')]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
@@ -119,7 +129,8 @@ yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
                     'Conflict.area.mean',
                     'Conflict.area.max','Conflict.area.sum',
                     'Region.mean', 'minDist.mean',
-                    'minDist.min', 'inRadius.sum',
+                    'minDist.min', 'minDistACLED.mean',
+                    'minDistACLED.min','inRadius.sum',
                     'inRadius.max', 'capDist.min',
                     'capDist.mean',
                     'startYr1.min','startYr1.max',
