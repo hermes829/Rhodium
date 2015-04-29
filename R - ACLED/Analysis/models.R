@@ -21,6 +21,7 @@ modData$lngdpGr_l0 = modData$gdpGr_l0
 
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
+modData$lnminDistACLED.min <- log(modData$minDistACLED.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$Int.max <- modData$Int.max-1
 
@@ -41,20 +42,26 @@ modForm=function(x){
 }
 ctyForm=modForm('lnminDist.min')
 capForm=modForm('lncapDist.min')
+acledForm=modForm('lnminDistACLED.min')
 
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
+mACLED = lmer(acledForm, data = modData ); summary(mACLED)$'coefficients'
 
 # Fixef Robustness Checks
 modForm=function(x){
-  formula( paste0('lngdpGr_l0 ~', x, '+ 
+  formula( paste0('lngdpGr_l0 ~ ', x, '+ 
   Int.max + durSt1max + confAreaPropHi +
   nconf + upperincome + lninflation_l1 + polity2 +
   resourceGDP + gdpGr.mean_l0 + factor(ccode)' ) )
 }
+ctyForm=modForm('lnminDist.min')
+capForm=modForm('lncapDist.min')
+acledForm=modForm('lnminDistACLED.min')
 
 mCityFixefCntry = lm(ctyForm, data = modData ); summary(mCityFixefCntry)$'coefficients'
 mCapFixefCntry = lm(capForm, data = modData ); summary(mCapFixefCntry)$'coefficients'
+mACLEDFixefCntry = lm(acledForm, data = modData ); summary(mACLEDFixefCntry)$'coefficients'
 
 modForm=function(x){
   formula( paste0('lngdpGr_l0 ~', x, '+ 
@@ -62,9 +69,13 @@ modForm=function(x){
   nconf + upperincome + lninflation_l1 + polity2 +
   resourceGDP + gdpGr.mean_l0 + factor(ccode) + factor(year)' ) )
 }
+ctyForm=modForm('lnminDist.min')
+capForm=modForm('lncapDist.min')
+acledForm=modForm('lnminDistACLED.min')
 
 mCityFixefCntryYr = lm(ctyForm, data = modData ); summary(mCityFixefCntryYr)$'coefficients'
 mCapFixefCntryYr = lm(capForm, data = modData ); summary(mCapFixefCntryYr)$'coefficients'
+mACLEDFixefCntryYr = lm(acledForm, data = modData ); summary(mACLEDFixefCntryYr)$'coefficients'
 
 # Basic model diags
 rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
