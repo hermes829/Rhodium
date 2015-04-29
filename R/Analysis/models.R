@@ -33,38 +33,51 @@ modData$polity2 = modData$polity2 + 11
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
-modForm=function(x){
-  formula( paste0('lngdpGr_l0 ~', x, '+ 
-  Int.max + durSt1max + confAreaPropHi +
-  nconf + upperincome + lninflation_l1 + polity2 +
-  resourceGDP + gdpGr.mean_l0 + (1|ccode)' ) )
-}
-ctyForm=modForm('lnminDist.min')
-capForm=modForm('lncapDist.min')
+# Model parameters
+modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
+  base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
+  if(type=='random'){
+    eff = paste0('(1 |', id, ')')
+    base = paste(base, eff, sep=' + ')
+  }
 
+  if(type=='fixed'){
+    eff = paste0('factor(', id, ') - 1')
+    base = paste(base, eff, sep=' + ')
+  }
+  return(formula(base))
+}
+
+dv = 'lngdpGr_l0'
+kivs = c('lnminDist.min', 'lncapDist.min')
+cntrls = c('Int.max', 'durSt1max',  'confAreaProp', 'nconf', 
+  'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
+
+# Run random effect models
+ctyForm=modForm(ivs=c(kivs[1], cntrls), type='random')
+capForm=modForm(ivs=c(kivs[2], cntrls), type='random')
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 
 # Fixef Robustness Checks
-modForm=function(x){
-  formula( paste0('lngdpGr_l0 ~', x, '+ 
-  Int.max + durSt1max + confAreaPropHi +
-  nconf + upperincome + lninflation_l1 + polity2 +
-  resourceGDP + gdpGr.mean_l0 + factor(ccode)' ) )
-}
+ctyFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
+capFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
+mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:5,]
+mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:5,]
 
-mCityFixefCntry = lm(ctyForm, data = modData ); summary(mCityFixefCntry)$'coefficients'
-mCapFixefCntry = lm(capForm, data = modData ); summary(mCapFixefCntry)$'coefficients'
+# Run Hausman test on city and cap models
+library(plm)
+ctyFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
+capFormBase=modForm(ivs=c(kivs[2], cntrls), type='none')
 
-modForm=function(x){
-  formula( paste0('lngdpGr_l0 ~', x, '+ 
-  Int.max + durSt1max + confAreaPropHi +
-  nconf + upperincome + lninflation_l1 + polity2 +
-  resourceGDP + gdpGr.mean_l0 + factor(ccode) + factor(year)' ) )
-}
+regData = modData[,c(dv, kivs, cntrls, 'ccode', 'year')]
+plmFE = plm(ctyFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
+plmRE = plm(ctyFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
+phtest(plmFE, plmRE)
 
-mCityFixefCntryYr = lm(ctyForm, data = modData ); summary(mCityFixefCntryYr)$'coefficients'
-mCapFixefCntryYr = lm(capForm, data = modData ); summary(mCapFixefCntryYr)$'coefficients'
+plmFE = plm(capFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
+plmRE = plm(capFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
+phtest(plmFE, plmRE)
 
 # Basic model diags
 rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
