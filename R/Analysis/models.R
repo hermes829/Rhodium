@@ -62,8 +62,8 @@ mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 # Fixef Robustness Checks
 ctyFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
 capFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
-mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:5,]
-mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:5,]
+mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
+mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 
 # Run Hausman test on city and cap models
 library(plm)
@@ -197,16 +197,13 @@ if(genTikz){ dev.off() }
 
 ###################################################################
 # Crossval: Testing for heterogeneous effects across subsets
-vars=unique(na.omit(c( 'ccode','year','lngdpGr_l0',
-  rownames(summary(mCity)$'coefficients')[2:100],
-  rownames(summary(mCap)$'coefficients')[2:100] ) ) )
+vars=c( 'ccode','year','lngdpGr_l0',dv,kivs,cntrls)
 crossData=na.omit( modData[,vars] )
 
-cntries=unique(modData$ccode)
+cntries=unique(crossData$ccode)
 set.seed(6886)
-nF=6
-folds=data.frame(
-  cbind(ccode=cntries, fold=sample(1:nF, length(cntries), replace=TRUE) ) )
+nF=length(cntries)
+folds=data.frame( ccode=cntries, fold=1:nF )
 table(folds$fold)
 crossData$fold=folds$fold[match(crossData$ccode, folds$ccode)]
 table(crossData$fold)
@@ -246,7 +243,7 @@ ccNames=c('Ln(Min. Capital Dist.)$_{t-1}$','Ln(Min. City Dist.)$_{t-1}$')
 temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames, 
   Noylabel=FALSE, coordFlip=FALSE, revVar=TRUE, xAngle=45,
   facet=TRUE, facetName='fold', facetBreaks=1:nF, 
-  facetLabs=paste0('Fold ',LETTERS[1:nF])
+  facetLabs=folds$ccode
   )
 temp=temp+facet_wrap(~Variable, scales='fixed')
 setwd(pathGraphics)
@@ -263,7 +260,7 @@ ggRMSE=melt(crossPerfData, id=c('Fold','Variable'))
 temp=ggplot(ggRMSE, aes(x=Fold, y=value, fill=variable))
 temp=temp + geom_bar(stat='identity',position=position_dodge())
 # temp=temp + ylab('RMSE') + xlab('') + ylim(0, 0.006) 
-temp=temp + scale_x_continuous(breaks=1:nF,labels=paste0('Fold ',LETTERS[1:nF]))
+temp=temp + scale_x_continuous(breaks=1:nF,labels=folds$ccode)
 temp=temp + scale_fill_manual(values=c('inRMSE'='black', 'outRMSE'='grey'))
 temp=temp + facet_wrap(~Variable)
 temp=temp + theme(legend.position='top', legend.title=element_blank(),
