@@ -4,10 +4,10 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year and WB data
 setwd(pathData)
-orig = TRUE # Indicator to use only cities from 1998
-all=FALSE # all intensity events
-lo=FALSE # low intensity events
-hi=FALSE # high intensity events
+orig = FALSE # Indicator to use only cities from 1998
+all = TRUE # all intensity events
+lo = FALSE # low intensity events
+hi = FALSE # high intensity events
 if(orig){load('countryYear_ConflictData_Orig.rda')}
 if(all){load('countryYear_ConflictData.rda')}
 if(lo){load('countryYear_ConflictData_loInt.rda'); yData = yData_loInt}
@@ -18,6 +18,7 @@ conVars=c('nconf', 'Int.max',
 	'Conflict.area.mean',
 	'territorial.max', 'territorial.mean',
 	'minDist.min', 'minDistACLED.min', 'inRadius.sum', 'capDist.min',
+	'minDist.mean', 'minDistACLED.min', 'inRadius.sum', 'capDist.mean',
 	'durSt1max')
 
 yData=yData[,c('cyear','year','ccode',conVars)]

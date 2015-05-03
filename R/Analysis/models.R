@@ -24,6 +24,8 @@ modData$lngdpGr_l0 = modData$gdpGr_l0
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
+modData$lnminDist.mean <- log(modData$minDist.mean+1)
+modData$lncapDist.mean <- log(modData$capDist.mean+1)
 modData$lnminDistACLED.min <- log(modData$minDistACLED.min+1)
 modData$Int.max <- modData$Int.max-1
 
@@ -52,7 +54,7 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'lngdpGr_l0'
-kivs = c('lnminDist.min', 'lncapDist.min', 'lnminDistACLED.min')
+kivs = c('lnminDist.mean', 'lncapDist.mean')
 cntrls = c(
   'Int.max',
   'durSt1max',  'confAreaProp', 'nconf', 

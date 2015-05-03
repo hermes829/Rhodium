@@ -4,7 +4,7 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
-orig=TRUE # Indicator to use only cities from 1998
+orig=FALSE # Indicator to use only cities from 1998
 if(orig){fYrCty = fYrCtyOrig}
 source(paste0(pathMain,"/geodistance.R"))
 
