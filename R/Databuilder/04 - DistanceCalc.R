@@ -4,7 +4,7 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
-orig=TRUE
+orig=TRUE # Indicator to use only cities from 1998
 if(orig){fYrCty = fYrCtyOrig}
 source(paste0(pathMain,"/geodistance.R"))
 
@@ -72,12 +72,16 @@ prioAC$inRadius <- inRadius(
   prioAC$Radius)$value
 
 # Calculate distance from capital
+if(!orig){
 prioAC$capDist <- minDist(
   prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
   fYrCty$cleanLat[fYrCty$Capital==1],
   fYrCty$cleanLong[fYrCty$Capital==1],
   fYrCty$cname[fYrCty$Capital==1],
-  fYrCty$YearAlmanac[fYrCty$Capital==1])
+  fYrCty$YearAlmanac[fYrCty$Capital==1]) } else {
+
+  prioAC$capDist = rnorm(nrow(prioAC))
+}
 ##################################################################
 
 ##################################################################

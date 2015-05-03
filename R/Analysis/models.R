@@ -3,8 +3,9 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
-# load('combinedData.rda'); modData=yData
-load('combinedData_loInt.rda'); modData=yData
+# load('combinedData_Orig.rda'); modData=yData
+load('combinedData.rda'); modData=yData
+# load('combinedData_loInt.rda'); modData=yData
 # load('combinedData_hiInt.rda'); modData=yData
 
 # Gen tikz?
