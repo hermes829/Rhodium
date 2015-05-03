@@ -3,9 +3,9 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
-# load('combinedData.rda'); modData=yData
+load('combinedData.rda'); modData=yData
 # load('combinedData_loInt.rda'); modData=yData
-load('combinedData_hiInt.rda'); modData=yData
+# load('combinedData_hiInt.rda'); modData=yData
 
 # Gen tikz?
 genTikz=FALSE
@@ -23,6 +23,7 @@ modData$lngdpGr_l0 = modData$gdpGr_l0
 # Transformations for conflict variables
 modData$lnminDist.min <- log(modData$minDist.min+1)
 modData$lncapDist.min <- log(modData$capDist.min+1)
+modData$lnminDistACLED.min <- log(modData$minDistACLED.min+1)
 modData$Int.max <- modData$Int.max-1
 
 # Transformations for other controls
@@ -50,9 +51,9 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'lngdpGr_l0'
-kivs = c('lnminDist.min', 'lncapDist.min')
+kivs = c('lnminDist.min', 'lncapDist.min', 'lnminDistACLED.min')
 cntrls = c(
-  # 'Int.max',
+  'Int.max',
   'durSt1max',  'confAreaProp', 'nconf', 
   'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
 
@@ -95,7 +96,7 @@ setwd(pathMain)
 source('vizResults.R')
 
 otherCovars=c(
-  # 'Intensity$_{t-1}$', 
+  'Intensity$_{t-1}$', 
   'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
