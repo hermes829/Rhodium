@@ -1,6 +1,5 @@
 ####################
-if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
-if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year and WB data
@@ -11,7 +10,7 @@ conVars=c('nconf', 'Int.max',
 	'Conflict.area.sum',
 	'Conflict.area.mean',
 	'territorial.max', 'territorial.mean',
-	'minDist.min',  'inRadius.sum', 'capDist.min',
+	'minDist.min', 'minDistACLED.min', 'inRadius.sum', 'capDist.min',
 	'durSt1max')
 
 yData=yData[,c('cyear','year','ccode',conVars)]
@@ -87,35 +86,41 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 	by='cyear', all.x=T, all.y=F)
 ####################
 
-# ####################
-# # Imputation
-# # Impute missing value
-# library('Amelia')
-# names(yData)
-# exclVars=c('cyear')
-# test=amelia(yData[,-which(exclVars %in% names(yData))], cs='ccode', ts='year')
-
-
-
-# sbgcopTimeSR = system.time(
-#   sbgData <- sbgcop.mcmc(
-#   	,
-#   	nsamp=5000,seed=123456, verb=TRUE)
-#   )
-
-# # Clean
-# impData=data.frame(
-# 	cbind(
-# 		cyear=mdl[,'cyear'],
-# 		sbgData$Y.pmean[,c('ccode','year',lagVars)]
-# 	)
-# )
-# ####################
-
 ####################
 # Save
 setwd(pathData)
 save(yData, 
 	# impData, sbgcopTimeSR, 
 	file='combinedData.rda')
+####################
+
+####################
+# Create full panel dataset
+fullData = wbData
+
+# Add lags
+wbData$cyear = paste0(wbData$ccode, wbData$year-1)
+fullData = merge(fullData, wbData[,c(4:11,20:ncol(wbData))], 
+	by='cyear', all.x=T, all.y=F, suffixes=c("_l0",""))
+
+wbData$cyear = paste0(wbData$ccode, wbData$year+1)
+fullData = merge(fullData, wbData[,c(4:11,20:ncol(wbData))], 
+	by='cyear', all.x=T, all.y=F, suffixes=c("_l1",""))
+
+# Add in polity
+fullData$polity2 = polity$polity2[match(fullData$cyear, polity$cyear)]
+
+# Add in all conflict vars
+setwd(pathData);load('countryYear_ConflictData.rda');yData=yData[,c('cyear',conVars)]
+fullData = merge(fullData, yData, by='cyear', all.x=T, all.y=F)
+
+# Correct NAs for some vars
+fullData$nconf[is.na(fullData$nconf)] = 0
+
+# Add dummy for civwar
+fullData$civwar = 0
+fullData$civwar[fullData$nconf>0] = 1
+
+# Save
+save(fullData, file='fullData.rda')
 ####################
