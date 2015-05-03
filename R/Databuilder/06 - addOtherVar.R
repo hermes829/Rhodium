@@ -4,7 +4,12 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year and WB data
 setwd(pathData)
-load('countryYear_ConflictData.rda')
+all=TRUE # all intensity events
+lo=FALSE # low intensity events
+hi=FALSE # high intensity events
+if(all){load('countryYear_ConflictData.rda')}
+if(lo){load('countryYear_ConflictData_loInt.rda'); yData = yData_loInt}
+if(hi){load('countryYear_ConflictData_hiInt.rda'); yData = yData_hiInt}
 
 conVars=c('nconf', 'Int.max',
 	'Conflict.area.sum',
@@ -89,9 +94,9 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 ####################
 # Save
 setwd(pathData)
-save(yData, 
-	# impData, sbgcopTimeSR, 
-	file='combinedData.rda')
+if(all){save(yData, file='combinedData.rda')}
+if(lo){save(yData, file='combinedData_loInt.rda')}
+if(hi){save(yData, file='combinedData_hiInt.rda')}
 ####################
 
 ####################
@@ -122,5 +127,7 @@ fullData$civwar = 0
 fullData$civwar[fullData$nconf>0] = 1
 
 # Save
-save(fullData, file='fullData.rda')
+if(all){save(fullData, file='fullData.rda')}
+if(lo){save(fullData, file='fullData_loInt.rda')}
+if(hi){save(fullData, file='fullData_hiInt.rda')}
 ####################

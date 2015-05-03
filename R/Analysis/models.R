@@ -1,5 +1,4 @@
-if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
-  source('~/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
@@ -50,7 +49,7 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 
 dv = 'lngdpGr_l0'
 kivs = c('lnminDist.min', 'lncapDist.min')
-cntrls = c('Int.max', 'durSt1max',  'confAreaProp', 'nconf', 
+cntrls = c('durSt1max',  'confAreaProp', 'nconf', 
   'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
 
 # Run random effect models

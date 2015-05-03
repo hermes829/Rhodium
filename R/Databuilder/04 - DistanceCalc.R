@@ -1,5 +1,4 @@
-if(Sys.info()["user"]=="janus829"){source('~/Desktop/Research/Rhodium/R/setup.R')}
-if(Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load City pop data
@@ -50,9 +49,19 @@ prioAC <- prioAC[!prioAC$Latitude<(-360),]
 prioAC$minDist <- minDist(
   prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
-acledData$minDist <- minDist(
+
+acledData <- acledData[acledData$cname%in%fYrCty$cname & acledData$FATALITIES>=25,]
+acledData$minDistACLED <- minDist(
   acledData$LATITUDE, acledData$LONGITUDE, acledData$cname, acledData$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
+
+plot(density(acledData$minDistACLED,na.rm=T),lty=2,frame=F,yaxt="n",xlab="Minimum Distance",ylab="",main="PRIO vs ACLED")
+lines(density(prioAC$minDist,na.rm=T),lty=1)
+legend("topright",c("PRIO","ACLED"),lty=c(1,2),bty="n")
+
+acledData <- aggregate(acledData$minDistACLED, list(acledData$cname,acledData$YEAR), FUN=function(x)min(x,na.rm=T))
+names(acledData) <- c("cname","YEAR","minDistACLED")
+prioAC <- merge(prioAC, acledData, by=c("cname","YEAR"), all.x=T, all.y=F)
 
 # Calculate number of cities within radius of conflict
 prioAC$inRadius <- inRadius(
@@ -69,46 +78,23 @@ prioAC$capDist <- minDist(
   fYrCty$YearAlmanac[fYrCty$Capital==1])
 ##################################################################
 
-# ##################################################################
-# # Calc distances from natural resources
-# # setwd(paste0(pathData,'/Horn - Giant Fields Data'))
-# setwd(pathData)
-# oil <- read.shapefile("Horn - Giant Fields Data/Giant_Fields_Data")
-# oil <- as.data.frame(oil)
-# newoil <- data.frame(stringsAsFactors=F)
-# for(i in 1:nrow(oil))
-# {
-#   j=j+1
-#   row <- data.frame(oil[i,])
-#   dates <- oil$dbf.dbf.DISC_YR[i]:2014
-#   newrows <- row[rep(1,length(dates)),]
-#   newrows$dbf.dbf.DISC_YR <- dates
-#   # newoil <- rbind(newoil,newrows)
-#   # cat("\r",i)
-#   if(i%%((nrow(oil)+4)/10)==0){cat(100*i/(nrow(oil)+4),"%  ", sep="")}
-# }
-# newoil <- newoil[,c("dbf.dbf.LAT_DD","dbf.dbf.LON_DD","dbf.dbf.FIELD_TYPE","dbf.dbf.SIZE_CLASS","dbf.dbf.COUNTRY","dbf.dbf.DISC_YR")]
-# names(newoil) <- c("lat","long","type","size","country","year")
-# newoil <- newoil[newoil$year%in%1988:2009,]
-# newoil$country <- as.character(newoil$country)
-# newoil$country[newoil$country=="Sierre Leone"] <- "Sierra Leone"
-# newoil$country[which(newoil$country=="UAE")] <- "United Arab Emirates"
-# newoil$country <- countrycode(newoil$country,"country.name","country.name")
-# prioAC$oilRadius <- inRadius(prioAC$Latitude, prioAC$Longitude, prioAC$cname, prioAC$YEAR, newoil$lat, newoil$long, newoil$country, newoil$year, prioAC$Radius)
-# # prioAC$oilRadius[is.na(prioAC$oilRadius)] <- 0
-# ##################################################################
-
 ##################################################################
 # Aggregate to the country-year
 prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
 prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial",
-  "Conflict.area","Type","Region","minDist","inRadius","capDist",
-	"cname","YEAR", 'startYr1', 'startYr2')]
+  "Conflict.area","Type","Region","minDist","minDistACLED","inRadius","capDist",
+  "cname","YEAR", 'startYr1', 'startYr2')]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
 prioAC=prioAC[prioAC$Type!=2,]
 
+# Separate by intensity levels
+prioAC_loInt = prioAC[prioAC$Int==1,]
+prioAC_hiInt = prioAC[prioAC$Int==2,]
+
 # Aggregation options
+# prioAC = prioAC_loInt
+prioAC = prioAC_hiInt
 aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
@@ -119,7 +105,8 @@ yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
                     'Conflict.area.mean',
                     'Conflict.area.max','Conflict.area.sum',
                     'Region.mean', 'minDist.mean',
-                    'minDist.min', 'inRadius.sum',
+                    'minDist.min', 'minDistACLED.mean',
+                    'minDistACLED.min','inRadius.sum',
                     'inRadius.max', 'capDist.min',
                     'capDist.mean',
                     'startYr1.min','startYr1.max',
@@ -162,5 +149,7 @@ yData=cbind(yData, prioMIN)
 ##################################################################
 # Saving aggregation of conflict data to country-year level
 setwd(pathData)
-save(yData, file='countryYear_ConflictData.rda')
+# save(yData, file='countryYear_ConflictData.rda')
+# yData_loInt = yData; save(yData_loInt, file='countryYear_ConflictData_loInt.rda')
+yData_hiInt = yData; save(yData_hiInt, file='countryYear_ConflictData_hiInt.rda')
 ##################################################################
