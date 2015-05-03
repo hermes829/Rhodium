@@ -19,6 +19,7 @@ setwd(paste(pathMain,'/BuildingPanelData/',sep=''))
 load('panel.rda')
 
 # Loading libraries and functions
+library(abind)
 library(MASS)
 library(ggplot2)
 theme_set(theme_bw())

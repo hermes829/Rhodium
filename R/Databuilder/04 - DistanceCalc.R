@@ -4,6 +4,8 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load City pop data
 setwd(pathData)
 load("cityTotPopLatLongvFinal.rda")
+orig=TRUE
+if(orig){fYrCty = fYrCtyOrig}
 source(paste0(pathMain,"/geodistance.R"))
 
 # Load ACLED data and clean
@@ -93,8 +95,10 @@ prioAC_loInt = prioAC[prioAC$Int==1,]
 prioAC_hiInt = prioAC[prioAC$Int==2,]
 
 # Aggregation options
-# prioAC = prioAC_loInt
-prioAC = prioAC_hiInt
+lo=FALSE
+hi=FALSE
+if(lo){prioAC = prioAC_loInt}
+if(hi){prioAC = prioAC_hiInt}
 aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
@@ -149,7 +153,8 @@ yData=cbind(yData, prioMIN)
 ##################################################################
 # Saving aggregation of conflict data to country-year level
 setwd(pathData)
-# save(yData, file='countryYear_ConflictData.rda')
-# yData_loInt = yData; save(yData_loInt, file='countryYear_ConflictData_loInt.rda')
-yData_hiInt = yData; save(yData_hiInt, file='countryYear_ConflictData_hiInt.rda')
+if(orig){save(yData, file='countryYear_ConflictData_Orig.rda')}
+if(!lo & !hi){save(yData, file='countryYear_ConflictData.rda')}
+if(lo){yData_loInt = yData; save(yData_loInt, file='countryYear_ConflictData_loInt.rda')}
+if(hi){yData_hiInt = yData; save(yData_hiInt, file='countryYear_ConflictData_hiInt.rda')}
 ##################################################################

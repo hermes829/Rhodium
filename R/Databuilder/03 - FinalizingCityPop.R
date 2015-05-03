@@ -1,4 +1,4 @@
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 load(paste0(pathData,"/cityTotPopLatLongv2.rda"))
@@ -91,6 +91,31 @@ fYrCty=fYrCty[!is.na(fYrCty$Capital),]
 ##################################################################
 
 ##################################################################
+# Add in city dataframe with earlier observations only
+orig = summaryBy(YearAlmanac ~ cname, data=fYrCty, FUN=min, keep.names=TRUE)
+orig$id = paste0(orig$cname, orig$YearAlmanac)
+fYrCty$id = paste0(fYrCty$cname, fYrCty$YearAlmanac)
+fYrCtyOrig = fYrCty[which(fYrCty$id %in% orig$id), ] 
+cntries = unique(fYrCtyOrig$cname)
+newData = NULL
+for(ii in 1:length(cntries)){
+	slice = fYrCtyOrig[fYrCtyOrig$cname == cntries[ii],]
+	if(length(unique(slice$YearAlmanac))>1){print('oops')}
+	toAdd = seq(unique(slice$YearAlmanac), 2008, 1)
+	temp=lapply(1:length(toAdd), function(jj){
+		sliceT = slice
+		sliceT$YearAlmanac = toAdd[jj]		
+		return(sliceT)
+	} )
+	slice = do.call('rbind', temp)
+	newData = rbind(newData, slice)
+	print(cntries[ii])
+}
+fYrCtyOrig = newData[,1:9]
+##################################################################
+
+##################################################################
 # Saving cleaned final city data
-save(fYrCty, file=paste0(pathData,"/cityTotPopLatLongvFinal.rda"))
+fYrCty = fYrCty[,1:9]
+save(fYrCty, fYrCtyOrig, file=paste0(pathData,"/cityTotPopLatLongvFinal.rda"))
 ##################################################################
