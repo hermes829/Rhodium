@@ -3,7 +3,9 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 # Load conflict country year data
 setwd(pathData)
-load('combinedData.rda'); modData=yData
+# load('combinedData.rda'); modData=yData
+# load('combinedData_loInt.rda'); modData=yData
+load('combinedData_hiInt.rda'); modData=yData
 
 # Gen tikz?
 genTikz=FALSE
@@ -49,7 +51,9 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 
 dv = 'lngdpGr_l0'
 kivs = c('lnminDist.min', 'lncapDist.min')
-cntrls = c('durSt1max',  'confAreaProp', 'nconf', 
+cntrls = c(
+  # 'Int.max',
+  'durSt1max',  'confAreaProp', 'nconf', 
   'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
 
 # Run random effect models
@@ -90,7 +94,9 @@ rmse(mCity); rmse(mCap)
 setwd(pathMain)
 source('vizResults.R')
 
-otherCovars=c('Intensity$_{t-1}$', 'Duration$_{t-1}$', 'Area$_{t-1}$',
+otherCovars=c(
+  # 'Intensity$_{t-1}$', 
+  'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
   'Resource Rents/GDP$_{t}$', 'World GDP Growth$_{t}$')

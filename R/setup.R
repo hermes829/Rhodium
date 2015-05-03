@@ -19,22 +19,23 @@ setwd(paste(pathMain,'/BuildingPanelData/',sep=''))
 load('panel.rda')
 
 # Loading libraries and functions
-require(ggplot2)
+library(MASS)
+library(ggplot2)
 theme_set(theme_bw())
-require(grid)
-require(tikzDevice)
-require(RColorBrewer)
+library(grid)
+library(tikzDevice)
+library(RColorBrewer)
 
-require(sbgcop)
-require(reshape)
-require(foreign)
-require(doBy)
-require(lme4)
+library(sbgcop)
+library(reshape)
+library(foreign)
+library(doBy)
+library(lme4)
 
-require(shapefiles)
-require(cshapes)
-require(WDI)
-require(countrycode)
+library(shapefiles)
+library(cshapes)
+library(WDI)
+library(countrycode)
 
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}
@@ -69,7 +70,7 @@ lagDataSM <- function(data, country_year, country, varsTOlag, lag=1)
 ##   conf.interval: the percent range of the confidence interval (default is 95%)
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
-    require(plyr)
+    library(plyr)
 
     # New version of length which can handle NA's: if na.rm==T, don't count them
     length2 <- function (x, na.rm=FALSE) {
