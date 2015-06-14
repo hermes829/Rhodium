@@ -27,6 +27,7 @@ modData$lncapDist.min <- log(modData$capDist.min+1)
 modData$lnminDist.mean <- log(modData$minDist.mean+1)
 modData$lncapDist.mean <- log(modData$capDist.mean+1)
 modData$lnminDistACLED.min <- log(modData$minDistACLED.min+1)
+modData$lnminDistACLED.mean <- log(modData$minDistACLED.mean+1)
 modData$Int.max <- modData$Int.max-1
 
 # Transformations for other controls
@@ -63,14 +64,20 @@ cntrls = c(
 # Run random effect models
 ctyForm=modForm(ivs=c(kivs[1], cntrls), type='random')
 capForm=modForm(ivs=c(kivs[2], cntrls), type='random')
+# We can't use the modForm() function here because Int.max, durSt1max, confAreaProp are not defined for ACLED data:
+acledForm = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1 | ccode)
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
+mAcled = lmer(acledForm, data = modData ); summary(mAcled)$'coefficients'
 
 # Fixef Robustness Checks
 ctyFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
 capFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
+# We can't use the modForm() function here because Int.max, durSt1max, confAreaProp are not defined for ACLED data:
+acledFormFE = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + factor(ccode) -1
 mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
+mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 
 # Run Hausman test on city and cap models
 library(plm)

@@ -158,7 +158,7 @@ yData=cbind(yData, prioMIN)
 # Saving aggregation of conflict data to country-year level
 setwd(pathData)
 if(orig){save(yData, file='countryYear_ConflictData_Orig.rda')}
-if(!lo & !hi){save(yData, file='countryYear_ConflictData.rda')}
+if(!lo & !hi & !orig){save(yData, file='countryYear_ConflictData.rda')}
 if(lo){yData_loInt = yData; save(yData_loInt, file='countryYear_ConflictData_loInt.rda')}
 if(hi){yData_hiInt = yData; save(yData_hiInt, file='countryYear_ConflictData_hiInt.rda')}
 ##################################################################
