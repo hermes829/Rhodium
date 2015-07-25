@@ -19,6 +19,7 @@ conVars=c('nconf', 'Int.max',
 	'territorial.max', 'territorial.mean',
 	'minDist.min', 'minDistACLED.min', 'inRadius.sum', 'capDist.min',
 	'minDist.mean', 'minDistACLED.mean', 'inRadius.sum', 'capDist.mean',
+  'acledCapDist.mean','acledCapDist.min',
 	'durSt1max')
 
 yData=yData[,c('cyear','year','ccode',conVars)]

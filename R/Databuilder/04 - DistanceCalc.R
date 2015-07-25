@@ -57,12 +57,19 @@ acledData$minDistACLED <- minDist(
   acledData$LATITUDE, acledData$LONGITUDE, acledData$cname, acledData$YEAR,
   fYrCty$cleanLat, fYrCty$cleanLong, fYrCty$cname, fYrCty$YearAlmanac)
 
+acledData$acledCapDist <- minDist(
+  acledData$LATITUDE, acledData$LONGITUDE, acledData$cname, acledData$YEAR,
+  fYrCty$cleanLat[fYrCty$Capital==1],
+  fYrCty$cleanLong[fYrCty$Capital==1],
+  fYrCty$cname[fYrCty$Capital==1],
+  fYrCty$YearAlmanac[fYrCty$Capital==1])
+
 plot(density(acledData$minDistACLED,na.rm=T),lty=2,frame=F,yaxt="n",xlab="Minimum Distance",ylab="",main="PRIO vs ACLED")
 lines(density(prioAC$minDist,na.rm=T),lty=1)
 legend("topright",c("PRIO","ACLED"),lty=c(1,2),bty="n")
 
-acledData <- aggregate(acledData$minDistACLED, list(acledData$cname,acledData$YEAR), FUN=function(x)min(x,na.rm=T))
-names(acledData) <- c("cname","YEAR","minDistACLED")
+acledData <- aggregate(acledData[,c("minDistACLED","acledCapDist")], list(acledData$cname,acledData$YEAR), FUN=function(x)min(x,na.rm=T))
+names(acledData) <- c("cname","YEAR","minDistACLED","acledCapDist")
 prioAC <- merge(prioAC, acledData, by=c("cname","YEAR"), all.x=T, all.y=F)
 
 # Calculate number of cities within radius of conflict
@@ -82,13 +89,14 @@ prioAC$capDist <- minDist(
 
   prioAC$capDist = rnorm(nrow(prioAC))
 }
+
 ##################################################################
 
 ##################################################################
 # Aggregate to the country-year
 prioAC$territorial <- as.numeric(prioAC$Incomp%in%c(1,3))
 prioAC <- prioAC[,c("ID","Incomp","Int","CumInt","territorial",
-  "Conflict.area","Type","Region","minDist","minDistACLED","inRadius","capDist",
+  "Conflict.area","Type","Region","minDist","minDistACLED","acledCapDist","inRadius","capDist",
   "cname","YEAR", 'startYr1', 'startYr2')]
 prioAC$ccode=panel$ccode[match(prioAC$cname,panel$cname)]
 prioAC$cyear=paste0(prioAC$ccode, prioAC$YEAR)
@@ -107,18 +115,19 @@ aggAll=summaryBy(. ~ cyear, data=prioAC, FUN=c(mean,sum,min,max))
 
 # Create country year
 yData=aggAll[ ,c('cyear', 'YEAR.mean', 'ccode.mean',
-                    'Int.mean', 'Int.max', 'CumInt.mean',
-                    'CumInt.max', 'Type.mean',
-                    'territorial.max','territorial.mean',
-                    'Conflict.area.mean',
-                    'Conflict.area.max','Conflict.area.sum',
-                    'Region.mean', 'minDist.mean',
-                    'minDist.min', 'minDistACLED.mean',
-                    'minDistACLED.min','inRadius.sum',
-                    'inRadius.max', 'capDist.min',
-                    'capDist.mean',
-                    'startYr1.min','startYr1.max',
-                    'startYr2.min', 'startYr2.max') ]
+                 'Int.mean', 'Int.max', 'CumInt.mean',
+                 'CumInt.max', 'Type.mean',
+                 'territorial.max','territorial.mean',
+                 'Conflict.area.mean',
+                 'Conflict.area.max','Conflict.area.sum',
+                 'Region.mean', 'minDist.mean',
+                 'minDist.min', 'minDistACLED.mean',
+                 'minDistACLED.min','acledCapDist.min',
+                 'acledCapDist.mean','inRadius.sum',
+                 'inRadius.max', 'capDist.min',
+                 'capDist.mean',
+                 'startYr1.min','startYr1.max',
+                 'startYr2.min', 'startYr2.max') ]
 colnames(yData)[2:3] = c('year', 'ccode')
 
 # Add duration variables

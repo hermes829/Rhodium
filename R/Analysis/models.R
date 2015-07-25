@@ -28,6 +28,8 @@ modData$lnminDist.mean <- log(modData$minDist.mean+1)
 modData$lncapDist.mean <- log(modData$capDist.mean+1)
 modData$lnminDistACLED.min <- log(modData$minDistACLED.min+1)
 modData$lnminDistACLED.mean <- log(modData$minDistACLED.mean+1)
+modData$lncapDistACLED.min <- log(modData$acledCapDist.min+1)
+modData$lncapDistACLED.mean <- log(modData$acledCapDist.mean+1)
 modData$Int.max <- modData$Int.max-1
 
 # Transformations for other controls
@@ -66,9 +68,11 @@ ctyForm=modForm(ivs=c(kivs[1], cntrls), type='random')
 capForm=modForm(ivs=c(kivs[2], cntrls), type='random')
 # We can't use the modForm() function here because Int.max, durSt1max, confAreaProp are not defined for ACLED data:
 acledForm = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1 | ccode)
+acledFormCap = lngdpGr_l0 ~ lncapDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1 | ccode)
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 mAcled = lmer(acledForm, data = modData ); summary(mAcled)$'coefficients'
+mAcledCap = lmer(acledFormCap, data=modData); summary(mAcledCap)$'coefficients'
 
 # Fixef Robustness Checks
 ctyFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
@@ -77,7 +81,7 @@ capFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
 acledFormFE = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + factor(ccode) -1
 mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
-mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
+mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:6,]
 
 # Run Hausman test on city and cap models
 library(plm)
@@ -129,6 +133,26 @@ temp <- ggcoefplot(coefData=summary(mCap)$'coefficients',
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 setwd(pathGraphics)
 if(genTikz){ tikz(file='mCapCoefPlot.tex', width=4, height=6, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
+
+vnames=c('Ln(Min. City Dist.)$_{t-1}$', "Ln(Inflation)$_{t-1}$","Democracy$_{t-1}$","Resource Rents/GDP$_{t}$","World GDP Growth$_{t}$")
+temp <- ggcoefplot(coefData=summary(mAcled)$'coefficients'[c(2,4,5,6,7),],
+                   vars=na.omit(rownames(summary(mAcled)$'coefficients')[c(2,4,5,6,7)]), 
+                   varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+                   colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+setwd(pathGraphics)
+if(genTikz){ tikz(file='mAcledCityCoefPlot.tex', width=4, height=6, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
+
+vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', "Ln(Inflation)$_{t-1}$","Democracy$_{t-1}$","Resource Rents/GDP$_{t}$","World GDP Growth$_{t}$")
+temp <- ggcoefplot(coefData=summary(mAcledCap)$'coefficients'[c(2,4,5,6,7),],
+                   vars=na.omit(rownames(summary(mAcledCap)$'coefficients')[c(2,4,5,6,7)]), 
+                   varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+                   colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+setwd(pathGraphics)
+if(genTikz){ tikz(file='mAcledCapCoefPlot.tex', width=4, height=6, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
 ###################################################################
