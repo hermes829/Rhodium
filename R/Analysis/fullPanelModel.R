@@ -5,6 +5,7 @@ if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 # Load conflict country year data
 setwd(pathData)
 load('fullData.rda')
+load('combinedData.rda')
 modData = fullData
 
 # Gen tikz?
@@ -25,6 +26,29 @@ modData$lngdpCap = log(modData$gdpCap)
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
 modData$democ = as.numeric(modData$polity2>=6)
 modData$polity2 = modData$polity2 + 11
+
+# Add in distance variables
+distVars = c('minDist.min', 'capDist.min', 'minDist.mean', 'capDist.mean')
+for(var in distVars){
+	# Merge in distance data from yData
+	modData$tmp = yData[,var][match(modData$cyear, yData$cyear)]
+	names(modData)[ncol(modData)] = var
+
+	# Invert variable
+	modData[,var] = 1/modData[,var]
+
+	# Convert NAs to zero
+	modData[,var][is.na( modData[,var] )] = 0
+
+	# Log transformed version
+	lnVar = paste0('ln',var)
+	# modData$tmp = log(modData[,var] + 1)
+	names(modData)[ncol(modData)] = lnVar
+
+	# Create interaction variable
+	modData$tmp = modData$civwar * modData[,lnVar]
+	names(modData)[ncol(modData)] = paste0('civwar_', lnVar)
+}
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
@@ -45,8 +69,13 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'lngdpGr_l0'
-kivs = c('civwar', 'nconf')
-cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
+kivs = c(
+	'lncapDist.mean', 
+	'lnminDist.mean'
+	)
+cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0'
+	# , 'civwar'
+	)
 
 # Run random effect models
 civwarForm=modForm(ivs=c(kivs[1], cntrls), type='random')
