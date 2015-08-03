@@ -42,7 +42,7 @@ for(var in distVars){
 
 	# Log transformed version
 	lnVar = paste0('ln',var)
-	# modData$tmp = log(modData[,var] + 1)
+	modData$tmp = log(modData[,var] + 1)
 	names(modData)[ncol(modData)] = lnVar
 
 	# Create interaction variable
@@ -70,8 +70,8 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 
 dv = 'lngdpGr_l0'
 kivs = c(
-	'lncapDist.mean', 
-	'lnminDist.mean'
+	'lncapDist.min', 
+	'lnminDist.min'
 	)
 cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0'
 	# , 'civwar'
