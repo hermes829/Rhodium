@@ -1,6 +1,6 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
-
+library(Hmisc)
 # Load conflict country year data
 setwd(pathData)
 # load('combinedData_Orig.rda'); modData=yData
@@ -37,6 +37,7 @@ modData$lngdpCap = log(modData$gdpCap)
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
 modData$democ = as.numeric(modData$polity2>=6)
 modData$polity2 = modData$polity2 + 11
+
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
@@ -82,6 +83,15 @@ acledFormFE = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflati
 mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:6,]
+
+# RE versus FE
+fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
+library(doBy)
+ctryAvs <- summaryBy(lnminDist.min ~ ccode, data=modData, FUN=mean)
+fixedEff <- data.frame(ccode=names(fixedEff),val=fixedEff)
+fixedEff$ccode <- gsub("factor\\(ccode\\)","",fixedEff$ccode)
+ctryAvs <- merge(ctryAvs,fixedEff,by="ccode",all.x=T,all.y=F)
+cor(ctryAvs[,2:3], use="complete.obs")
 
 # Run Hausman test on city and cap models
 library(plm)
