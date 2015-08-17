@@ -34,16 +34,16 @@ for(var in distVars){
 	modData$tmp = yData[,var][match(modData$cyear, yData$cyear)]
 	names(modData)[ncol(modData)] = var
 
-	# Invert variable
-	modData[,var] = 1/modData[,var]
-
-	# Convert NAs to zero
-	modData[,var][is.na( modData[,var] )] = 0
-
 	# Log transformed version
 	lnVar = paste0('ln',var)
 	modData$tmp = log(modData[,var] + 1)
 	names(modData)[ncol(modData)] = lnVar
+
+	# Invert variable
+	modData[,lnVar] = 1/modData[,lnVar]
+
+	# Convert NAs to zero
+	modData[,lnVar][is.na( modData[,lnVar] )] = 0
 
 	# Create interaction variable
 	modData$tmp = modData$civwar * modData[,lnVar]
@@ -69,9 +69,13 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'lngdpGr_l0'
+# kivs = c(
+# 	'lncapDist.min', 
+# 	'lnminDist.min'
+# 	)
 kivs = c(
-	'lncapDist.min', 
-	'lnminDist.min'
+	'civwar', 
+	'nconf'
 	)
 cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0'
 	# , 'civwar'

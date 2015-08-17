@@ -1,0 +1,77 @@
+\section{Reviewer: 1}
+
+This paper advances the hypothesis that conflict should exert larger negative impacts on GDP if it located closer to urban centers. This idea is tested using subnational data on conflict location from the PRIO Conflict Site Dataset covering the 1989-2008 period. The authors present evidence for their hypothesis using a random effects model. Robustness checks are conducted verifying the results are not driven by a particular sub-sample.
+
+I very much like the conceptual hypothesis advanced by this paper, and the idea of using the conflict Site Dataset to test it. However, I am concerned about the empirical specification used for the analysis. Below I outline alternative approaches. If these can be implemented, I believe the paper can make a valuable contribution to the conflict literature.
+
+
+\subsection{Major comments}
+
+\begin{enumerate}
+\item The random effects model is only appropriate compared to the fixed effects model if there is a compelling reason to believe that time invariant country characteristics are uncorrelated with spatial conflict location and income. The authors don’t present a Hausman test to try and make the case for random effects. Moreover, this doesn’t seem plausible because geographic factors such as roughness of terrain and climactic conditions in remote areas far from urban centers would determine the cost of launching an insurgency in urban vs. rural areas and also affect GDP. In addition, institutional features such as whether rule of law or state presence extends to rural areas would similarly act as potential omitted variables if country fixed effects are not included. A research question along these lines really should exploit variation within a country and show that as urban conflict location chances, GDP growth changes, instead of relying on comparisons across countries. As such, I would want to see the results hold with the fixed effects model as the primary model, including country and year fixed effects, and with standard errors clustered on country to control serial correlation over time.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	For the ``Capital City'' and ``Any Major City'' models we ran a Hausman test to see if fixed or random effects were appropriate for our dataset, and in both cases we do not reject the null hypothesis of the Hausman test at a 90 or 95\% confidence interval indicating that it is acceptable to use random effects. We have added a discussion of this analysis into our empirical section.  
+}
+\end{itemize}
+
+\item Currently country year observations without conflict are excluded from current specifications. They should not be because if low GDP correlates with periods of no conflict, as might arise if sufficient economic activity is required to finance internal conflicts, then this omission would lead to an upward bias on the estimates.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	We have run a t-test to test whether GDP is lower during times of no conflict versus conflict and we find that GDP is higher during conflict years than non-conflict years at a 95\% confidence interval. Thus the possibility of an upward bias on our main model estimates should not be so severe. 
+}
+\end{itemize}
+
+\item It will be fairly important to benchmark the results based on distance between conflict location and urban center against the overall effect of conflict. In other words, we’d like to know if having any conflict lowers GDP, and if this effect is even stronger if its located closer to urban areas. To capture this, the authors should start with a simple specification that regresses GDP growth on a dummy for if any conflict occurred. Then they should introduce an interaction between this dummy variable and the conflict distance variable. The coefficient on the dummy in this second specification would then capture effects of 0 distance, or if conflicts occurred in cities.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	We have run a model on our full panel dataset to calculate a benchmark on the effect of any conflict on GDP growth. The results of this analysis have been added to the paper. To make the baseline model as comparable as possible to the model that we use to test our distance hypothesis, we adopt as similar a specification as possible. Specifically, the dependent variable is again logged, GDP growth. Then our independent variables are, each lagged by one year: 
+	\begin{itemize}
+		\item Civil war, this is just a binary to indicate whether a civil war took place in that year
+		\item Upperincome, this is a binary to indicate whether the country is classified as upper or lower income according to the Worldbank
+		\item Logged, inflation
+		\item Polity score
+		\item Resources as a percent of GDP
+		\item Average GDP growth across the world for that year
+	\end{itemize}
+	We do not include the conflict-specific measures (Distance, Intensity, Duration, and Area) from our distance model since they would just have a value of NA during non-conflict years. The key finding from this analysis is that a civil war is related to lower levels of GDP growth, however, this effect is marginal and only significant at a 90\% confidence interval. 
+	In terms of including an interaction to the model, 
+}
+\end{itemize}
+
+\item It wasn’t clear to me how 0 distance was dealt with the current specifications since logs were taken but this would eliminate the 0s. It would be very important to include these if in fact conflict in cities are represented by 0 distance in the data.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	The minimum distance of the centroid of a conflict from any major or capital city in our dataset is 0.38 UNITS so this is not an issue for our analysis.
+}
+\end{itemize}
+
+\item Instead of treating conflict intensity as a control, it would be useful to re-do the specifications in point 3 above but just restricting to the incidents coded as wars and then restricting to the lower intensity effects. Then the authors can test to see if coefficients on the former are in fact larger.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	We reran the models per this specification and have included the results in the appendix. In both low intensity and high intensity cases we find that the distance variables remain significant and in the hypothesized direction. 
+}
+\end{itemize}
+
+\item More information should be provided on how conflict events make it into the Conflict Site Dataset. For example, Figure 1 suggests too sparse picture of violent events in Colombia, given that nearly 1/3rd of the Colombian territory was war affected over this period.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	The PRIO Conflict Site dataset provides information on the centroid of a conflict and that is what is plotted in each of the conflict map figures. The PRIO Conflict Site dataset then approximates the area that is covered by the conflict. However, the way in which they define this area is problematic as it is not a polygon representing the actual area of conflict, instead they just provide the radius of the conflict zone. If we were to try and construct the distance from a city to any part of a conflict area we would have to define the conflict area as just a perfect circle with a given radius, which would not actually reflect where conflict was taking place. 
+}
+\end{itemize}
+
+\item I like the use of the descriptive cases but more should be done with these if they will be included. In particular, the economic dynamic of these countries should be mentioned to clarify how the effect of conflict on GDP maps to the hypotheses advanced in the paper. I also wondered about the focus on conflict in the NE in India. Naxalite conflict has also spread rapidly and is also located in rural areas (which is consistent with the authors’ point), so this would be natural to draw upon as well.
+
+\begin{itemize}
+\item \textcolor{blue}{
+	BEN will add stuff here. 
+}
+\end{itemize}
+
+\end{enumerate}
