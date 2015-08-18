@@ -8,9 +8,9 @@ The authors claim that the distance between cities (or capital) and the location
 \item  I’m convinced by the interpretation of the results but I can imagine also an alternative story. The state capacity is negatively correlated to the distance (to the capital or main cities - see Buhaug, 2010). That means that the fighting cost for a rebel group is decreasing with the distance to the capital. In other words, it is only the strongest (richest) rebel groups that are able to be close enough to the capital. The effect detected in the paper is perhaps only the effect of size groups. The biggest groups are the more violent, the more disruptive and consequently that have an higher effect on economic growth. I’m not sure how it will be possible to arbitrate between this alternative story and the story of the authors. At the end, a discussion around this alternative explanation would be profitable to the paper.
 
 \begin{itemize}
-\item \textcolor{blue}{
+\item \textcolor{blue}{\emph{
 	We provide a discussion of this alternative explanation following our empirical analysis.
-}
+}}
 \end{itemize}
 
 \item The empirical strategy used is a major issue and the authors have to deeply improved this part. The authors mainly use a cross-country comparison using random effects and they justify the use of random effects because their purpose is to explain variation between unit. But the cross-country comparison doesn’t involve the use of random effects. The authors missed also to control for time-specific shocks that are common to all countries by including year dummies. The year dummies will absorb yearly worldwide changes such as economic shocks, global climate shocks or natural resource price shocks. I don’t believe also the explanation to avoid the use of country fixed effects. I think the authors should follow the following road map:
@@ -22,25 +22,31 @@ The authors claim that the distance between cities (or capital) and the location
 \end{itemize}
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+	For the ``Capital City'' and ``Any Major City'' models we ran a Hausman test to see if fixed or random effects were appropriate for our dataset, and in both cases we do not reject the null hypothesis of the Hausman test at a 90 or 95\% confidence interval indicating that it is acceptable to use random effects. We have added a discussion of this analysis into our empirical section.  
+	However, as Clark \& Linzer (2015) show the Hausman test is by itself not a sufficient statistic to choose between fixed or random effects. They provide a typology for assessing whether or not to use fixed or random effects. Specifically they suggest to look at the ``the size of the dataset (both number of units and number of observations per unit), the level of correlation between the covariate and unit effects, and the extent of within-unit variation in the independent variable relative to the dependent variable'' (pg., 2). We employ their typology to further test whether our choice of random effects over fixed effects is appropriate. 	
+}}
 \end{itemize}
 
 \item Sample. I’m not convinced by the sample choice. I would like to see results with a full sample of countries from 1989 to 2008, including peace countries. I expect the author to interact their measure of distance to conflict with a dummy coded 1 for country in civil conflict and 0 otherwise
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+	Including an interaction in this way is problematic for estimating the effect of conflict distance on conflict. The logged, minimum distance variable ranges from approximately 0.33 to 7.31, with closer values indicating that conflict is more proximate to an urban center for that country-conflict-year. This variable is NA for cases in which no conflict occurred for a given country year, thus before we interact it with the civil war variable in a full panel set up we would need to introduce some values for the NAs. One possibility is to simply invert the distance variable and then set the NAs to zero. However, the choice of introducing a zero for the NAs would be arbitrary and problematic, as our variable would no longer truly be continuous. Instead it would be discontinous in that we would have a large lump of observations at zero and then no observations until 1/7.31. Beyond the problems associated with transforming the variable in this way we would also run into issues of perfect collinearity with the inverted conflict distance measure and the interaction variable. The collinearity would result because the binary conflict variable is zero for every case that the inverted conflict distance variable is zero and one otherwise, meaning that multiplying the two will simply result in the inverted conflict distance variable again. 
+	We have spent a fair bit of time trying to think of alternative approaches to modeling this in a full panel context using mixture or hierarchical approaches, but could find no mentions to develop a model for this type of data. 
+	Despite this we strongly feel that our results are illustrative of an important and meaningful finding for the conflict literature. There has been very little discussion of the role that the spatial distribution of conflict plays in shaping macroeconomic outcomes, and the findings that we present here are the first to begin to disentangle this relationship.
+}}
 \end{itemize}
 
 \item Data on conflicts. One could imagine that the quality/quantity of reports on conflicts is negatively correlated to this distance to the capital. I would appreciate a discussion on the potential report bias and how it could influence the results. As a robustness, I expect the authors to use ACLED data that are commonly used now as data for disaggregated analysis.
 
 \begin{itemize}
-\item \textcolor{blue}{
+\item \textcolor{blue}{\emph{
 	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. 
-}
+}}
 \end{itemize}
 
-\item To avoid issues linked to reverse causation, I would consider the list of urban centers
-at the beginning of the period.
+\item To avoid issues linked to reverse causation, I would consider the list of urban centers at the beginning of the period.
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{stuff}}
@@ -79,7 +85,9 @@ at the beginning of the period.
 \item Area covered by conflict. I don’t understand why the authors use a binary measure instead of the continuous variable.
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+	When rerunning the model using the continuous variable each of the key results remain similar.
+}}
 \end{itemize}
 
 \item Robustness. The strategy that consists to run a six-fold cross-validation is convincing. In the same spirit, I would like to see the same exercise when one country is left out of the sample.
