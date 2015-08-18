@@ -33,8 +33,9 @@ digitsep=fullstop
 \usepackage[font={small},labelfont=bf]{caption}
 
 % references
-\usepackage[natbib=true, style=authoryear]{biblatex}
-\bibliography{master.bib}
+\usepackage{natbib}
+% \usepackage[natbib=true, style=authoryear]{biblatex}
+% \bibliography{master.bib}
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
@@ -106,9 +107,9 @@ digitsep=fullstop
 
 % easy commands for number propers
 \makeatletter
-\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
+\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}}
 \makeatother
-\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
+\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}}
 
 % -------------------------------------------------------- %
 
@@ -152,6 +153,10 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
-\printbibliography
+
+\section*{References}
+% \bibliographystyle{elsarticle-harv} 
+\bibliographystyle{jpr}
+\bibliography{master.bib}
 
 \end{document} 
