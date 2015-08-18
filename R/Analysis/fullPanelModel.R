@@ -9,7 +9,7 @@ load('combinedData.rda')
 modData = fullData
 
 # Gen tikz?
-genTikz=FALSE
+genTikz=TRUE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
@@ -78,38 +78,53 @@ kivs = c(
 	'nconf'
 	)
 cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0'
-	# , 'civwar'
 	)
 
 # Run random effect models
 civwarForm=modForm(ivs=c(kivs[1], cntrls), type='random')
-nconfForm=modForm(ivs=c(kivs[2], cntrls), type='random')
 mCivWar = lmer(civwarForm, data = modData ); summary(mCivWar)$'coefficients'
-mNConf = lmer(nconfForm, data = modData ); summary(mNConf)$'coefficients'
 
 # Fixef Robustness Checks
 civwarFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
-nconfFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
 mCivWar = lm(civwarFormFE, data = modData ); summary(mCivWar)$'coefficients'[1:(length(cntrls)+1),]
-mNConfFixefCntry = lm(nconfFormFE, data = modData ); summary(mNConfFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 
 # Run Hausman test on city and cap models
 library(plm)
 civwarFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
-nconfFormBase=modForm(ivs=c(kivs[2], cntrls), type='none')
 
 regData = modData[,c(dv, kivs, cntrls, 'ccode', 'year')]
 plmFE = plm(civwarFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
 plmRE = plm(civwarFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
 phtest(plmFE, plmRE)
 
-plmFE = plm(nconfFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
-plmRE = plm(nconfFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
-phtest(plmFE, plmRE)
-
 # Basic model diags
 rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
 
 Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
-rmse(mCivWar); rmse(mNConf)
+rmse(mCivWar)
+###################################################################
+
+###################################################################
+# Model results: Plot
+setwd(pathMain)
+source('vizResults.R')
+
+otherCovars=c(
+  'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
+  'Resource Rents/GDP$_{t}$', 'World GDP Growth$_{t}$')
+
+vnames=c('Civil War$_{t-1}$', otherCovars)
+temp <- ggcoefplot(coefData=summary(mCivWar)$'coefficients'[1:(length(cntrls)+1),],
+    vars=na.omit(rownames(summary(mCivWar)$'coefficients'[1:(length(cntrls)+1),])), 
+    varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
+    colorGrey=FALSE, grSTA=0.5, grEND=0.1)
+setwd(pathGraphics)
+if(genTikz){ tikz(file='civWarCoefPlot.tex', width=4, height=6, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
+###################################################################
+
+###################################################################
+# Model results: Table
+library(stargazer)
 ###################################################################

@@ -7,15 +7,24 @@ Regarding R1, there are three issues to highlight.
 \begin{enumerate}
 \item  First, this reviewer would like to see your main model be run on a fixed effects setup with standard errors clustered on country. \\
 
-\textcolor{blue}{\emph{stuff}}
+\textcolor{blue}{\emph{
+	For the ``Capital City'' and ``Any Major City'' models we ran a Hausman test to see if fixed or random effects were appropriate for our dataset, and in both cases we do not reject the null hypothesis of the Hausman test at a 90 or 95\% confidence interval indicating that it is acceptable to use random effects. We have added a discussion of this analysis into our empirical section.  
+	However, as Clark \& Linzer (2015) show the Hausman test is by itself not a sufficient statistic to choose between fixed or random effects. They provide a typology for assessing whether or not to use fixed or random effects. Specifically they suggest to look at the ``the size of the dataset (both number of units and number of observations per unit), the level of correlation between the covariate and unit effects, and the extent of within-unit variation in the independent variable relative to the dependent variable'' (pg., 2). We employ their typology to further test whether our choice of random effects over fixed effects is appropriate. 
+}}
 
 \item Second, this reviewer would like to see country year observations without conflict included in the analyses instead of being excluded. I should note that R2 raises these two concerns as well which suggests that it will be critical to address these issues in your revisions. \\
 
-\textcolor{blue}{\emph{stuff}}
+\textcolor{blue}{\emph{
+	Including an interaction in this way is problematic for estimating the effect of conflict distance on conflict. The logged, minimum distance variable ranges from approximately 0.33 to 7.31, with closer values indicating that conflict is more proximate to an urban center for that country-conflict-year. This variable is NA for cases in which no conflict occurred for a given country year, thus before we interact it with the civil war variable in a full panel set up we would need to introduce some values for the NAs. One possibility is to simply invert the distance variable and then set the NAs to zero. However, the choice of introducing a zero for the NAs would be arbitrary and problematic, as our variable would no longer truly be continuous. Instead it would be discontinous in that we would have a large lump of observations at zero and then no observations until 1/7.31. Beyond the problems associated with transforming the variable in this way we would also run into issues of perfect collinearity with the inverted conflict distance measure and the interaction variable. The collinearity would result because the binary conflict variable is zero for every case that the inverted conflict distance variable is zero and one otherwise, meaning that multiplying the two will simply result in the inverted conflict distance variable again. 
+	We have spent a fair bit of time trying to think of alternative approaches to modeling this in a full panel context using mixture or hierarchical approaches, but could find no mentions to develop a model for this type of data. 
+	Despite this we strongly feel that our results are illustrative of an important and meaningful finding for the conflict literature. There has been very little discussion of the role that the spatial distribution of conflict plays in shaping macroeconomic outcomes, and the findings that we present here are the first to begin to disentangle this relationship.
+}}
 
 \item Third, this reviewer would like to see you estimate a baseline model for the impact of conflict on growth in which GDP growth is regressed on a dummy for armed conflict in a country. After that, you can then move onto your central argument and compare your findings to this baseline set of findings. \\
 
-\textcolor{blue}{\emph{stuff}}
+\textcolor{blue}{\emph{
+	stuff
+}}
 
 \end{enumerate}
 
@@ -24,6 +33,8 @@ Regarding R2, there is one additional issue to highlight (points one and two ove
 \begin{enumerate}
 \item The third point raised is to run a robustness check on the more disaggregated ACLED data set to see if your findings hold up. \\
 
-\textcolor{blue}{\emph{stuff}}
+\textcolor{blue}{\emph{
+	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. 
+}}
 
 \end{enumerate}

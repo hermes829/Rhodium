@@ -37,13 +37,12 @@ modData$lngdpCap = log(modData$gdpCap)
 modData$lninflation_l1 = logTrans(modData$inflation_l1)
 modData$democ = as.numeric(modData$polity2>=6)
 modData$polity2 = modData$polity2 + 11
-
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
 # Model parameters
-modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
+modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
   base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
   if(type=='random'){
     eff = paste0('(1 |', id, ')')
@@ -57,7 +56,7 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
   return(formula(base))
 }
 
-dv = 'lngdpGr_l0'
+dv = 'gdpGr_l0'
 kivs = c('lnminDist.mean', 'lncapDist.mean')
 cntrls = c(
   'Int.max',
@@ -74,38 +73,6 @@ mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 mAcled = lmer(acledForm, data = modData ); summary(mAcled)$'coefficients'
 mAcledCap = lmer(acledFormCap, data=modData); summary(mAcledCap)$'coefficients'
-
-# Fixef Robustness Checks
-ctyFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
-capFormFE=modForm(ivs=c(kivs[2], cntrls), type='fixed')
-# We can't use the modForm() function here because Int.max, durSt1max, confAreaProp are not defined for ACLED data:
-acledFormFE = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + factor(ccode) -1
-mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
-mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
-mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:6,]
-
-# RE versus FE
-fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
-library(doBy)
-ctryAvs <- summaryBy(lnminDist.min ~ ccode, data=modData, FUN=mean)
-fixedEff <- data.frame(ccode=names(fixedEff),val=fixedEff)
-fixedEff$ccode <- gsub("factor\\(ccode\\)","",fixedEff$ccode)
-ctryAvs <- merge(ctryAvs,fixedEff,by="ccode",all.x=T,all.y=F)
-cor(ctryAvs[,2:3], use="complete.obs")
-
-# Run Hausman test on city and cap models
-library(plm)
-ctyFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
-capFormBase=modForm(ivs=c(kivs[2], cntrls), type='none')
-
-regData = modData[,c(dv, kivs, cntrls, 'ccode', 'year')]
-plmFE = plm(ctyFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
-plmRE = plm(ctyFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
-phtest(plmFE, plmRE)
-
-plmFE = plm(capFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
-plmRE = plm(capFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
-phtest(plmFE, plmRE)
 
 # Basic model diags
 rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
