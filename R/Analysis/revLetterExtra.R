@@ -35,3 +35,11 @@ modData$polity2 = modData$polity2 + 11
 # Across full panel
 with(modData, t.test(lngdp~civwar, alternative='two.sided') )
 ###################################################################
+
+###################################################################
+# Interaction wont work
+set.seed(6886)
+fakeData = data.frame(y = rnorm(100), bin=rbinom(100,1,0.5), x=0)
+fakeData$x[fakeData$bin==1] = rnorm(sum(fakeData$bin), .23, .25)
+fakeData$i = fakeData$x*fakeData$bin
+###################################################################

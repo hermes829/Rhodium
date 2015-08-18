@@ -1,8 +1,3 @@
-set.seed(6886)
-fakeData = data.frame(y = rnorm(100), bin=rbinom(100,1,0.5), x=0)
-fakeData$x[fakeData$bin==1] = rnorm(sum(fakeData$bin), .23, .25)
-
-
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
   source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
