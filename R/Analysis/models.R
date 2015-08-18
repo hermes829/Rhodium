@@ -57,7 +57,7 @@ modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'gdpGr_l0'
-kivs = c('lnminDist.mean', 'lncapDist.mean')
+kivs = c('lnminDist.min', 'lncapDist.min')
 cntrls = c(
   'Int.max',
   'durSt1max',  'confAreaProp', 'nconf', 
@@ -136,7 +136,6 @@ if(genTikz){ dev.off() }
 
 ###################################################################
 # Simulations
-
 temp = ggsimplot(modelResults=mCity, sims=10000, simData=modData, 
   vars=charSM(na.omit(rownames(summary(mCity)$'coefficients')[2:100])),
   vi='lnminDist.min', ostat=median, sigma=FALSE, intercept=TRUE,

@@ -67,12 +67,15 @@ Before we move to discussing the results of the model specification that we have
 	& \;+\; \beta_{10}(World \; GDP \; Growth_{t})
 \end{align*}
 
-The results of this model are shown below in figure~\ref{fig:civWarCoefplot}. We will eschew discussing the controls since the primary purpose of this analysis is to determine a baseline effect for civil war. 
+Since our primary interest here is just 
+
+The results of this model are shown below in figure~\ref{fig:civWarCoefplot}. We will eschew discussing the controls since the primary purpose of this analysis is to determine a baseline effect for civil war. Additionally, for the sake of space we do not show the full results from this regression, though they are available in section \ref{baseline} of the Appendix. The key result pertains to the civil war variable, the $\beta$ estimate is approximately -1.011 with a standard error of 0.521. To assess the substantive significance of this variable we turn to a simulation based analysis. To to do this we set up two scenarios, one in which a civil war occurred and in the other no civil war, all the other parameters were set to their median value. Next, we conduct 1,000 random draws from a multivariate normal to obtain distributions for the point estimates of each of our regression coefficients. After obtaining these distributions, we calculate the predicted value of FDI inflows based on our two scenarios. The resulting distributions are shown in figure \ref{fig:civWarEffect}. 
 
 \begin{figure}
-	\resizebox{.45\textwidth}{!}{\input{civWarCoefPlot.tex}}
-	\caption{Fixed effects regression results using full country-year panel. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
-	\label{fig:civWarCoefplot}
+	\centering
+	\resizebox{.45\textwidth}{!}{\input{civWarEffect.tex}}
+	\caption{Distributions of expected values for GDP growth based on whether or not a country experienced a civil war in the previous year. The distribution in red designates the scenarios for which a civil war occurred and in blue if a civil war did not occur. The 90\% interval of each distribution is shaded in a dark blue or red color and the 95\% in a lighter color.}
+	\label{fig:civWarEffect}	
 \end{figure}
 
 

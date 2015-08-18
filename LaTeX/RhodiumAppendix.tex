@@ -2,6 +2,18 @@
 \section{Appendix}
 \label{appendix}
 
+\subsection{Baseline Model}
+\label{baseline}
+
+\begin{figure}
+	\resizebox{.45\textwidth}{!}{\input{civWarCoefPlot.tex}}
+	\caption{Fixed effects regression results using full country-year panel. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
+	\label{fig:civWarCoefplot}
+\end{figure}
+
+\subsection{ACLED Analysis}
+\label{acled}
+
 The Armed Conflict Location and Event Dataset provides an alternative source of information on the subnational spatial distribution of armed conflict \citep{raleigh:linke:etal:2010}. This dataset is, at the time of writing, limited to Africa and therefore was not selected for the primary analysis presented in the text. It does, however, offer us a valuable opportunity to validate our results. Here, we have replicated the primary model described in Section~\ref{empirics}.
 
 In order to match our existing data structure, it was necessary to aggregate the ACLED data to the country-year level. We did this by first subsetting ACLED to the years 1989-2008 and then selecting only conflict sites with at least 25 fatalities in each given year. The 25 fatalities threshold is intended to mirror the PRIO coding criteria and to prevent very low-fatality events from biasing our estimates of conflict location toward high-population areas. Covariates created with PRIO but unavailable in ACLED are omitted. The analysis procedure then continues as described in Section~\ref{empirics}: the minimum distance measure is calculated as the natural logarithm of the average distance in kilometers from any conflict site to the nearest major city (or capital). The results are presented in Figures~\ref{fig:acled} and \ref{fig:acledfixef}. 

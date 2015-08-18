@@ -80,14 +80,6 @@ kivs = c(
 cntrls = c('upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0'
 	)
 
-# Run random effect models
-civwarForm=modForm(ivs=c(kivs[1], cntrls), type='random')
-mCivWar = lmer(civwarForm, data = modData ); summary(mCivWar)$'coefficients'
-
-# Fixef Robustness Checks
-civwarFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
-mCivWar = lm(civwarFormFE, data = modData ); summary(mCivWar)$'coefficients'[1:(length(cntrls)+1),]
-
 # Run Hausman test on city and cap models
 library(plm)
 civwarFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
@@ -97,11 +89,9 @@ plmFE = plm(civwarFormBase, data=regData, model='within', effect='individual', i
 plmRE = plm(civwarFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
 phtest(plmFE, plmRE)
 
-# Basic model diags
-rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
-
-Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
-rmse(mCivWar)
+# Fixef model
+civwarFormFE=modForm(ivs=c(kivs[1], cntrls), type='fixed')
+mCivWar = lm(civwarFormFE, data = modData ); summary(mCivWar)$'coefficients'[1:(length(cntrls)+1),]
 ###################################################################
 
 ###################################################################
@@ -127,4 +117,61 @@ if(genTikz){ dev.off() }
 ###################################################################
 # Model results: Table
 library(stargazer)
+stargazer(plmFE)
+###################################################################
+
+###################################################################
+# Substantive effects
+# Model results
+mod = mCivWar
+vars = c('factor(ccode)950', kivs[1], cntrls)
+coef = mod$'coefficients'[vars]
+varCov = vcov(mod)[vars,vars]
+
+# Set up scenario matrix
+data = na.omit( modData[,vars[2:length(vars)]] )
+scen = rbind(
+	c(1, 1, 0, apply(data[,vars[4:length(vars)]], 2, function(x){ mean(x) })),
+	c(1, 0, 0, apply(data[,vars[4:length(vars)]], 2, function(x){ mean(x) }))
+	)
+colnames(scen) = vars
+
+# Construct simulation, only inferential uncertainty
+draws = mvrnorm(1000, coef, varCov)
+
+# Calculate predicted values
+predVals = draws %*% t(scen)
+
+# Plot
+predMelt=melt(predVals)[,-1]
+ggMeans = ddply(predMelt, .(X2), summarise, sMean=mean(value))
+ggDensity = ddply(predMelt, .(X2), .fun=function(x){
+  tmp = density(x$value); x1 = tmp$x; y1 = tmp$y
+  q95 = x1 >= quantile(x$value,0.025) & x1 <= quantile(x$value,0.975)
+  q90 = x1 >= quantile(x$value,0.05) & x1 <= quantile(x$value,0.95)
+  data.frame(x=x1,y=y1,q95=q95, q90=q90) } )
+ggMeans$X2 = factor(ggMeans$X2)
+ggDensity$X2 = factor(ggDensity$X2)
+
+
+temp = ggplot()
+temp = temp + geom_line(data=ggDensity, aes(x=x,y=y,color=X2))
+temp = temp + geom_vline(data=ggMeans,
+  aes(xintercept=sMean, color=X2),linetype='solid',size=1)
+temp = temp + geom_ribbon(data=subset(ggDensity,q95),
+  aes(x=x,ymax=y,fill=X2),ymin=0,alpha=0.5)
+temp = temp + geom_ribbon(data=subset(ggDensity,q90),
+  aes(x=x,ymax=y,fill=X2),ymin=0,alpha=0.9)
+temp = temp + theme(legend.position='none')
+temp = temp + xlab("\\% $\\Delta$ GDP$_{t}$") + ylab("Density")
+temp = temp + scale_x_continuous(breaks=seq(-6,6,2), limits=c(-6,7))
+temp = temp + theme(panel.border = element_blank(), 
+	axis.line = element_line(), axis.ticks = element_blank(),
+	panel.grid.major=element_blank(), panel.grid.minor=element_blank(), 
+	axis.title.x = element_text(vjust=-0.2),
+	axis.title.y = element_text(vjust=0.2))
+temp
+if(genTikz){ tikz(file='civWarEffect.tex', width=6, height=4, standAlone=F)}
+temp
+if(genTikz){ dev.off() }
 ###################################################################

@@ -83,16 +83,9 @@ acledFormFE = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflati
 mCityFixefCntry = lm(ctyFormFE, data = modData ); summary(mCityFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mCapFixefCntry = lm(capFormFE, data = modData ); summary(mCapFixefCntry)$'coefficients'[1:(length(cntrls)+1),]
 mAcledFixefCntry = lm(acledFormFE, data = modData); summary(mAcledFixefCntry)$'coefficients'[1:6,]
+###################################################################
 
-# RE versus FE
-fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
-library(doBy)
-ctryAvs <- summaryBy(lnminDist.min ~ ccode, data=modData, FUN=mean)
-fixedEff <- data.frame(ccode=names(fixedEff),val=fixedEff)
-fixedEff$ccode <- gsub("factor\\(ccode\\)","",fixedEff$ccode)
-ctryAvs <- merge(ctryAvs,fixedEff,by="ccode",all.x=T,all.y=F)
-cor(ctryAvs[,2:3], use="complete.obs")
-
+###################################################################
 # Run Hausman test on city and cap models
 library(plm)
 ctyFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
@@ -106,10 +99,15 @@ phtest(plmFE, plmRE)
 plmFE = plm(capFormBase, data=regData, model='within', effect='individual', index=c('ccode','year'))
 plmRE = plm(capFormBase, data=regData, model='random', effect='individual', index=c('ccode','year'))
 phtest(plmFE, plmRE)
+###################################################################
 
-# Basic model diags
-rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
-
-Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
-rmse(mCity); rmse(mCap)
+###################################################################
+# RE versus FE, Clark and Linzer (2015)
+fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
+library(doBy)
+ctryAvs <- summaryBy(lnminDist.min ~ ccode, data=modData, FUN=mean)
+fixedEff <- data.frame(ccode=names(fixedEff),val=fixedEff)
+fixedEff$ccode <- gsub("factor\\(ccode\\)","",fixedEff$ccode)
+ctryAvs <- merge(ctryAvs,fixedEff,by="ccode",all.x=T,all.y=F)
+cor(ctryAvs[,2:3], use="complete.obs")
 ###################################################################
