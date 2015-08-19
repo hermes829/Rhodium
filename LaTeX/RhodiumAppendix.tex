@@ -2,15 +2,14 @@
 \section{Appendix}
 \label{appendix}
 
-\subsection{Baseline Model}
-\label{baseline}
+\subsection{Estimating Models Separately for High and Low Intensity Conflicts}
 
-\begin{figure}
-	\resizebox{.45\textwidth}{!}{\input{civWarCoefPlot.tex}}
-	\caption{Fixed effects regression results using full country-year panel. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
-	\label{fig:civWarCoefplot}
-\end{figure}
+Here instead of treating conflict intensity as a control, we re-do our primary models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. 
 
+\input{modelHiLoIntensity.tex}
+\FloatBarrier
+
+\newpage
 \subsection{ACLED Analysis}
 \label{acled}
 

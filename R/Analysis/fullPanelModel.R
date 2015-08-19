@@ -171,6 +171,7 @@ temp = temp + theme(panel.border = element_blank(),
 	axis.title.x = element_text(vjust=-0.2),
 	axis.title.y = element_text(vjust=0.2))
 temp
+setwd(pathGraphics)
 if(genTikz){ tikz(file='civWarEffect.tex', width=6, height=4, standAlone=F)}
 temp
 if(genTikz){ dev.off() }

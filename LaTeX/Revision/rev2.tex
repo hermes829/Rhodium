@@ -32,7 +32,7 @@ The authors claim that the distance between cities (or capital) and the location
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{
-	Including an interaction in this way is problematic for estimating the effect of conflict distance on conflict. The logged, minimum distance variable ranges from approximately 0.33 to 7.31, with closer values indicating that conflict is more proximate to an urban center for that country-conflict-year. This variable is NA for cases in which no conflict occurred for a given country year, thus before we interact it with the civil war variable in a full panel set up we would need to introduce some values for the NAs. One possibility is to simply invert the distance variable and then set the NAs to zero. However, the choice of introducing a zero for the NAs would be arbitrary and problematic, as our variable would no longer truly be continuous. Instead it would be discontinous in that we would have a large lump of observations at zero and then no observations until 1/7.31. Beyond the problems associated with transforming the variable in this way we would also run into issues of perfect collinearity with the inverted conflict distance measure and the interaction variable. The collinearity would result because the binary conflict variable is zero for every case that the inverted conflict distance variable is zero and one otherwise, meaning that multiplying the two will simply result in the inverted conflict distance variable again. 
+	Including an interaction in this way is problematic for estimating the effect of conflict distance on conflict. The logged, minimum distance variable ranges from approximately 0.33 to 7.31, with closer values indicating that conflict is more proximate to an urban center for that country-conflict-year. This variable is NA for cases in which no conflict occurred for a given country year, thus before we interact it with the civil war variable in a full panel set up we would need to introduce some values for the NAs. One possibility is to simply invert the distance variable and then set the NAs to zero. However, the choice of introducing a zero for the NAs would be arbitrary and problematic, as our variable would no longer truly be continuous. Instead it would be discontinuous in that we would have a large lump of observations at zero and then no observations until 1/7.31. Beyond the problems associated with transforming the variable in this way we would also run into issues of perfect collinearity with the inverted conflict distance measure and the interaction variable. The collinearity would result because the binary conflict variable is zero for every case that the inverted conflict distance variable is zero and one otherwise, meaning that multiplying the two will simply result in the inverted conflict distance variable again. 
 	We have spent a fair bit of time trying to think of alternative approaches to modeling this in a full panel context using mixture or hierarchical approaches, but could find no mentions to develop a model for this type of data. 
 	Despite this we strongly feel that our results are illustrative of an important and meaningful finding for the conflict literature. There has been very little discussion of the role that the spatial distribution of conflict plays in shaping macroeconomic outcomes, and the findings that we present here are the first to begin to disentangle this relationship.
 }}
@@ -42,20 +42,28 @@ The authors claim that the distance between cities (or capital) and the location
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{
-	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. 
+	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. We have included these results in the Appendix under the subsection ACLED Analysis, we have also added in a footnote in the paper indicating that our results remain robust when estimated on this alternative dataset.
 }}
 \end{itemize}
 
 \item To avoid issues linked to reverse causation, I would consider the list of urban centers at the beginning of the period.
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+We reran our model on the effect of conflict proximity on GDP growth using the list of urban centers at the beginning of the period. The results are shown in table \ref{tab:modOrigCity} below. We were only able to rerun this model for minimum distance to any city because ...
+
+\input{modelsWithOrigCity.tex}
+\FloatBarrier
+}}
 \end{itemize}
 
 \item Definition of variables. The authors take the minimum distance to the conflict as explanatory variable. I would like to see alternative measures to ensure that the results are not sensitive to the definition of the main variable. For instance, the weighted (by the distance) sum of the number of events is a credible candidate as an alternative measure.
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+	WOuld need to take into account distance of countries, hard to construct
+	however, we have looked at other parameterizations such as mean distance
+}}
 \end{itemize}
 
 \end{enumerate}
@@ -67,13 +75,16 @@ The authors claim that the distance between cities (or capital) and the location
 \item Introduction. The example on Mexico looks strange. By many aspects, the drug war in Mexico is very different to conflicts in Republic Democratic of Congo or in Uganda. In other words, it is difficult to compare conflicts with genocide, massive internal migration, ethnic cleavages with a drug war where almost all citizens support the government. The recent case of Nigeria and Cameroon with Boko Haram looks to be a better fit with the story of the authors.
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+	We appreciate this suggestion and have shifted the focus to the cases of Nigeria and Cameroon. 
+}}
 \end{itemize}
 
 \item The authors claim they focus on the proximities of conflict to cities and not on the area covered by the conflict. I’m wondering whether the effect of the proximities of conflict to cities would be intensify by the area of the conflict. I expect the effect of the proximities of conflict to cities to be higher if the area of conflict is biggest. A very simple interaction term between distance and area would be appropriate to uncover this mechanism.
 
 \begin{itemize}
-\item \textcolor{blue}{\emph{stuff}}
+\item \textcolor{blue}{\emph{
+}}
 \end{itemize}
 
 \item Results. Conflict duration and the number of conflicts a country is facing have an unexpected effect on growth. I would see a discussion to explain this results.

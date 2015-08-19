@@ -103,8 +103,8 @@ phtest(plmFE, plmRE)
 
 ###################################################################
 # RE versus FE, Clark and Linzer (2015)
-fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
 library(doBy)
+fixedEff <- mCityFixefCntry$effects[grepl("factor",names(mCityFixefCntry$effects))]
 ctryAvs <- summaryBy(lnminDist.min ~ ccode, data=modData, FUN=mean)
 fixedEff <- data.frame(ccode=names(fixedEff),val=fixedEff)
 fixedEff$ccode <- gsub("factor\\(ccode\\)","",fixedEff$ccode)

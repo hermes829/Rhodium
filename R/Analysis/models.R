@@ -1,12 +1,8 @@
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){ source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
-library(Hmisc)
 # Load conflict country year data
 setwd(pathData)
-# load('combinedData_Orig.rda'); modData=yData
 load('combinedData.rda'); modData=yData
-# load('combinedData_loInt.rda'); modData=yData
-# load('combinedData_hiInt.rda'); modData=yData
 
 # Gen tikz?
 genTikz=FALSE
@@ -79,6 +75,12 @@ rmse=function(x){sqrt( mean( (residuals(x)^2) ) )}
 
 Reduce('-',quantile(modData$lngdpGr_l0,c(0.75,0.25),na.rm=T))
 rmse(mCity); rmse(mCap)
+###################################################################
+
+###################################################################
+# Regression Tables
+library(stargazer)
+stargazer(mCity, mCap)
 ###################################################################
 
 ###################################################################
