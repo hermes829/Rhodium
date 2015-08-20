@@ -36,6 +36,9 @@ modData$minAreaSum = modData$lnminDist.min * modData$Conflict.area.sum
 modData$minAreaMean = modData$lnminDist.min * modData$Conflict.area.mean
 modData$capAreaSum = modData$lncapDist.min * modData$Conflict.area.sum
 modData$capAreaMean = modData$lncapDist.min * modData$Conflict.area.mean
+
+modData$minArea = modData$lnminDist.min * modData$confAreaProp
+modData$capArea = modData$lncapDist.min * modData$confAreaProp
 ###################################################################
 
 ## MODELS FOR GDP GROWTH (ANNUAL %)
@@ -56,7 +59,8 @@ modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
 }
 
 dv = 'gdpGr_l0'
-kivs = c('lnminDist.min', 'minAreaSum', 'lncapDist.min', 'capAreaSum')
+kivs = c('lnminDist.min', 'minArea', 'lncapDist.min', 'capArea')
+# kivs = c('lnminDist.min', 'minAreaSum', 'lncapDist.min', 'capAreaSum')
 # kivs = c('lnminDist.min', 'minAreaMean', 'lncapDist.min', 'capAreaMean')
 cntrls = c(
   'Int.max',

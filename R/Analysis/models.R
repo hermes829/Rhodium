@@ -265,6 +265,7 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
   )
 temp=temp+facet_wrap(~Variable, scales='fixed')
 setwd(pathGraphics)
+temp
 if(genTikz){ tikz(efile='crossValPlot.tex', width=7, height=4, standAlone=FALSE)}
 temp
 if(genTikz){ dev.off() }
