@@ -68,7 +68,7 @@ modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
   return(formula(base))
 }
 
-dv = 'lngdpGr_l0'
+dv = 'gdpGr_l0'
 # kivs = c(
 # 	'lncapDist.min', 
 # 	'lnminDist.min'

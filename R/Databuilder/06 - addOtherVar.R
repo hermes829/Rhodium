@@ -97,15 +97,16 @@ yData=merge(yData, polity[,c('polity2','cyear')],
 
 ####################
 # Save
-setwd(pathData)
-if(orig){save(yData, file='combinedData_Orig.rda')}
-if(all){save(yData, file='combinedData.rda')}
-if(lo){save(yData, file='combinedData_loInt.rda')}
-if(hi){save(yData, file='combinedData_hiInt.rda')}
+# setwd(pathData)
+# if(orig){save(yData, file='combinedData_Orig.rda')}
+# if(all){save(yData, file='combinedData.rda')}
+# if(lo){save(yData, file='combinedData_loInt.rda')}
+# if(hi){save(yData, file='combinedData_hiInt.rda')}
 ####################
 
 ####################
 # Create full panel dataset
+wbData$cyear = paste0(wbData$ccode, wbData$year)
 fullData = wbData
 
 # Add lags
