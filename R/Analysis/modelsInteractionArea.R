@@ -18,8 +18,8 @@ modData$lngdpGr_l0 = (modData$lngdp_l0-modData$lngdp)/modData$lngdp_l0
 modData$lngdpGr_l0 = modData$gdpGr_l0
 
 # Transformations for conflict variables
-modData$lnminDist.min <- log(modData$minDist.min+1)
-modData$lncapDist.min <- log(modData$capDist.min+1)
+modData$lnminDist.min <- log(modData$minDist.min+1) 
+modData$lncapDist.min <- log(modData$capDist.min+1) 
 modData$Int.max <- modData$Int.max-1
 
 # Transformations for other controls
