@@ -59,12 +59,13 @@ cntrls = c(
   'durSt1max',  'confAreaProp', 'nconf', 
   'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
 
-# Run random effect models
+# Model specifications
 ctyForm=modForm(ivs=c(kivs[1], cntrls), type='random')
 capForm=modForm(ivs=c(kivs[2], cntrls), type='random')
-# We can't use the modForm() function here because Int.max, durSt1max, confAreaProp are not defined for ACLED data:
-acledForm = lngdpGr_l0 ~ lnminDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1 | ccode)
-acledFormCap = lngdpGr_l0 ~ lncapDistACLED.mean + nconf + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1 | ccode)
+acledForm = modForm(ivs=c('lnminDistACLED.mean', cntrls[4:length(cntrls)]))
+acledFormCap = modForm(ivs=c('lncapDistACLED.mean', cntrls[4:length(cntrls)]))
+
+# Run models
 mCity = lmer(ctyForm, data = modData ); summary(mCity)$'coefficients'
 mCap = lmer(capForm, data = modData ); summary(mCap)$'coefficients'
 mAcled = lmer(acledForm, data = modData ); summary(mAcled)$'coefficients'
@@ -80,7 +81,10 @@ rmse(mCity); rmse(mCap)
 ###################################################################
 # Regression Tables
 library(stargazer)
+# Tabular depictions for PRIO city models
 stargazer(mCity, mCap)
+# Tabular depictions for ACLED city models
+stargazer(mAcled, mAcledCap)
 ###################################################################
 
 ###################################################################
@@ -215,7 +219,7 @@ if(genTikz){ dev.off() }
 
 ###################################################################
 # Crossval: Testing for heterogeneous effects across subsets
-vars=c( 'ccode','year','lngdpGr_l0',dv,kivs,cntrls)
+vars=c( 'ccode','year',dv,kivs,cntrls)
 crossData=na.omit( modData[,vars] )
 
 cntries=unique(crossData$ccode)
@@ -247,8 +251,8 @@ for(f in 1:nF ){
 
   # Save performance stats
   test=crossData[which(crossData$fold==f), ]
-  crossPerf[[1]][f,]=c(f,rmse(ctyMod), outSampPerf('lngdpGr_l0',ctyMod,test) ) 
-  crossPerf[[2]][f,]=c(f,rmse(capMod), outSampPerf('lngdpGr_l0',capMod,test) ) 
+  crossPerf[[1]][f,]=c(f,rmse(ctyMod), outSampPerf('gdpGr_l0',ctyMod,test) ) 
+  crossPerf[[2]][f,]=c(f,rmse(capMod), outSampPerf('gdpGr_l0',capMod,test) ) 
 }
 
 # Plotting cross-validation to test model heterogeneity
