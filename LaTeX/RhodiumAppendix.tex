@@ -2,9 +2,15 @@
 \section{Appendix}
 \label{appendix}
 
+\subsection{Baseline Effect of Civil Conflict on Growth}
+
+In Table \ref{tab:baseline} below, we show the fixed effects regression results for the model in which we utilize a full country year panel in order to define a baseline effect of civil war on economic growth. 
+
+\input{baseline.tex}
+
 \subsection{Conflict Distance Models in Tabular Format}
 
-Here we present the results of our models measuring the effect of conflict distance in a tabular format. The first column in each of the tables below is a simple linear model regressing the conflict distance parameter on GDP Growth, in the second we add our controls, in the third we include random effects, varying intercepts, for country, in the fourth random effects for year, and in the last random effects for both country and year. 
+Here we present the results of our models measuring the effect of conflict distance in a tabular format, results for distance from the capital city are shown in Table \ref{tab:capDistMod} and for any major city in Table \ref{tab:cityDistMod} below. The first column in each of the tables below is a simple linear model regressing the conflict distance parameter on GDP Growth, in the second we add our controls, in the third we include random effects, varying intercepts, for country, in the fourth random effects for year, and in the last random effects for both country and year. 
 
 \input{capDistRegTable.tex}
 
@@ -15,7 +21,7 @@ Here we present the results of our models measuring the effect of conflict dista
 
 \subsection{Estimating Models Separately for High and Low Intensity Conflicts}
 
-Here instead of treating conflict intensity as a control, we re-do our primary models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. 
+Here instead of treating conflict intensity as a control, we re-do our primary models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. In both low intensity and high intensity cases we find that the conflict distance variables remain significant and in the expected direction, but the $\beta$ estimate of our distance variables is noticeably higher when using high intensity versus low intensity civil conflict cases. The results are presented in Table~\ref{tab:modHiLoIntensity} below.
 
 \input{modelHiLoIntensity.tex}
 \FloatBarrier
@@ -26,18 +32,7 @@ Here instead of treating conflict intensity as a control, we re-do our primary m
 
 The Armed Conflict Location and Event Dataset provides an alternative source of information on the subnational spatial distribution of armed conflict \citep{raleigh:linke:etal:2010}. This dataset is, at the time of writing, limited to Africa and therefore was not selected for the primary analysis presented in the text. It does, however, offer us a valuable opportunity to validate our results. Here, we have replicated the primary model described in Section~\ref{empirics}.
 
-In order to match our existing data structure, it was necessary to aggregate the ACLED data to the country-year level. We did this by first subsetting ACLED to the years 1989-2008 and then selecting only conflict sites with at least 25 fatalities in each given year. The 25 fatalities threshold is intended to mirror the PRIO coding criteria and to prevent very low-fatality events from biasing our estimates of conflict location toward high-population areas. Covariates created with PRIO but unavailable in ACLED are omitted. The analysis procedure then continues as described in Section~\ref{empirics}: the minimum distance measure is calculated as the natural logarithm of the average distance in kilometers from any conflict site to the nearest major city (or capital). The results are presented in Figures~\ref{fig:acled} and \ref{fig:acledfixef}. 
+In order to match our existing data structure, it was necessary to aggregate the ACLED data to the country-year level. We did this by first subsetting ACLED to the years 1989-2008 and then selecting only conflict sites with at least 25 fatalities in each given year. The 25 fatalities threshold is intended to mirror the PRIO coding criteria and to prevent very low-fatality events from biasing our estimates of conflict location toward high-population areas. Covariates created with PRIO but unavailable in ACLED are omitted. The analysis procedure then continues as described in Section~\ref{empirics}: the minimum distance measure is calculated as the natural logarithm of the average distance in kilometers from any conflict site to the nearest major city (or capital). The results are presented in Table~\ref{tab:acledRegResults} below. 
 
-\begin{figure}
-	\centering
-	\begin{tabular}{cc}
-		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.45\textwidth}{!}{\input{mAcledCapCoefPlot.tex}}
-		\label{fig:acled}} &
-		\subfloat[SubFigure 2][Any Major City]{
-			\resizebox{.45\textwidth}{!}{\input{mAcledCityCoefPlot.tex}}
-		\label{fig:acledfixef}}
-	\end{tabular}
-	\caption{Regression results using conflict distance from capital city on the left, and the chart on the right shows regression results using minimum conflict distance from any major city. Conflict data based on ACLED. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals. The lagged number of conflicts within a country is also included in the models but is omitted from the plots above to enhance readability.}
-	\label{fig:coefplot}
-\end{figure}
+\input{acledModels.tex}
+\FloatBarrier

@@ -25,7 +25,16 @@ Regarding R1, there are three issues to highlight.
 \item Third, this reviewer would like to see you estimate a baseline model for the impact of conflict on growth in which GDP growth is regressed on a dummy for armed conflict in a country. After that, you can then move onto your central argument and compare your findings to this baseline set of findings. \\
 
 \textcolor{blue}{\emph{
-	stuff
+	We have run a model on our full panel dataset to calculate a benchmark on the effect of any conflict on GDP growth. The results of this analysis have been added to the paper. To make the baseline model as comparable as possible to the model that we use to test our distance hypothesis, we adopt as similar a specification as possible. Specifically, the dependent variable is again GDP growth. Then our independent variables are, each lagged by one year: 
+	\begin{itemize}
+		\item Civil war, this is just a binary to indicate whether a civil war took place in that year
+		\item Upperincome, this is a binary to indicate whether the country is classified as upper or lower income according to the Worldbank
+		\item Logged, inflation
+		\item Polity score
+		\item Resources as a percent of GDP
+		\item Average GDP growth across the world for that year
+	\end{itemize}
+	We do not include the conflict-specific measures (Distance, Intensity, Duration, and Area) from our distance model since they would just have a value of NA during non-conflict years. The key finding from this analysis is that a civil war is related to lower levels of GDP growth, however, this effect is marginal and only significant at a 90\% confidence interval. To determine the substantive significance of a civil war we employ a simulation based approach, similar to what we did to assess the effect of conflict distance from urban centers on growth, and we find that there is a marginal difference but the effect is highly uncertain. We use this finding as a lead in to our main model describing the effect of conflict distance from urban centers on growth. 
 }}
 
 \end{enumerate}
@@ -36,7 +45,7 @@ Regarding R2, there is one additional issue to highlight (points one and two ove
 \item The third point raised is to run a robustness check on the more disaggregated ACLED data set to see if your findings hold up. \\
 
 \textcolor{blue}{\emph{
-	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. 
+	We retested our hypothesis using the ACLED dataset and we find that our distance measure of conflict to major urban centers is significantly negative. We have included these results in the Appendix under the subsection ACLED Analysis, we have also added in a footnote in the paper indicating that our results remain robust when estimated on this alternative dataset.
 }}
 
 \end{enumerate}

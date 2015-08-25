@@ -72,7 +72,7 @@ otherCovars=c(
   'Duration$_{t-1}$', 'Area$_{t-1}$',
   'Number of conflicts$_{t-1}$',  
   'Upper Income', 'Ln(Inflation)$_{t-1}$', 'Democracy$_{t-1}$',
-  'Resource Rents/GDP$_{t}$', 'World GDP Growth$_{t}$')
+  'Resource Rents/GDP$_{t-1}$', 'World GDP Growth$_{t}$')
 
 vnames=c('Ln(Min. City Dist.)$_{t-1}$', otherCovars)
 temp <- ggcoefplot(coefData=summary(mCity)$'coefficients',
@@ -94,25 +94,12 @@ if(genTikz){ tikz(file='mCapCoefPlot.tex', width=4, height=6, standAlone=F)}
 temp
 if(genTikz){ dev.off() }
 
-vnames=c('Ln(Min. City Dist.)$_{t-1}$', "Ln(Inflation)$_{t-1}$","Democracy$_{t-1}$","Resource Rents/GDP$_{t}$","World GDP Growth$_{t}$")
-temp <- ggcoefplot(coefData=summary(mAcled)$'coefficients'[c(2,4,5,6,7),],
-                   vars=na.omit(rownames(summary(mAcled)$'coefficients')[c(2,4,5,6,7)]), 
-                   varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-                   colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-setwd(pathGraphics)
-if(genTikz){ tikz(file='mAcledCityCoefPlot.tex', width=4, height=6, standAlone=F)}
-temp
-if(genTikz){ dev.off() }
-
-vnames=c('Ln(Min. Capital Dist.)$_{t-1}$', "Ln(Inflation)$_{t-1}$","Democracy$_{t-1}$","Resource Rents/GDP$_{t}$","World GDP Growth$_{t}$")
-temp <- ggcoefplot(coefData=summary(mAcledCap)$'coefficients'[c(2,4,5,6,7),],
-                   vars=na.omit(rownames(summary(mAcledCap)$'coefficients')[c(2,4,5,6,7)]), 
-                   varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
-                   colorGrey=FALSE, grSTA=0.5, grEND=0.1)
-setwd(pathGraphics)
-if(genTikz){ tikz(file='mAcledCapCoefPlot.tex', width=4, height=6, standAlone=F)}
-temp
-if(genTikz){ dev.off() }
+# Create tables for ACLED results
+library(stargazer)
+stargazer(mAcled, mAcledCap)
+# Number of countries included
+slice = na.omit( modData[,c('ccode','lnminDistACLED.mean', cntrls[4:length(cntrls)])] )
+length(unique(slice$ccode))
 ###################################################################
 
 ###################################################################
@@ -245,7 +232,7 @@ temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames,
 temp=temp+facet_wrap(~Variable, scales='fixed')
 setwd(pathGraphics)
 temp
-if(genTikz){ tikz(efile='crossValPlot.tex', width=7, height=4, standAlone=FALSE)}
+if(genTikz){ tikz(efile='crossValPlotAll.tex', width=7, height=4, standAlone=FALSE)}
 temp
 if(genTikz){ dev.off() }
 

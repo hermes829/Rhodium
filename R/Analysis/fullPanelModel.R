@@ -9,7 +9,7 @@ load('combinedData.rda')
 modData = fullData
 
 # Gen tikz?
-genTikz=TRUE
+genTikz=FALSE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
@@ -102,6 +102,10 @@ if(genTikz){ dev.off() }
 # Model results: Table
 library(stargazer)
 stargazer(plmFE)
+
+# Number of countries
+slice = na.omit( regData[,c('ccode','gdpGr_l0',kivs[1], cntrls)] )
+length(unique(slice$ccode))
 ###################################################################
 
 ###################################################################
