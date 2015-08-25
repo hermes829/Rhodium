@@ -28,3 +28,7 @@
 *.toc
 *.snm
 *.nav
+
+LaTeX/Rhodium.bcf
+
+LaTeX/Rhodium.run.xml
