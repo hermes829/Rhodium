@@ -14,8 +14,6 @@ genTikz=FALSE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
-logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
-
 # Log transforming DVs
 modData$lngdp_l0 = log(modData$gdp_l0)
 modData$lngdp = log(modData$gdp)

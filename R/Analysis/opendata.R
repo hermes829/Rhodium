@@ -5,7 +5,6 @@ rm(list=ls())
 if(Sys.info()["user"]=="janus829")
 {pathMain="~/Desktop/Research/Rhodium/R";
  pathGraphics="~/Dropbox/Research/Rhodium/Graphics";
- pathFunctions="~/Desktop/Prog Notes/R Functions";
  pathData="~/Dropbox/Research/Rhodium/Data"
 }
 
@@ -23,11 +22,6 @@ if(Sys.info()["user"]=="Ben")
  pathFunctions="C:/Users/Ben/Documents/Github/Rhodium/R";
  pathData="C:/Users/Ben/Dropbox/Rhodium/Data"
 }
-
-# Concatenation operator
-"+" <- function(...) UseMethod("+")
-"+.default" <- .Primitive("+")
-"+.character" <- function(...) paste(...,sep="")
 
 library(maptools)
 library(RColorBrewer)

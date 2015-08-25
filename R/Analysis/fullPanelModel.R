@@ -13,8 +13,6 @@ genTikz=TRUE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
-logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
-
 # Log transforming DVs
 modData$lngdp_l0 = log(modData$gdp_l0)
 modData$lngdp = log(modData$gdp)
@@ -54,20 +52,6 @@ for(var in distVars){
 ## MODELS FOR GDP GROWTH (ANNUAL %)
 ###################################################################
 # Model parameters
-modForm = function(dv='lngdpGr_l0', ivs, id='ccode', type='random'){
-  base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
-  if(type=='random'){
-    eff = paste0('(1 |', id, ')')
-    base = paste(base, eff, sep=' + ')
-  }
-
-  if(type=='fixed'){
-    eff = paste0('factor(', id, ') - 1')
-    base = paste(base, eff, sep=' + ')
-  }
-  return(formula(base))
-}
-
 dv = 'gdpGr_l0'
 # kivs = c(
 # 	'lncapDist.min', 

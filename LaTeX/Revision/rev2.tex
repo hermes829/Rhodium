@@ -23,8 +23,11 @@ The authors claim that the distance between cities (or capital) and the location
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{
-	For the ``Capital City'' and ``Any Major City'' models we ran a Hausman test to see if fixed or random effects were appropriate for our dataset, and in both cases we do not reject the null hypothesis of the Hausman test at a 90 or 95\% confidence interval indicating that it is acceptable to use random effects. We have added a discussion of this analysis into our empirical section.  
-	However, as Clark \& Linzer (2015) show the Hausman test is by itself not a sufficient statistic to choose between fixed or random effects. They provide a typology for assessing whether or not to use fixed or random effects. Specifically they suggest to look at the ``the size of the dataset (both number of units and number of observations per unit), the level of correlation between the covariate and unit effects, and the extent of within-unit variation in the independent variable relative to the dependent variable'' (pg., 2). We employ their typology to further test whether our choice of random effects over fixed effects is appropriate. 	
+	There are a number of reasons why we chose a random effects framework, however, we agree with the reviewers that these reasons were not clearly explicated in the text. The following discussion provides three reasons why we employ a random effects framework. We have added the reasoning described below to the relevant section in the actual paper as well.
+	For the ``Capital City'' and ``Any Major City'' models we ran a Hausman test to see if fixed or random effects were appropriate for our dataset, and in both cases we do not reject the null hypothesis of the Hausman test at a 90 or 95\% confidence interval indicating by at least that standard that both fixed and random effect approaches are consistent, with the latter obviously being more efficient.
+	However, as Clark \& Linzer (2015) note the Hausman test should not be the sole determination for choosing between fixed or random effects. They perform a series of Monte Carlo simulations to determine the conditions under which a fixed or random effects model is appropriate and provide a rough typology. Specifically to take into consideration the size of the dataset (both number of units, in this case countries, and number of observations per unit, conflict instances) and the level of correlation between the regressor and unit effects. In our case, we have over 70 countries but for over half of those we only have five conflict instances or less. Given such a data structure Clark \& Linzer (2015) recommend to examine the level of correlation between the regressor and unit effects to determine the appropriate modeling framework. For both our distance models, the level of correlation between the regressor and unit effects is less than 0.20, which accords with a random effects recommendation under the framework described by Clark \& Linzer (2015). 
+	Another reason why we choose a random effects framework is because of our concerns with the unchanging and time invariant nature of where conflict is taking place relative to major urban centers. In Thailand, for example, the distance between conflict and urban centers in our dataset just ranges from approximately 790 to 810 kilometers, which basically indicates that conflicts are simply isolated to a specific part of the country. This same patterns holds for many other countries in our sample such as Mozambique (range: $\approx$ 705 - 860 km), Bangladesh (range: $\approx$ 198 - 237 km), Cambodia (range: $\approx$ 131 - 197 km), etc.. These ranges become even further compressed when we log them for use in our regression analysis. If we employed a fixed effects model to test our hypothesis we would in essence be removing many of these types of countries from our sample, or as Beck \& Katz (2001) would put it ``throwing out the baby with the bathwater''. 
+	In terms of the roadmap mentioned by the reviewer, we have added an appendix item that runs the analysis in the way reviewer suggested and reports the results in a tabular format. 
 }}
 \end{itemize}
 
@@ -42,7 +45,7 @@ The authors claim that the distance between cities (or capital) and the location
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{
-	We retested our hypothesis using the ACLED dataset and here as well we find that our distance measure of conflict to major urban centers is significantly negative. We have included these results in the Appendix under the subsection ACLED Analysis, we have also added in a footnote in the paper indicating that our results remain robust when estimated on this alternative dataset.
+	We retested our hypothesis using the ACLED dataset and we find that our distance measure of conflict to major urban centers is significantly negative. We have included these results in the Appendix under the subsection ACLED Analysis, we have also added in a footnote in the paper indicating that our results remain robust when estimated on this alternative dataset.
 }}
 \end{itemize}
 
@@ -50,7 +53,7 @@ The authors claim that the distance between cities (or capital) and the location
 
 \begin{itemize}
 \item \textcolor{blue}{\emph{
-We reran our model on the effect of conflict proximity on GDP growth using the list of urban centers at the beginning of the period. The results are shown in table \ref{tab:modOrigCity} below. We were only able to rerun this model for minimum distance to any city because ...
+We reran our model on the effect of conflict proximity on GDP growth using the list of urban centers at the beginning of the period. The results are shown in table \ref{tab:modOrigCity} below. Running the same analysis using capital cities is difficult as they change over time in our sample.
 \input{modelsWithOrigCity.tex}
 \FloatBarrier
 }}

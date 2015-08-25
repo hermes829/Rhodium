@@ -23,22 +23,7 @@ prepData = function(modData){
 	modData$polity2 = modData$polity2 + 11
 	return(modData)
 }
-# Model formulas
-modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
-  base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
-  if(type=='random'){
-    eff = paste0('(1 |', id, ')')
-    base = paste(base, eff, sep=' + ')
-  }
 
-  if(type=='fixed'){
-    eff = paste0('factor(', id, ') - 1')
-    base = paste(base, eff, sep=' + ')
-  }
-  return(formula(base))
-}
-# Log transformations
-logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 # Model specifications
 dv = 'gdpGr_l0'
 kivs = c('lnminDist.min', 'lncapDist.min')
