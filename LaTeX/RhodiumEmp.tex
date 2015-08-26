@@ -69,7 +69,7 @@ Before we move to discussing the results of the model specification that we have
 % 	& \;+\; \beta_{10}(World \; GDP \; Growth_{t})
 % \end{align*}
 
-We will eschew discussing the controls since the primary purpose of this analysis is to determine a baseline effect for civil war. Additionally, for the sake of space we do not show the full results from this regression, but they are available in section \ref{tab:baseline} of the Appendix. The key result pertains to the civil war variable for which we estimate a regression coefficient of approximately -2.568 with a standard error of 0.502. 
+We will eschew discussing the controls since the primary purpose of this analysis is to determine a baseline effect for civil war. Additionally, for the sake of space we do not show the full results from this regression, but they are available in section \ref{tab:baseline} of the Appendix. The key result pertains to the civil war variable for which we estimate a regression coefficient of approximately -2.568 with a standard error of 0.502.\footnote{This estimate corresponds closely to the result found by \citet{collier:1999}.}
 
 To assess the substantive significance of this variable we turn to a simulation-based analysis. We simulate two scenarios, one in which a civil war occurred and another in which there is no civil war.  All of the other parameters are set to their median value. Next, we conduct 1,000 random draws from a multivariate normal distribution to obtain a distribution of point estimates for each regression coefficient. Last, we simply matrix multiply the draws from the multivariate normal with the transposed scenario matrices to obtain expected values of GDP growth given the two scenarios. The resulting distributions are shown in figure \ref{fig:civWarEffect}. 
 
@@ -81,8 +81,8 @@ To assess the substantive significance of this variable we turn to a simulation-
 \end{figure}
 \FloatBarrier
 
-The analysis here highlights that there is little distinguishable difference in the expected values of GDP growth as a function of whether or not there a country was experiencing a civil war in the previous year. We argue that this is because the effect of civil conflict on economic growth becomes particularly relevant when that conflict is proximate to economic points of interest such as capital cities and major urban centers.
-
+The analysis here highlights that, while there is a noticeable substantive difference in the expected GDP growth of civil war and non-civil war countries, there is also a large amount of inferential uncertainty in these estimates. We argue that this is because the effect of civil conflict on economic growth becomes particularly relevant when that conflict is proximate to economic points of interest such as capital cities and major urban centers. In other words, the heterogeneity of civil war leads to a diversity of economic outcomes for affected states.
+%
 \section{Results}
 \label{findings} 
 
