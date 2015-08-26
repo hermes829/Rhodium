@@ -9,7 +9,7 @@ load('combinedData.rda')
 modData = fullData
 
 # Gen tikz?
-genTikz=FALSE
+genTikz=TRUE
 
 # CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
@@ -93,9 +93,9 @@ temp <- ggcoefplot(coefData=summary(mCivWar)$'coefficients'[1:(length(cntrls)+1)
     varNames=vnames, Noylabel=FALSE, coordFlip=TRUE,
     colorGrey=FALSE, grSTA=0.5, grEND=0.1)
 setwd(pathGraphics)
-if(genTikz){ tikz(file='civWarCoefPlot.tex', width=4, height=6, standAlone=F)}
-temp
-if(genTikz){ dev.off() }
+# if(genTikz){ tikz(file='civWarCoefPlot.tex', width=4, height=6, standAlone=F)}
+# temp
+# if(genTikz){ dev.off() }
 ###################################################################
 
 ###################################################################
@@ -125,6 +125,7 @@ scen = rbind(
 colnames(scen) = vars
 
 # Construct simulation, only inferential uncertainty
+set.seed(6886)
 draws = mvrnorm(1000, coef, varCov)
 
 # Calculate predicted values
@@ -152,7 +153,7 @@ temp = temp + geom_ribbon(data=subset(ggDensity,q90),
   aes(x=x,ymax=y,fill=X2),ymin=0,alpha=0.9)
 temp = temp + theme(legend.position='none')
 temp = temp + xlab("\\% $\\Delta$ GDP$_{t}$") + ylab("Density")
-temp = temp + scale_x_continuous(breaks=seq(-6,6,2), limits=c(-6,7))
+temp = temp + scale_x_continuous(breaks=seq(-6,6,2), limits=c(-5,7))
 temp = temp + theme(panel.border = element_blank(), 
 	axis.line = element_line(), axis.ticks = element_blank(),
 	panel.grid.major=element_blank(), panel.grid.minor=element_blank(), 
