@@ -44,10 +44,10 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>Aug25_JCR_AnonTitle.bcf</file>
+      <file>Nov6_JCR_AnonTitle.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>Aug25_JCR_AnonTitle.bbl</file>
+      <file>Nov6_JCR_AnonTitle.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -65,19 +65,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>Aug25_JCR_AnonTitle</infile>
+      <infile>Nov6_JCR_AnonTitle</infile>
     </cmdline>
     <input>
-      <file>Aug25_JCR_AnonTitle.bcf</file>
+      <file>Nov6_JCR_AnonTitle.bcf</file>
     </input>
     <output>
-      <file>Aug25_JCR_AnonTitle.bbl</file>
+      <file>Nov6_JCR_AnonTitle.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>Aug25_JCR_AnonTitle.bbl</file>
+      <file>Nov6_JCR_AnonTitle.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>Aug25_JCR_AnonTitle.bcf</file>
+      <file>Nov6_JCR_AnonTitle.bcf</file>
     </requires>
     <requires type="editable">
       <file>master.bib</file>
