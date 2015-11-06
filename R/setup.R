@@ -19,24 +19,22 @@ setwd(paste(pathMain,'/BuildingPanelData/',sep=''))
 load('panel.rda')
 
 # Loading libraries and functions
-library(abind)
-library(MASS)
-library(ggplot2)
+loadPkg=function(toLoad){
+  for(lib in toLoad){
+  if(! lib %in% installed.packages()[,1])
+    { install.packages(lib, repos='http://cran.rstudio.com/') }
+  suppressMessages( library(lib, character.only=TRUE) )
+  }
+}
+
+pks = c('abind', 'MASS', 'ggplot2', 'grid', 
+  'tikzDevice', 'RColorBrewer', 'sbgcop', 'reshape',
+  'foreign', 'doBy', 'lme4', 'shapefiles', 'cshapes',
+  'WDI', 'countrycode')
+loadPkg(pks)
+
+# gg theme
 theme_set(theme_bw())
-library(grid)
-library(tikzDevice)
-library(RColorBrewer)
-
-library(sbgcop)
-library(reshape)
-library(foreign)
-library(doBy)
-library(lme4)
-
-library(shapefiles)
-library(cshapes)
-library(WDI)
-library(countrycode)
 
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}

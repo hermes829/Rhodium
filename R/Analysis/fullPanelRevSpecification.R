@@ -44,9 +44,25 @@ modData$Int.max <- modData$Int.max-1
 ###################################################################
 
 # Full model
-completeData <- modData[,c("gdpGr_l0","civwar","lnminDist.min","lncapDist.min","ccode","upperincome","lninflation_l1","polity2","resourceGDP","gdpGr.mean_l0")]
+completeData <- modData[,c("gdpGr_l0","civwar","lnminDist.min","lncapDist.min","ccode","upperincome","lninflation_l1","polity2","resourceGDP","gdpGr.mean_l0",'year')]
 completeData <- completeData[complete.cases(completeData),]
-summary(lmer(gdpGr_l0 ~ civwar + lnminDist.min + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1|ccode), data=completeData))
-summary(lmer(gdpGr_l0 ~ civwar + lncapDist.min + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + (1|ccode), data=completeData))
-summary(lm(gdpGr_l0 ~ civwar + lnminDist.min + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + as.factor(ccode), data=completeData))
-summary(lm(gdpGr_l0 ~ civwar + lncapDist.min + upperincome + lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0 + as.factor(ccode), data=completeData))
+
+loadPkg('plm')
+
+minDistFE = plm(
+	gdpGr_l0 ~ civwar + lnminDist.min + upperincome + 
+	lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0, 
+	data=completeData, model='within', effect='individual', index=c('ccode','year'))
+
+capDistFE = plm(
+	gdpGr_l0 ~ civwar + lncapDist.min + upperincome + 
+	lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0,
+	data=completeData, model='within', effect='individual', index=c('ccode','year'))	
+
+# Create stargazer tables
+loadPkg('stargazer')
+
+stargazer(minDistFE, capDistFE)
+
+# Number of countries
+length(unique(completeData$ccode))
