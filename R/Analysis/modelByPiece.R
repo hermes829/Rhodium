@@ -44,7 +44,7 @@ cntrls = c(
   'upperincome', 'lninflation_l1',  'polity2', 'resourceGDP',  'gdpGr.mean_l0')
 
 # Run dist models in pieces
-library(magrittr)
+loadPkg('magrittr')
 mod1Any = modForm(ivs=c(kivs[1]), type='none') %>% lm(., data=modData)
 mod2Any = modForm(ivs=c(kivs[1], cntrls), type='none') %>% lm(., data=modData)
 mod3Any = modForm(ivs=c(kivs[1], cntrls), type='random', id=c('ccode')) %>% lmer(., data=modData)
@@ -60,7 +60,7 @@ mod5Cap = modForm(ivs=c(kivs[2], cntrls), type='random', id=c('ccode', 'year')) 
 
 ###################################################################
 # Regression Tables
-library(stargazer)
+loadPkg('stargazer')
 # Tabular depictions for PRIO city models
 stargazer(mod1Any, mod2Any, mod3Any, mod4Any, mod5Any)
 
