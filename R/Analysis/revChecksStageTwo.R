@@ -1,3 +1,5 @@
+###################################################################
+# Load setup
 if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){
   source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
@@ -7,12 +9,10 @@ setwd(pathData)
 load('fullData.rda')
 load('combinedData.rda')
 modData = fullData
-
-# Gen tikz?
-genTikz=TRUE
-
-# CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 ###################################################################
+
+###################################################################
+# CREATE APPROPRIATE VARIABLES FOR REGRESSIONS
 # Log transforming DVs
 modData$lngdp_l0 = log(modData$gdp_l0)
 modData$lngdp = log(modData$gdp)
@@ -39,14 +39,12 @@ modData$lncapDistACLED.mean <- log(modData$acledCapDist.mean+1)
 modData$Int.max <- modData$Int.max-1
 ###################################################################
 
-## MODELS FOR GDP GROWTH (ANNUAL %)
-###################################################################
-
 ###################################################################
 # Full model piecewise
 regData <- modData[,c("gdpGr_l0","civwar","lnminDist.min","lncapDist.min","ccode","upperincome","lninflation_l1","polity2","resourceGDP","gdpGr.mean_l0",'year')]
 regData <- regData[complete.cases(regData),]
 
+# Run first for any city distance
 loadPkg('plm')
 min1 = lm(
 	gdpGr_l0 ~ civwar + lnminDist.min, 
@@ -61,7 +59,7 @@ min3 = plm(
 	data=regData, model='within', effect='individual', index=c('ccode','year'))
 min4 = plm(
 	gdpGr_l0 ~ civwar + lnminDist.min +
-	lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0, 
+	lninflation_l1 + polity2 + resourceGDP, 
 	data=regData, model='within', effect='twoways', index=c('ccode','year'))
 # Create stargazer tables
 loadPkg('stargazer')
@@ -69,10 +67,10 @@ stargazer(min1, min2, min3, min4)
 # Number of countries
 length(unique(regData$ccode))
 
-loadPkg('plm')
+# Same analysis for capital distance
 cap1 = lm(
 	gdpGr_l0 ~ civwar + lncapDist.min, 
-	data=modData)
+	data=regData)
 cap2 = lm(
 	gdpGr_l0 ~ civwar + lncapDist.min +
 	lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0, 
@@ -83,10 +81,9 @@ cap3 = plm(
 	data=regData, model='within', effect='individual', index=c('ccode','year'))
 cap4 = plm(
 	gdpGr_l0 ~ civwar + lncapDist.min +
-	lninflation_l1 + polity2 + resourceGDP + gdpGr.mean_l0, 
+	lninflation_l1 + polity2 + resourceGDP, 
 	data=regData, model='within', effect='twoways', index=c('ccode','year'))
 # Create stargazer tables
-loadPkg('stargazer')
 stargazer(cap1, cap2, cap3, cap4)	
 # Number of countries
 length(unique(regData$ccode))
