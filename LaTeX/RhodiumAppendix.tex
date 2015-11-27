@@ -3,42 +3,13 @@
 \section{Appendix}
 \label{appendix}
 
-\subsection{Baseline Effect of Civil Conflict on Growth}
-
-In Table \ref{tab:baseline} below, we show the fixed effects regression results for the model in which we utilize a full country year panel in order to define a baseline effect of civil war on economic growth. 
-
-\input{baseline.tex}
-\FloatBarrier
-\newpage
-
-\subsection{Conflict Distance Models in Tabular Format}
-
-Here we present the results of our models measuring the effect of conflict distance in a tabular format, results for distance from the capital city are shown in Table \ref{tab:capDistMod} and for any major city in Table \ref{tab:cityDistMod} below. The first column in each of the tables below is a simple linear model regressing the conflict distance parameter on GDP Growth, in the second we add our controls, in the third we include random effects, varying intercepts, for country, in the fourth random effects for year, and in the last random effects for both country and year. 
-
-\input{capDistRegTable.tex}
-
-\input{cityDistRegTable.tex}
-
-\FloatBarrier
-\newpage
-
-\subsection{Estimating Models Separately for High and Low Intensity Conflicts}
-
-Here instead of treating conflict intensity as a control, we re-do our primary models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. In both low intensity and high intensity cases we find that the conflict distance variables remain significant and in the expected direction, but the $\beta$ estimate of our distance variables is noticeably higher when using high intensity versus low intensity civil conflict cases. The results are presented in Table~\ref{tab:modHiLoIntensity} below.
-
-\input{modelHiLoIntensity.tex}
-\FloatBarrier
-
-\newpage
 \subsection{Full Panel Fixed Effects Analysis}
 
-While we contend that random effects are preferred to fixed effects for the reasons outlined in the body of the paper, we have nonetheless repeated our analysis using fixed effects. The results are presented in Tables~\ref{tab:cityFullPiecewiseFE} and \ref{tab:capFullPiecewiseFE}. These analyses are performed on the full panel of data and therefore are missing conflict-specific covariates that are unavailable for countries not experiencing civil war.
+While we contend that random effects are preferred to fixed effects for the reasons outlined in the body of the paper, we have nonetheless repeated our analysis using fixed effects on a full country-year panel dataset. The results are presented in Tables~\ref{tab:cityFullPiecewiseFE} and \ref{tab:capFullPiecewiseFE}. These analyses are performed on the full panel of data and therefore are missing conflict-specific covariates that are unavailable for countries not experiencing civil war. When utilizing this alternative approach we still find strong support for the hypothesis that countries experiencing conflict that is more proximate to capital or major cities are more likely to see significant reductions in GDP growth than conflicts.
 
-City models
 \input{cityFullPiecewiseFE.tex}
 \FloatBarrier
 
-Capital models
 \input{capFullPiecewiseFE.tex}
 \FloatBarrier
 
@@ -53,3 +24,29 @@ In order to match our existing data structure, it was necessary to aggregate the
 \input{acledModels.tex}
 \FloatBarrier
 \newpage
+
+\subsection{Estimating Models Separately for High and Low Intensity Conflicts}
+
+Here instead of treating conflict intensity as a control, we re-do our primary random effect regression models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. In both low intensity and high intensity cases we find that the conflict distance variables remain significant and in the expected direction, and the $\beta$ estimate of our distance variables is noticeably higher when using high intensity versus low intensity civil conflict cases. The results are presented in Table~\ref{tab:modHiLoIntensity} below.
+
+\input{modelHiLoIntensity.tex}
+\FloatBarrier
+\newpage
+
+\subsection{Baseline Effect of Civil Conflict on Growth}
+
+In Table \ref{tab:baseline} below, we show the fixed effects regression results for the model in which we utilize a full country year panel in order to define a baseline effect of civil war on economic growth. 
+
+\input{baseline.tex}
+\FloatBarrier
+\newpage
+
+\subsection{Conflict Distance Models in Tabular Format}
+
+Here we present the results of our models measuring the effect of conflict distance in a tabular format, results for distance from the capital city are shown in the first column of Table \ref{tab:capminDistMod} and for any major city in the second column.  
+
+\input{capminDistRegMain.tex}
+
+\FloatBarrier
+\newpage
+

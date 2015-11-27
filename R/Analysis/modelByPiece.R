@@ -67,6 +67,9 @@ stargazer(mod1Any, mod2Any, mod3Any, mod4Any, mod5Any)
 # Tabular depictions for ACLED city models
 stargazer(mod1Cap, mod2Cap, mod3Cap, mod4Cap, mod5Cap)
 
+# Tabular depictions for combo city models
+stargazer(mod3Cap, mod3Any)
+
 # Count number of observations
 lapply(list(mod1Any, mod2Any, mod3Any, mod4Any, mod5Any), function(x) length(residuals(x)))
 # Count number of countries
