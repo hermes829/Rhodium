@@ -1,0 +1,11 @@
+PWD /Users/janus829/Research/Rhodium/LaTeX/Revision2
+INPUT /usr/local/texlive/2012/texmf.cnf
+INPUT /usr/local/texlive/2012/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2012/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT response.tex
+OUTPUT response.log
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT /usr/local/texlive/2012/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+OUTPUT response.pdf
+INPUT /usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map
