@@ -10,4 +10,8 @@ There has been much disagreement about the relationship between civil wars and s
 
 Replication Instructions
 ---
-Data and instructions on how to replicate will be posted once status of article is finalized.
+All necessary data to replicate study is stored in the following [Dropbox folder](https://www.dropbox.com/sh/kuntud03b5pm37x/AABQ92j57173yS5PSe9fFXSJa?dl=0).
+
+Publication Outlet
+---
+Forthcoming in Journal of Conflict Resolution
