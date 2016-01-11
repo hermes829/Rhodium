@@ -1,0 +1,145 @@
+\documentclass[12pt,onesided]{amsart} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% -------------------- defaults -------------------- %
+% load lots o' packages
+
+% layout control
+\usepackage{geometry}
+\geometry{verbose,tmargin=1.25in,bmargin=1.25in,lmargin=1.1in,rmargin=1.1in}
+\usepackage[figuresright]{rotating}
+\newenvironment{amssidewaysfigure}
+  {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
+  {\end{minipage}\end{sidewaysfigure}}
+\usepackage{parallel}
+\usepackage{parcolumns}
+
+% math typesetting
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+\usepackage[%
+decimalsymbol=.,
+digitsep=fullstop
+]{siunitx}
+
+% to adapt caption style
+\usepackage[font={small},labelfont=bf]{caption}
+
+% references
+\usepackage{natbib}
+% \usepackage[natbib=true, style=authoryear]{biblatex}
+% \bibliography{master.bib}
+
+% footnotes at bottom
+\usepackage[bottom]{footmisc}
+
+% to change enumeration symbols begin{enumerate}[(a)]
+\usepackage{enumerate}
+
+% to make enumerations and itemizations within paragraphs or
+% lines. f.i. begin{inparaenum} for (a) is (b) and (c)
+\usepackage{paralist}
+
+% to colorize links in document. See color specification below
+\usepackage[x11names]{xcolor}
+
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
+
+% graphics stuff
+\usepackage{subfig}
+\usepackage{graphicx}
+\usepackage[space]{grffile} % allows us to specify directories that have spaces
+\usepackage[section]{placeins} % prevents floats from moving past a \FloatBarrier or section
+\usepackage{tikz}
+
+% Spacing
+\usepackage[doublespacing]{setspace}
+
+% define clickable links and their colors
+\hypersetup{
+	unicode=false,          % non-Latin characters in Acrobat's bookmarks
+	pdftoolbar=true,        % show Acrobat's toolbar?
+	pdfmenubar=true,        % show Acrobat's menu?
+	pdffitwindow=false,     % window fit to page when opened
+	pdfstartview={FitH},    % fits the width of the page to the window
+	pdfnewwindow=true,%
+	pdfauthor={Minhas and Radford},%
+	pdftitle={Enemy at the Gates},%
+	colorlinks,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,%
+	urlcolor=RoyalBlue4%
+	}
+% -------------------------------------------------- %
+
+
+% -------------------- title -------------------- %
+
+\title[Enemy at the Gates]{Enemy at the Gates: Variation in Economic Growth from Civil Conflict}
+\date{\today}
+
+\author[Minhas]{Shahryar Minhas}
+\address{Shahryar Minhas: Department of Political Science}
+\curraddr{Duke University, Durham, NC, 27708, USA}
+\email{shahryar.minhas@duke.edu}
+
+\author[Radford]{Benjamin J. Radford}
+\address{Benjamin J. Radford: Department of Political Science}
+\curraddr{Duke University, Durham, NC, 27708, USA}
+\email{benjamin.radford@duke.edu}
+
+
+% \thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
+
+% ----------------------------------------------- %
+
+
+% -------------------- customizations -------------------- %
+
+% easy commands for number propers
+\makeatletter
+\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics}}
+\makeatother
+\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics/}}
+
+% -------------------------------------------------------- %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\doublespacing
+
+\begin{document}
+% Wordcount: 9814
+\maketitle
+
+\begin{abstract}
+\singlespacing
+\input{Abstract}
+\end{abstract}
+
+\newpage
+\newpage\setcounter{page}{1} 
+
+%%%%% Appendix %%%%%
+\input{RhodiumOnlineAppendix}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+% \bibliographystyle{elsarticle-harv} 
+\bibliographystyle{jpr}
+\bibliography{master.bib}
+
+\end{document} 

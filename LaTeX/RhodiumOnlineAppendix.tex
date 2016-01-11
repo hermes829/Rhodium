@@ -1,0 +1,65 @@
+
+\newpage
+\section*{Online Appendix}
+\label{online_appendix}
+
+\subsection{Illustrative Maps}
+\label{maps}
+
+FARC advocates a number of political and economic reforms and chooses targets strategically related to these objectives. Figure \ref{fig:colombiaMap} shows the spatial distribution of violence in Colombia from 1989 to 2008, where Bogot\'{a} is designated by a black diamond and major cities by black triangles. To determine the centroid locations of conflict we use the PRIO conflict site database developed by \citet{hallberg:2012}. 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{colombiaMap-crop}
+	\caption{This map illustrates the geographic distribution of all conflict centroids in Colombia, according to the PRIO Conflict Site Dataset, and major cities from 1989 to 2008.}
+	\label{fig:colombiaMap}
+\end{figure}
+
+In figure \ref{fig:indiaMap}, we show the geographic distribution of conflict in India from 1989 to 2007 again using the PRIO conflict site database. The story from this map is clearly quite stark from that of Colombia. Whereas in Colombia conflict had come right to the gates of major cities, in India conflict has been primarily confined to the periphery.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=.5\textwidth]{indiaMap-crop}
+	\caption{This map illustrates the geographic distribution of all conflict centroids in India, according to the PRIO Conflict Site Dataset, and major cities from 1989 to 2007. }
+	\label{fig:indiaMap}
+\end{figure}
+
+\newpage
+\subsection{ACLED Analysis}
+\label{acled}
+
+The Armed Conflict Location and Event Dataset provides an alternative source of information on the subnational spatial distribution of armed conflict \citep{raleigh:linke:etal:2010}. This dataset is, at the time of writing, limited to Africa and therefore was not selected for the primary analysis presented in the text. It does, however, offer us a valuable opportunity to validate our results. Here, we have replicated the primary model described in Section~\ref{empirics}.
+
+In order to match our existing data structure, it was necessary to aggregate the ACLED data to the country-year level. We did this by first subsetting ACLED to the years 1989-2008 and then selecting only conflict sites with at least 25 fatalities in each given year. The 25 fatalities threshold is intended to mirror the PRIO coding criteria and to prevent very low-fatality events from biasing our estimates of conflict location toward high-population areas. Covariates created with PRIO but unavailable in ACLED are omitted. The analysis procedure then continues as described in Section~\ref{empirics}: the minimum distance measure is calculated as the natural logarithm of the average distance in kilometers from any conflict site to the nearest major city (or capital). The results are presented in Table~\ref{tab:acledRegResults} below. 
+
+When utilizing this alternative dataset we again find significant support for the argument that conflicts more proximate to urban centers have a greater adverse effect on economic growth than those farther away. Additionally, if we switched to a fixed effects framework, such as the one described in the previous appendix section, we still find significant support for the hypotheses laid out in our paper.
+
+\input{acledModels.tex}
+\FloatBarrier
+
+\newpage
+\subsection{Estimating Models Separately for High and Low Intensity Conflicts}
+
+Here instead of treating conflict intensity as a control, we re-do our primary random effect regression models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars and then a separate model for civil conflicts coded as low intensity events. In both low intensity and high intensity cases we find that the conflict distance variables remain significant and in the expected direction, and the $\beta$ estimate of our distance variables is noticeably higher when using high intensity versus low intensity civil conflict cases. The results are presented in Table~\ref{tab:modHiLoIntensity} below.
+
+\input{modelHiLoIntensity.tex}
+\FloatBarrier
+
+\newpage
+\subsection{Baseline Effect of Civil Conflict on Growth}
+
+In Table \ref{tab:baseline} below, we show the fixed effects regression results for the model in which we utilize a full country year panel in order to define a baseline effect of civil war on economic growth. 
+
+\input{baseline.tex}
+\FloatBarrier
+
+\newpage
+\subsection{Conflict Distance Models in Tabular Format}
+
+Here we present the results of our models measuring the effect of conflict distance in a tabular format, results for distance from the capital city are shown in the first column of Table \ref{tab:capminDistMod} and for any major city in the second column.  
+
+\input{capminDistRegMain.tex}
+
+\FloatBarrier
+\newpage
+
