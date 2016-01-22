@@ -29,6 +29,12 @@ theme_set(theme_bw())
 numSM=function(x){as.numeric(as.character(x))}
 charSM=function(x){as.character(x)}
 logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
+contToCat=function(x,byQ=0.1){ 
+  cut(x, 
+    breaks=(
+      quantile(x,seq(0,1,byQ),na.rm=T) - c(.1, rep(0,1/byQ) )
+      ) ) 
+}
 starOut = function(fname,starOutput){
   output = capture.output(starOutput)
   cat(paste(output, collapse = "\n"), "\n", file=fname, append=TRUE) }

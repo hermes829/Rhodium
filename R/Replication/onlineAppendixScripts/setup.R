@@ -28,7 +28,6 @@ theme_set(theme_bw())
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}
 charSM=function(x){as.character(x)}
-contToCat=function(x,by=0.1){ cut(x, breaks=quantile(x,seq(0,1,by),na.rm=T)) }
 logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 starOut = function(fname,starOutput){
   output = capture.output(starOutput)
