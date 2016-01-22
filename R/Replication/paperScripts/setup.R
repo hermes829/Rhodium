@@ -28,11 +28,30 @@ theme_set(theme_bw())
 # Helpful functions
 numSM=function(x){as.numeric(as.character(x))}
 charSM=function(x){as.character(x)}
-contToCat=function(x,by=0.1){ cut(x, breaks=quantile(x,seq(0,1,by),na.rm=T)) }
 logTrans=function(x){ log( x + abs(min(x, na.rm=T)) + 1) }
 starOut = function(fname,starOutput){
   output = capture.output(starOutput)
   cat(paste(output, collapse = "\n"), "\n", file=fname, append=TRUE) }
+
+# Create model formula
+modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
+  base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
+  if(type=='random'){
+    eff = paste0('(1 |', id, ')')
+    if(length(eff)>1){ eff = paste(eff, collapse='+') }
+    base = paste(base, eff, sep=' + ')
+  }
+
+  if(type=='fixed'){
+    eff = paste0('factor(', id, ')')
+    if(length(eff)>1){
+      eff = paste0( paste(eff, collapse='+'), '- 1') } else {
+        eff = paste0(eff, '- 1')
+      }    
+    base = paste(base, eff, sep=' + ')
+  }
+  return(formula(base))
+}
 
 # http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/#Helper functions
 ## Summarizes data.
@@ -44,7 +63,7 @@ starOut = function(fname,starOutput){
 ##   conf.interval: the percent range of the confidence interval (default is 95%)
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=.95, .drop=TRUE) {
-    library(plyr)
+    loadPkg('plyr')
 
     # New version of length which can handle NA's: if na.rm==T, don't count them
     length2 <- function (x, na.rm=FALSE) {

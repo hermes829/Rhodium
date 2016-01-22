@@ -34,24 +34,6 @@ starOut = function(fname,starOutput){
   output = capture.output(starOutput)
   cat(paste(output, collapse = "\n"), "\n", file=fname, append=TRUE) }
 
-# Lagging vars
-lagTS <- function(x,l){
-  cuts <- (length(x)-(l-1)):length(x)
-  c(rep(NA,l), x[ -cuts ] )
-}
-
-lagDataSM <- function(data, country_year, country, varsTOlag, lag=1)
-{
-  data[,country_year] = numSM(data[,country_year])
-  data <- data[order(data[,country_year]),]
-  lagData <- apply(data[,varsTOlag], 2,
-    function(x){
-      unlist(by(x, data[,country], function(y) lagTS(y,lag) ) )
-    } )
-  colnames(lagData) <- paste('lag', lag, '_', varsTOlag, sep='')
-  cbind(data, lagData)
-}
-
 # Create model formula
 modForm = function(dv='gdpGr_l0', ivs, id='ccode', type='random'){
   base = paste(dv, paste(ivs, collapse=' + '), sep=' ~ ')
