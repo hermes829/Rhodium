@@ -97,7 +97,7 @@ sd( modData$gdpGr_l0, na.rm=TRUE )
 
 ###################################################################
 # Run Hausman test on city and cap models
-library(plm)
+loadPkg('plm')
 ctyFormBase=modForm(ivs=c(kivs[1], cntrls), type='none')
 capFormBase=modForm(ivs=c(kivs[2], cntrls), type='none')
 

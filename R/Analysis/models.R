@@ -129,74 +129,25 @@ temp
 if(genTikz){ dev.off() }
 ###################################################################
 
-
 #### Begin Robustness checks
-
-###################################################################
-# Divide intro training and test
-train=modData[which(modData$year<=2000),]
-test=modData[which(modData$year>2000),]
-
-# Run model on train
-mCityTr=lmer(ctyForm, data=train)
-mCapTr=lmer(capForm, data=train)
-
-# Performance stats on test
-outSampPerf = function(dv, mod, testData){
-  res=summary(mod)$'coefficients'
-  tData=na.omit(
-    cbind(1, testData[,c(dv, rownames(res)[2:nrow(res)] ) ] ) 
-    )
-  y=tData[,2]; tData=data.matrix(tData[,c(1,3:ncol(tData))])
-  tY = tData %*% cbind(res[,1])
-  diff=y-tY
-  return( sqrt(mean(diff^2)) )
-}
-
-ggRMSE=data.frame(rbind(
-  cbind(var="Ln(Min. City Dist.)$_{t}$", type='In-Sample \n n=375 \n N=66', 
-    stat=rmse(mCityTr) ),
-  cbind("Ln(Min. City Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
-    outSampPerf('lngdpGr_l0',mCityTr,test)),
-  cbind("Ln(Min. Capital Dist.)$_{t}$", 'In-Sample \n n=375 \n N=66', 
-    rmse(mCapTr) ),
-  cbind("Ln(Min. Capital Dist.)$_{t}$", 'Out-Sample \n n=186 \n N=42', 
-    outSampPerf('lngdpGr_l0',mCapTr,test))
-  ))
-ggRMSE$stat=numSM(ggRMSE$stat)
-
-# Bar plot
-temp=ggplot(ggRMSE, aes(x=type, y=stat))
-temp=temp + geom_bar(stat='identity') + ylab('RMSE') + xlab('')
-temp=temp + facet_wrap(~var)
-temp=temp + theme(axis.title.y=element_text(vjust=1),
-  legend.position='none', legend.title=element_blank(),
-  axis.ticks=element_blank(), panel.grid.major=element_blank(),
-  panel.grid.minor=element_blank())
-setwd(pathGraphics)
-if(genTikz){ tikz(file='rmseInOut.tex', width=7, height=4, standAlone=FALSE)}
-temp
-if(genTikz){ dev.off() }
-###################################################################
-
 ###################################################################
 # Crossval: Testing for heterogeneous effects across subsets
-vars=c( 'ccode','year',dv,kivs,cntrls)
+vars=unique(na.omit(c( 'ccode','year','gdpGr_l0',
+  rownames(summary(mCity)$'coefficients')[2:100],
+  rownames(summary(mCap)$'coefficients')[2:100] ) ) )
 crossData=na.omit( modData[,vars] )
 
-cntries=unique(crossData$ccode)
+cntries=unique(modData$ccode)
 set.seed(6886)
-nF=length(cntries)
-folds=data.frame( ccode=cntries, fold=1:nF )
+nF=6
+folds=data.frame(
+  cbind(ccode=cntries, fold=sample(1:nF, length(cntries), replace=TRUE) ) )
 table(folds$fold)
 crossData$fold=folds$fold[match(crossData$ccode, folds$ccode)]
 table(crossData$fold)
 
 # Running models
 crossResults=list(NULL, NULL)
-perfMat=matrix(NA, nrow=nF,ncol=3,
-  dimnames=list(NULL,c('Fold','inRMSE','outRMSE')))
-crossPerf=list(perfMat, perfMat)
 for(f in 1:nF ){
   # Subset data by fold
   cData=crossData[which(crossData$fold!=f), ]
@@ -210,11 +161,6 @@ for(f in 1:nF ){
   capCR=cbind(summary(capMod)$'coefficients',fold=f)
   crossResults[[1]]=rbind(crossResults[[1]],  ctyCR)
   crossResults[[2]]=rbind(crossResults[[2]],  capCR)
-
-  # Save performance stats
-  test=crossData[which(crossData$fold==f), ]
-  crossPerf[[1]][f,]=c(f,rmse(ctyMod), outSampPerf('gdpGr_l0',ctyMod,test) ) 
-  crossPerf[[2]][f,]=c(f,rmse(capMod), outSampPerf('gdpGr_l0',capMod,test) ) 
 }
 
 # Plotting cross-validation to test model heterogeneity
@@ -227,29 +173,11 @@ ccNames=c('Ln(Min. Capital Dist.)$_{t-1}$','Ln(Min. City Dist.)$_{t-1}$')
 temp <- ggcoefplot(coefData=ccityCross, vars=ccCoefs, varNames=ccNames, 
   Noylabel=FALSE, coordFlip=FALSE, revVar=TRUE, xAngle=45,
   facet=TRUE, facetName='fold', facetBreaks=1:nF, 
-  facetLabs=folds$ccode
+  facetLabs=paste0('Fold ',LETTERS[1:nF])
   )
 temp=temp+facet_wrap(~Variable, scales='fixed')
 setwd(pathGraphics)
-temp
-if(genTikz){ tikz(efile='crossValPlotAll.tex', width=7, height=4, standAlone=FALSE)}
+if(genTikz){ tikz(efile='crossValPlot.tex', width=7, height=4, standAlone=FALSE)}
 temp
 if(genTikz){ dev.off() }
-
-# Cross val performance stats
-crossPerfData=rbind(data.frame(crossPerf[[1]]), data.frame(crossPerf[[2]]))
-crossPerfData$Variable=c( rep('Ln(Min. City Dist.)$_{t-1}$',nF),
-  rep('Ln(Min. Capital Dist.)$_{t-1}$',nF))
-ggRMSE=melt(crossPerfData, id=c('Fold','Variable'))
-
-temp=ggplot(ggRMSE, aes(x=Fold, y=value, fill=variable))
-temp=temp + geom_bar(stat='identity',position=position_dodge())
-# temp=temp + ylab('RMSE') + xlab('') + ylim(0, 0.006) 
-temp=temp + scale_x_continuous(breaks=1:nF,labels=folds$ccode)
-temp=temp + scale_fill_manual(values=c('inRMSE'='black', 'outRMSE'='grey'))
-temp=temp + facet_wrap(~Variable)
-temp=temp + theme(legend.position='top', legend.title=element_blank(),
-      axis.ticks=element_blank(), panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank(), axis.text.x=element_text(angle=45,hjust=1))
-temp
 ###################################################################

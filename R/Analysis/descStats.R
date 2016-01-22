@@ -1,5 +1,5 @@
 # Workspace
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Desktop/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 
@@ -36,9 +36,9 @@ tmp=tmp + theme( axis.title.y=element_text(vjust=1),
   panel.grid.major=element_blank(), panel.grid.minor=element_blank() )
 tmp
 setwd(pathGraphics)
-# tikz(file='distGdp.tex', width=7, height=4, standAlone=FALSE)
-# tmp
-# dev.off()
+tikz(file='distGdp.tex', width=7, height=4, standAlone=FALSE)
+tmp
+dev.off()
 ######################################################################
 
 ########################################################################

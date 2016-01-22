@@ -3,6 +3,14 @@
 \section{Appendix}
 \label{appendix}
 
+\subsection{Baseline Effect of Civil Conflict on Growth}
+
+In Table \ref{tab:baseline} below, we show the fixed effects regression results for the model in which we utilize a full country year panel in order to define a baseline effect of civil war on economic growth. 
+
+\input{baseline.tex}
+\FloatBarrier
+\newpage
+
 \subsection{Full Panel Fixed Effects Analysis}
 
 Here we broaden the random effect conflict-year analysis presented in the paper to a country-year analysis in which we employ a fixed effects framework. Specifically, we estimate the following equation: $\% \Delta GDP_{i,t} = \beta_{1}Conflict_{i,t-1} + \beta_{2}Distance_{i,t-1}+\ldots+\zeta_{i,t-1}$, where $Distance_{i,t-1}=0$ when $Conflict_{i,t-1}=0$ and $Distance_{i,t-1}>0$ when $Conflict_{i,t-1}=1$. The $\zeta_{i,t-1}$ term represents our bundle of control variables. This specification provides one way to consider the full sample, control for the presence of armed conflict, and test our key hypothesis regarding the role of conflict proximity to major urban centers. In this specification, we expect the estimate of $\beta_{2}$ to be positive.
