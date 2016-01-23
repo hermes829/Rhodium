@@ -10,7 +10,7 @@ fYrCty$cname = toupper( countrycode( fYrCty$cname,"country.name","country.name")
 prio$Conflict.territory = toupper( countrycode( prio$Conflict.territory,"country.name","country.name") )
 ######################################################################
 # Trace conflict over time
-conflictMap = function(cname){
+conflictMap = function(cname, outFile=NULL, pwidth=5, pheight=7){
 	worldmap=cshp(date=as.Date("1990-01-01"),useGW=F)
 	ccode = countrycode(cname,"country.name","cown")
 	cntryShape = worldmap[worldmap$COWCODE==ccode,]
@@ -43,16 +43,16 @@ conflictMap = function(cname){
 	  legend.position='top', legend.key.width=unit(4,"line"),
 	  panel.grid.major=element_blank(), 
 	  panel.grid.minor=element_blank(), panel.border=element_blank())
-	return( tmp	)
+	if(is.null(outFile)){
+		return( tmp	)
+	} else {
+		ggsave(file=outFile, plot=tmp, width=pwidth, height=pheight)
+	}
 }
 
 ## FIGURE 1 ##
-pdf(file=paste0(pathGraphics, 'OnlineAppendix_Figure1.pdf'), width=5, height=7)
-conflictMap("COLOMBIA")
-dev.off()
+conflictMap(cname="COLOMBIA", outFile=paste0(pathGraphics, 'OnlineAppendix_Figure1.pdf'))
 
 ## FIGURE 2 ##
-pdf(file=paste0(pathGraphics, 'OnlineAppendix_Figure2.pdf'), width=5, height=7)
-conflictMap("INDIA")
-dev.off()
+conflictMap(cname="INDIA", outFile=paste0(pathGraphics, 'OnlineAppendix_Figure2.pdf'))
 ######################################################################
