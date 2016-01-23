@@ -19,7 +19,7 @@ loadPkg=function(toLoad){
 
 pks = c('ggplot2', 'grid', 'cshapes','tikzDevice',
   'RColorBrewer', 'stargazer', 'reshape', 'countrycode',
-  'foreign', 'doBy', 'lme4', 'plm', 'MASS', 'latex2exp')
+  'foreign', 'doBy', 'lme4', 'plm', 'MASS')
 loadPkg(pks)
 
 # gg theme
