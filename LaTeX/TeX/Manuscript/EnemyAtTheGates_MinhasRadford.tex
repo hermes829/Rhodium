@@ -33,8 +33,9 @@ digitsep=fullstop
 \usepackage[font={small},labelfont=bf]{caption}
 
 % references
-\usepackage[natbib=true, style=authoryear]{biblatex}
-\bibliography{master.bib}
+\usepackage{natbib}
+% \usepackage[natbib=true, style=authoryear]{biblatex}
+% \bibliography{master.bib}
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
@@ -60,7 +61,7 @@ digitsep=fullstop
 \usepackage{tikz}
 
 % Spacing
-\usepackage[doublespacing]{setspace}
+\usepackage{setspace}
 
 % define clickable links and their colors
 \hypersetup{
@@ -97,18 +98,18 @@ digitsep=fullstop
 \email{benjamin.radford@duke.edu}
 
 
-\thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
+% \thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
 
 % ----------------------------------------------- %
 
 
 % -------------------- customizations -------------------- %
 
-% easy commands for number propers
-\makeatletter
-\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
-\makeatother
-\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}}
+% % references to graphics
+% \makeatletter
+% \def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}}
+% \makeatother
+% \graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}}
 
 % -------------------------------------------------------- %
 
@@ -117,15 +118,47 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\doublespacing
-
 \begin{document}
-
 \maketitle
 
 \begin{abstract}
 \singlespacing
 \input{Abstract}
 \end{abstract}
+Wordcount: 9814
+
+\newpage
+\newpage\setcounter{page}{1} 
+\doublespacing
+
+%%%%%%%% INTRO %%%%%%%%
+\input{RhodiumIntro}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Lit Review %%%%%
+\input{RhodiumLit}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Theory %%%%%
+\input{RhodiumTheory}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Empirics %%%%%
+\input{RhodiumEmp}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Conclusion %%%%%
+\input{RhodiumConcl}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% Appendix %%%%%
+\input{RhodiumAppendix}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+% \bibliographystyle{elsarticle-harv} 
+\bibliographystyle{jpr}
+\bibliography{master.bib}
 
 \end{document} 

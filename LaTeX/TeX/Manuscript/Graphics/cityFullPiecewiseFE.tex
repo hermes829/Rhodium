@@ -1,0 +1,49 @@
+% Piecewise mindist fixed effects model
+% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Nov 05, 2015 - 23:34:34
+\begin{table}[!htbp] \centering 
+  \caption{This table shows the results of a series of regressions estimating the effect of a conflict distance to major cities on GDP growth in which we utilize a full country year panel. The first column shows the results of our base model with controls estimated with no fixed effects, next we add fixed effects for countries, and last we incorporate both country and year fixed effects.} 
+  \label{tab:cityFullPiecewiseFE} 
+\begin{tabular}{@{\extracolsep{5pt}}lccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{3}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-4} 
+\\[-1.8ex] & \multicolumn{3}{c}{$\% \Delta GDP_{t}$} \\ 
+\\[-1.8ex] & \textit{Pooled} 
+ & \textit{Country FE} & \textit{Country + Year FE} \\ 
+\\[-1.8ex] & (1) & (2) & (3)\\ 
+\hline \\[-1.8ex] 
+ Civil War$_{t-1}$ & $-$6.899$^{***}$ & $-$8.979$^{***}$ & $-$9.145$^{***}$ \\ 
+  & (1.369) & (1.690) & (1.697) \\ 
+  & & & \\ 
+ Ln(Min. City Dist.)$_{t-1}$ & 1.267$^{***}$ & 1.281$^{***}$ & 1.312$^{***}$ \\ 
+  & (0.260) & (0.322) & (0.324) \\ 
+  & & & \\ 
+ Ln(Inflation)$_{t-1}$ & $-$2.908$^{***}$ & $-$2.963$^{***}$ & $-$3.156$^{***}$ \\ 
+  & (0.200) & (0.228) & (0.237) \\ 
+  & & & \\ 
+ Democracy$_{t-1}$ & $-$0.065$^{***}$ & 0.047 & 0.081$^{*}$ \\ 
+  & (0.020) & (0.045) & (0.048) \\ 
+  & & & \\ 
+ Resource Rents/GDP$_{t-1}$ & 0.054$^{***}$ & 0.116$^{***}$ & 0.120$^{***}$ \\ 
+  & (0.010) & (0.018) & (0.019) \\ 
+  & & & \\ 
+ World GDP Growth$_{t}$ & 0.756$^{***}$ & 0.663$^{***}$ &  \\ 
+  & (0.083) & (0.081) &  \\ 
+  & & & \\ 
+ % Intercept & 4.017$^{***}$ & 12.582$^{***}$ &  &  \\ 
+ %  & (0.145) & (0.959) &  &  \\ 
+ %  & & & & \\ 
+\hline \\[-1.8ex] 
+Countries & 160 & 160 & 160 \\
+Observations & 3,002 & 3,002 & 3,002 \\ 
+% R$^{2}$ & 0.013 & 0.140 & 0.151 & 0.095 \\ 
+% Adjusted R$^{2}$ & 0.013 & 0.138 & 0.143 & 0.089 \\ 
+% Residual Std. Error & 7.238 (df = 2999) & 6.763 (df = 2995) &  &  \\ 
+% F Statistic & 20.180$^{***}$ (df = 2; 2999) & 81.155$^{***}$ (df = 6; 2995) & 84.088$^{***}$ (df = 6; 2836) & 58.895$^{***}$ (df = 5; 2818) \\ 
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{3}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 

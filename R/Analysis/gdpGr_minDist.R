@@ -11,7 +11,7 @@ slice$lnminDist.min = log(slice$minDist.min + 1)
 slice$lnminDist.min[is.na(slice$lnminDist.min)] = 0
 
 cntryData = slice[slice$ccode==100,]
-library(gridExtra)
+loadPkg('gridExtra')
 gdpTime = ggplot(cntryData, aes(x=year, y=gdpGr)) + geom_line()
 distTime = ggplot(cntryData, aes(x=year, y=minDist.min)) + geom_bar(stat='identity')
 grid.arrange(gdpTime, distTime)

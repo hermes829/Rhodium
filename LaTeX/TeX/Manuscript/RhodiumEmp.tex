@@ -14,7 +14,7 @@ To construct a time-series cross-sectional database of urban centers, we turn to
 
 \begin{amssidewaysfigure}
 	\centering
-	\includegraphics[width=1\textwidth]{CityConfMap-crop}
+	\includegraphics[width=1\textwidth]{Graphics/CityConfMap-crop}
 	\caption{This map illustrates the geographic distribution of all internal armed conflicts and major cities from 1989 to 2008. Countries for which no armed conflicts are recorded are shaded in grey.}
 	\label{fig:CityConfMap}
 \end{amssidewaysfigure}
@@ -28,7 +28,7 @@ Figure \ref{fig:distGdp} provides a cursory illustration of the relationship bet
 
 \begin{figure}
 	\centering
-	\resizebox{.8\textwidth}{!}{\input{distGdp.tex}}
+	\resizebox{.8\textwidth}{!}{\input{Graphics/distGdp.tex}}
 	\caption{Average percent change in GDP growth at time $t$ by distance from conflict to capital city on rightmost panel at time $t-1$, and from conflict to any city on the leftmost. The error bars represent the 95\% confidence interval around the mean.}
 	\label{fig:distGdp}
 \end{figure}
@@ -78,7 +78,7 @@ To assess the substantive significance of this variable we turn to a simulation-
 
 \begin{figure}
 	\centering
-	\resizebox{.6\textwidth}{!}{\input{civWarEffect.tex}}
+	\resizebox{.6\textwidth}{!}{\input{Graphics/civWarEffect.tex}}
 	\caption{Distributions of expected values for GDP growth based on whether or not a country experienced a civil war in the previous year. The distribution in red designates the scenarios for which a civil war occurred and in blue if a civil war did not occur. The 90\% interval of each distribution is shaded in a dark blue or red color and the 95\% in a lighter color.}
 	\label{fig:civWarEffect}	
 \end{figure}
@@ -97,10 +97,10 @@ Turning to our hypothesis, we find strong support for the argument that spatial 
 	\centering
 	\begin{tabular}{cc}
 		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.45\textwidth}{!}{\input{mCapCoefPlot.tex}}
+			\resizebox{.45\textwidth}{!}{\input{Graphics/mCapCoefPlot.tex}}
 		\label{fig:capCoef}} &
 		\subfloat[SubFigure 2][Any Major City]{
-			\resizebox{.45\textwidth}{!}{\input{mCityCoefPlot.tex}}
+			\resizebox{.45\textwidth}{!}{\input{Graphics/mCityCoefPlot.tex}}
 		\label{fig:cityCoef}}
 	\end{tabular}
 	\caption{Regression results using conflict distance from capital city on the left, and the chart on the right shows regression results using minimum conflict distance from any major city. Darker colors indicates that the coefficient estimate is significantly different from zero at a 95\% CI, while lighter the same for a 90\% CI. Grey indicates that the estimate is not significantly different from zero at either of those intervals.}
@@ -113,10 +113,10 @@ To assess the substantive effect of these results, we conduct a number of simula
 	\centering
 	\begin{tabular}{cc}
 		\subfloat[SubFigure 1][Capital City]{
-			\resizebox{.7\textwidth}{!}{\input{mCapSimPlot.tex}}
+			\resizebox{.7\textwidth}{!}{\input{Graphics/mCapSimPlot.tex}}
 		\label{fig:capSim}} \\
 		\subfloat[SubFigure 2][Any City]{
-			\resizebox{.7\textwidth}{!}{\input{mCitySimPlot.tex}}
+			\resizebox{.7\textwidth}{!}{\input{Graphics/mCitySimPlot.tex}}
 		\label{fig:citySim}}
 	\end{tabular}
 	\caption{Expected values for GDP growth based on scenarios where all variables are held to their constants but Ln(Min. Conflict Dist.) varies from its minimum to maximum. The 90\% interval of each distribution is shaded in dark grey and the 95\% in a lighter color.}

@@ -96,20 +96,16 @@ digitsep=fullstop
 \address{Benjamin J. Radford: Department of Political Science}
 \curraddr{Duke University, Durham, NC, 27708, USA}
 \email{benjamin.radford@duke.edu}
-
-
-% \thanks{We are grateful for comments on earlier versions of this paper received at the 72$^{nd}$ annual Midwest Political Science Association Conference in Chicago, April 2-6 2014. }
-
 % ----------------------------------------------- %
 
 
 % -------------------- customizations -------------------- %
 
-% easy commands for number propers
-\makeatletter
-\def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics}}
-\makeatother
-\graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics/}}
+% % graphic refs
+% \makeatletter
+% \def\input@path{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics}}
+% \makeatother
+% \graphicspath{{/Users/janus829/Dropbox/Research/Rhodium/Graphics/}, {/Users/Ben/Dropbox/Rhodium/Graphics/}, {/Users/s7m/Dropbox/Research/Rhodium/Graphics/}, {C:/Users/Ben/Dropbox/Rhodium/Graphics/}}
 
 % -------------------------------------------------------- %
 
@@ -119,7 +115,6 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-% Wordcount: 9814
 \maketitle
 
 \newpage
@@ -137,7 +132,7 @@ FARC advocates a number of political and economic reforms and chooses targets st
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.45\textwidth]{colombiaMap-crop}
+	\includegraphics[width=.45\textwidth]{Graphics/colombiaMap-crop}
 	\caption{This map illustrates the geographic distribution of all conflict centroids in Colombia, according to the PRIO Conflict Site Dataset, and major cities from 1989 to 2008.}
 	\label{fig:colombiaMap}
 \end{figure}
@@ -147,7 +142,7 @@ In figure \ref{fig:indiaMap}, we show the geographic distribution of conflict in
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.5\textwidth]{indiaMap-crop}
+	\includegraphics[width=.5\textwidth]{Graphics/indiaMap-crop}
 	\caption{This map illustrates the geographic distribution of all conflict centroids in India, according to the PRIO Conflict Site Dataset, and major cities from 1989 to 2007. }
 	\label{fig:indiaMap}
 \end{figure}
@@ -158,7 +153,7 @@ In figure \ref{fig:indiaMap}, we show the geographic distribution of conflict in
 
 Results of our models measuring the effect of conflict distance in a tabular format.  
 
-\input{capminDistRegMain.tex}
+\input{Graphics/capminDistRegMain.tex}
 
 \clearpage
 \section{ACLED Analysis}
@@ -166,7 +161,7 @@ Results of our models measuring the effect of conflict distance in a tabular for
 
 The Armed Conflict Location and Event Dataset provides an alternative source of information on the subnational spatial distribution of armed conflict \citep{raleigh:linke:etal:2010}. This dataset is, at the time of writing, limited to Africa and therefore was not selected for the primary analysis presented in the text. It does, however, offer us a valuable opportunity to validate our results. We aggregate the ACLED data to the country-year level by first subsetting ACLED to the years 1989-2008 and then selecting only conflict sites with at least 25 fatalities in each given year. Covariates created with PRIO but unavailable in ACLED are omitted. The analysis procedure then continues as described in Section 4.2. The results are presented in Table~\ref{tab:acledRegResults} below. When utilizing this alternative dataset we again find significant support for our argument.
 
-\input{acledModels.tex}
+\input{Graphics/acledModels.tex}
 \FloatBarrier
 
 \clearpage
@@ -174,14 +169,13 @@ The Armed Conflict Location and Event Dataset provides an alternative source of 
 
 Here instead of treating conflict intensity as a control, we re-do our primary random effect regression models estimating the effect of distance on growth, but restricting to the civil conflicts coded as wars, and then separately for low intensity events. 
 
-\input{modelHiLoIntensity.tex}
+\input{Graphics/modelHiLoIntensity.tex}
 \FloatBarrier
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
 
-% \bibliographystyle{elsarticle-harv} 
 \bibliographystyle{jpr}
 \bibliography{master.bib}
 \newpage
