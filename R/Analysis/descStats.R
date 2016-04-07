@@ -1,5 +1,5 @@
 # Workspace
-if(Sys.info()["user"]=="janus829"){source('/Users/janus829/Research/Rhodium/R/setup.R')}
+if(Sys.info()["user"]=="janus829" | Sys.info()["user"]=="s7m"){source('~/Research/Rhodium/R/setup.R')}
 if(Sys.info()["user"]=="Ben"){source('/Users/Ben/Github/Rhodium/R/setup.R')}
 
 
@@ -29,7 +29,7 @@ ggData=cbind(
 tmp=ggplot(ggData, aes(x=cut, y=gdpGr_l0))
 tmp=tmp + geom_bar(stat='identity', fill='grey')
 tmp=tmp + geom_errorbar(aes(ymin=gdpGr_l0-se, ymax=gdpGr_l0+se),width=.2)
-tmp=tmp + ylab("\\% $\\Delta$ Ln(GDP)$_{t}$")+xlab('')
+tmp=tmp + ylab("\\% $\\Delta$ GDP$_{t}$")+xlab('')
 tmp=tmp + facet_wrap(~type)
 tmp=tmp + theme( axis.title.y=element_text(vjust=1),
   axis.ticks=element_blank(),legend.position='none',
