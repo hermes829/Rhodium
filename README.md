@@ -2,7 +2,7 @@
 
 Authors
 ---
-[Shahryar Minhas](s7minhas.com) & [Ben Radford](benradford.com)
+[Shahryar Minhas](http://s7minhas.com/) & [Ben Radford](benradford.com)
 
 Abstract
 ---
